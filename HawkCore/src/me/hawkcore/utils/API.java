@@ -89,10 +89,12 @@ public class API {
 
 	public String formatTime(int segundos) {
 		int seconds = segundos;
+		long DD = segundos / 86400;
 		long HH = seconds / 3600;
 		long MM = (seconds % 3600) / 60;
 		long SS = seconds % 60;
 		String data = " ";
+		if (DD > 0) data+=" "+DD+"d";
 		if (HH > 0) data+=" "+HH+"h";
 		if (MM > 0) data+=" "+MM+"m";
 		if (SS > 0) data+=" "+SS+"s";

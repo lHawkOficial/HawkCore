@@ -31,7 +31,7 @@ public class Task implements TaskRequired {
 	}
 	
 	public static void run(Runnable run) {
-		Bukkit.getScheduler().runTask(Core.getInstance(), ()-> run.run() );
+		Bukkit.getScheduler().runTask(Core.getInstance(), run);
 	}
 	
 }
