@@ -1,6 +1,7 @@
 package me.hawkcore.tasks;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.bukkit.scheduler.BukkitRunnable;
@@ -20,15 +21,13 @@ public class TaskManager extends BukkitRunnable {
 	@Override
 	public void run() {
 		
-		for(Task task : tasks) {
-			try {
-				if (task.tickRelative < task.getTickRate()) task.tickRelative++;
-				else {
-					task.tickRelative = 1;
-					task.getRunnable().run();
-				}
-			} catch (Exception e) {
-				continue;
+		Iterator<Task> it = tasks.iterator();
+		while(it.hasNext()) {
+			Task task = it.next();
+			if (task.tickRelative < task.getTickRate()) task.tickRelative++;
+			else {
+				task.tickRelative = 1;
+				task.getRunnable().run();
 			}
 		}
 		
