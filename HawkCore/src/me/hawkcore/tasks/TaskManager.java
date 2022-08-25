@@ -22,11 +22,16 @@ public class TaskManager extends BukkitRunnable {
 		
 		if (tasks.isEmpty()) return;
 		for (int i = 0; i < tasks.size(); i++) {
-			Task task = tasks.get(i);
-			if (task.tickRelative < task.getTickRate()) task.tickRelative++;
-			else {
-				task.tickRelative = 1;
-				task.getRunnable().run();
+			try {
+				Task task = tasks.get(i);
+				if (task.tickRelative < task.getTickRate()) task.tickRelative++;
+				else {
+					task.tickRelative = 1;
+					task.getRunnable().run();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				continue;
 			}
 		}
 		
