@@ -3,3 +3,9 @@ version: 0.2
 author: lHawk_
 description: Plugin para gerenciamento geral dos plugins Hawk.
 main: me.hawkcore.Core
+commands:
+  hawkcore:
+    description: Comando geral do HawkCore.
+  mission:
+    aliases: [missao,missoes,missions]
+    description: Comando geral do painel missões

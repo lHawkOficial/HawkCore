@@ -24,7 +24,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.BlockIterator;
@@ -33,15 +35,32 @@ import org.bukkit.util.io.BukkitObjectOutputStream;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
 import me.hawkcore.Core;
+import me.hawkcore.utils.items.Item;
+import me.hawkcore.utils.items.SkullCreator;
 import net.minecraft.server.v1_8_R3.ChatComponentText;
+import net.minecraft.server.v1_8_R3.EntityInsentient;
+import net.minecraft.server.v1_8_R3.NavigationAbstract;
 import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
+import net.minecraft.server.v1_8_R3.PathEntity;
 
 public class API {
 
 	public static API get() {
 		return Core.getInstance().getApi();
 	}
-
+	
+	public void makeEntityMoveTo(Entity entity, Location loc, double speed) {
+		NavigationAbstract na = ((EntityInsentient)((CraftEntity) entity).getHandle()).getNavigation();
+		PathEntity path = na.a(loc.getX(), loc.getY(), loc.getZ());
+        if (path != null) {
+            na.a(path, speed);
+        }
+	}
+	
+	public Location getLocationInFrontEntity(Entity entity, double multiply) {
+		return entity.getLocation().clone().add(entity.getLocation().clone().getDirection().multiply(multiply));
+	}
+	
 	public ItemStack getItemStack(String linha) {
 		if (linha.equalsIgnoreCase("player")) return new ItemStack(Material.STONE);
 		try {

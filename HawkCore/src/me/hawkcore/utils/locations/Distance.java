@@ -1,4 +1,4 @@
-package me.hawkcore.utils;
+package me.hawkcore.utils.locations;
 
 import org.bukkit.Location;
 

@@ -1,4 +1,4 @@
-package me.hawkcore.utils;
+package me.hawkcore.utils.items;
 
 import java.util.ArrayList;
 
@@ -10,10 +10,15 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class Item {
 
 	private ItemStack item;
-	private int slot, ordem;
+	private int slot, sort;
 	private Double valor;
 	private String permission;
 	private Boolean player;
@@ -74,11 +79,9 @@ public class Item {
 	}
 	
 	public void setGlow() {
-		
 		if (item.getEnchantments().size() == 0) {
 			item.addUnsafeEnchantment(Enchantment.PROTECTION_PROJECTILE, 1);
 		}
-		
 		ItemMeta meta = item.getItemMeta();
 		meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 		item.setItemMeta(meta);
@@ -95,54 +98,5 @@ public class Item {
 	public ItemStack build() {
 		return item;
 	}
-
-	public ItemStack getItem() {
-		return item;
-	}
-
-	public void setItem(ItemStack item) {
-		this.item = item;
-	}
-
-	public int getSlot() {
-		return slot;
-	}
-
-	public void setSlot(int slot) {
-		this.slot = slot;
-	}
-
-	public Double getValor() {
-		return valor;
-	}
-
-	public void setValor(Double valor) {
-		this.valor = valor;
-	}
-	public String getPermission() {
-		return permission;
-	}
-
-	public void setPermission(String permission) {
-		this.permission = permission;
-	}
-
-	public Boolean getPlayer() {
-		return player;
-	}
-
-	public void setPlayer(Boolean player) {
-		this.player = player;
-	}
-
-	public int getOrdem() {
-		return ordem;
-	}
-
-	public void setOrdem(int ordem) {
-		this.ordem = ordem;
-	}
-	
-	
 	
 }

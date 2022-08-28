@@ -1,0 +1,64 @@
+# Configuração geral das missões
+Missions:
+  mission_complete: "&3✔ &9Você Completou a missão &b{nome}&9!"
+  Menus:
+    menuCategorys:
+      name: "&8● Categorias - [{pagina}/{total}]"
+      size: 5
+      # slots das categorias
+      slots: [11,12,13,14,15,16,17]
+      concluido: "&a✔ Categoria Concluída"
+      Icons:
+        iconNext:
+          ID: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjc2YjM5NmEzNDZmYmQ1ZGM5OGRmOWMwNjA5N2JiNTkxZmVmZDc2OGVkNWIzYmI5MGJiMzJhZjg1ZWI5MTQwNiJ9fX0="
+          name: "&ePróxima Página"
+          lore:
+          - '&7clique para passar.'
+          glow: false
+          slot: 33
+        iconBack:
+          ID: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTIxMjE3ZDdmZWU5ZmFmMmZiYzc0MWUwYWRiNWRlNmE4NGVhN2Q1NTM2Y2JjY2QxZGJjOGEzMjNmOTViOTkwZCJ9fX0="
+          name: "&eVoltar Página"
+          lore:
+          - '&7clique para voltar.'
+          glow: false
+          slot: 31
+        # Icone que vai aparecer caso não exista a categoria
+        iconCategory:
+          ID: 160>14
+          name: " "
+          lore: []
+          glow: false
+      glass:
+      - '160>2:1,9,37,45'
+    menuMissions:
+      name: "&8● Missões {nome} - [{pagina}/{total}]"
+      size: 4
+      # slots das missoes
+      slots: [11,12,13,14,15,16,17]
+      concluido: "✔ Missão Concluída"
+      # ID do item quando a missão ainda não foi concluida.
+      id: 340>0
+      Icons:
+        iconNext:
+          ID: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjc2YjM5NmEzNDZmYmQ1ZGM5OGRmOWMwNjA5N2JiNTkxZmVmZDc2OGVkNWIzYmI5MGJiMzJhZjg1ZWI5MTQwNiJ9fX0="
+          name: "&ePróxima Página"
+          lore:
+          - '&7clique para passar.'
+          glow: false
+          slot: 25
+        iconBack:
+          ID: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTIxMjE3ZDdmZWU5ZmFmMmZiYzc0MWUwYWRiNWRlNmE4NGVhN2Q1NTM2Y2JjY2QxZGJjOGEzMjNmOTViOTkwZCJ9fX0="
+          name: "&eVoltar Página"
+          lore:
+          - '&7clique para voltar.'
+          glow: false
+          slot: 21
+        # Icone que vai aparecer caso não exista a missao
+        iconMission:
+          ID: 160>14
+          name: ""
+          lore: []
+          glow: false
+      glass:
+      - '160>2:1,2,3,4,5,36,35,34,33,32'
