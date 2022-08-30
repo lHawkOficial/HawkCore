@@ -14,6 +14,8 @@ import java.io.ByteArrayInputStream;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -55,6 +57,57 @@ public class API {
         if (path != null) {
             na.a(path, speed);
         }
+	}
+	
+	public String serializeItem(ItemStack is) {
+	    try {
+	        ByteArrayOutputStream bytesOut = new ByteArrayOutputStream();
+	        BukkitObjectOutputStream out = new BukkitObjectOutputStream(bytesOut);
+	        out.writeObject(is);
+	        out.flush();
+	        out.close();
+	        return Base64Coder.encodeLines(bytesOut.toByteArray());
+	    } catch (Exception ex) {
+	        ex.printStackTrace();
+	        return null;
+	    }
+	}
+	
+	public ItemStack unserializeItem(String base64) {
+	    try {
+	        byte[] data = Base64Coder.decodeLines(base64);
+	        ByteArrayInputStream bytesIn = new ByteArrayInputStream(data);
+	        BukkitObjectInputStream in = new BukkitObjectInputStream(bytesIn);
+	        ItemStack is = (ItemStack) in.readObject();
+	        in.close();
+	        return is;
+	    } catch (Exception ex) {
+	        ex.printStackTrace();
+	        return null;
+	    }
+	}
+	
+	public boolean isInteger(String txt) {
+		try {
+			Integer.valueOf(txt);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	
+	public boolean isDouble(String txt) {
+		try {
+			Double.valueOf(txt);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	
+	public double formatValue(double valor) {
+		NumberFormat formatter = new DecimalFormat("0.00");
+		return Double.valueOf(formatter.format(valor).replace(",", "."));
 	}
 	
 	public Location getLocationInFrontEntity(Entity entity, double multiply) {

@@ -12,6 +12,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.hawkcore.utils.API;
 
 @Getter
 @Setter
@@ -25,6 +26,14 @@ public class Item {
 	
 	public Item(ItemStack item) {
 		this.item = item;
+		this.slot = -1;
+		this.player = false;
+		this.permission = null;
+		this.valor = 0.0;
+	}
+	
+	public Item(String linha) {
+		this.item = API.get().getItemStack(linha);
 		this.slot = -1;
 		this.player = false;
 		this.permission = null;

@@ -1,6 +1,29 @@
+# Lista dos ids das missões
+# 1 - Quebrar blcoos
+# 2 - Dropar Item
+# 3 - Andar Distância
+# 4 - Pegar um Item dropado
+# 5 - Colocar blocos
+# 6 - Matar Entidades
+# 7 - Encantar Items
+# 8 - Craftar Items
+# 9 - Comer
+# 10 - Interagir no chat
+# 11 - Quebrar Item(s)
+
 # Configuração geral das missões
 Missions:
-  mission_complete: "&3✔ &9Você Completou a missão &b{nome}&9!"
+  # Placeholders das missoes
+  # %hawkcore_mission_{place}% veja os place abaixo:
+  # missionName
+  # missionDesc
+  # missionProgress
+  # categoryName
+  # categoryTotalMissions
+  # categoryProgress
+  # Tempo em minutos que as informações das missões do jogador serão salvas.
+  save_period: 5
+  mission_complete: "&3✔ &9Você Completou a missão &b%hawkcore_missions_missionName%&9 da categoria %hawkcore_missions_categoryName%!"
   Menus:
     menuCategorys:
       name: "&8● Categorias - [{pagina}/{total}]"
@@ -26,7 +49,7 @@ Missions:
         # Icone que vai aparecer caso não exista a categoria
         iconCategory:
           ID: 160>14
-          name: " "
+          name: "&c&m-/-"
           lore: []
           glow: false
       glass:
@@ -36,7 +59,7 @@ Missions:
       size: 4
       # slots das missoes
       slots: [11,12,13,14,15,16,17]
-      concluido: "✔ Missão Concluída"
+      concluido: "&a✔ Missão Concluída"
       # ID do item quando a missão ainda não foi concluida.
       id: 340>0
       Icons:
@@ -57,8 +80,15 @@ Missions:
         # Icone que vai aparecer caso não exista a missao
         iconMission:
           ID: 160>14
-          name: ""
+          name: "&c&m-/-"
           lore: []
           glow: false
+        iconCategorys:
+          ID: 288>0
+          name: "&eCategorias"
+          lore:
+          - '&7clique para ver as categorias.'
+          slot: 23
+          glow: true
       glass:
       - '160>2:1,2,3,4,5,36,35,34,33,32'

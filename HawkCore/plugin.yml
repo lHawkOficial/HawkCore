@@ -1,7 +1,10 @@
 name: HawkCore
-version: 0.2
+version: 0.3
 author: lHawk_
 description: Plugin para gerenciamento geral dos plugins Hawk.
+depend: [PlaceholderAPI,nChat]
+awareness:
+- !@UTF-8
 main: me.hawkcore.Core
 commands:
   hawkcore:
@@ -9,3 +12,6 @@ commands:
   mission:
     aliases: [missao,missoes,missions]
     description: Comando geral do painel missões
+  itemcreator:
+    aliases: [ic]
+    description: crie items customizados para dar aos jogadores.

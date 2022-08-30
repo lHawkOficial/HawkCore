@@ -8,5 +8,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="C:/Users/Luan Victor/Desktop/servidorM/FullPvP - V.2/spigot.jar" sourcepath="C:/Users/Luan Victor/Downloads/craftbukkit-1.8.8-R0.1-SNAPSHOT-latest.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Luan Victor/Desktop/servidorM/dependencias/lombok.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Luan Victor/Desktop/servidorM/FullPvP - V.2/plugins/PlaceholderAPI-2.10.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Luan Victor/Desktop/servidorM/dependencias/nChat.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

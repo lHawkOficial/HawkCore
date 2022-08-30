@@ -67,8 +67,8 @@ public class BossBar {
 				connection.sendPacket(destroy);
 				return;
 			}
-			int segundos = (int) TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()-time);
-			int porcentagem = segundos*100/seconds;
+			double segundos = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()-time);
+			float porcentagem = (float) (segundos*100/seconds);
 			float total = entity.getMaxHealth()*porcentagem/100;
 			entity.setHealth(total+0.05f);
 			entity.world = ((CraftWorld)p.getWorld()).getHandle();

@@ -10,11 +10,14 @@ import org.bukkit.entity.Player;
 
 import lombok.Getter;
 import me.hawkcore.Core;
+import me.hawkcore.utils.missions.objects.MissionCategory;
+import me.hawkcore.utils.missions.objects.MissionPlayer;
 
 @Getter
 public class ManagerMissions {
 
 	private List<MissionPlayer> players = new ArrayList<>();
+	private List<MissionCategory> categorys = new ArrayList<>();
 	
 	public MissionPlayer getMissionPlayer(String name) {
 		Iterator<MissionPlayer> it = players.iterator();

@@ -19,6 +19,7 @@ public class MissionCommand implements CommandExecutor {
 	public boolean onCommand(CommandSender s, Command c, String lb, String[] args) {
 		if (!(s instanceof Player)) return false;
 		Player p = (Player) s;
+		if (p.hasMetadata("pMissions")) p.removeMetadata("pMissions", Core.getInstance());
 		menuCategorys.get().open(p);
 		return false;
 	}

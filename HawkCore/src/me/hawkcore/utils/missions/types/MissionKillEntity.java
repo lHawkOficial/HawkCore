@@ -1,6 +1,6 @@
 package me.hawkcore.utils.missions.types;
 
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.entity.EntityType;
 
 
 import lombok.Getter;
@@ -9,14 +9,14 @@ import me.hawkcore.utils.missions.objects.Mission;
 import me.hawkcore.utils.missions.types.utils.MissionObjective;
 
 @Getter
-public class MissionPickItem extends MissionObjective {
+public class MissionKillEntity extends MissionObjective {
 
-	private final ItemStack item;
+	private final EntityType type;
 	
-	public MissionPickItem(Mission mission, int max, ItemStack item) {
+	public MissionKillEntity(Mission mission, int max, EntityType type) {
 		super(mission, max);
 		Task.run(()-> mission.getObjective().setMaxValue(max));
-		this.item = item;
+		this.type = type;
 	}
 	
 	@Override

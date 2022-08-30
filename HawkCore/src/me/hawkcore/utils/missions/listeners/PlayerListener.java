@@ -8,7 +8,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import me.hawkcore.Core;
-import me.hawkcore.utils.missions.MissionPlayer;
+import me.hawkcore.utils.missions.objects.MissionPlayer;
 
 public class PlayerListener implements Listener {
 
@@ -23,6 +23,7 @@ public class PlayerListener implements Listener {
 	
 	public void quit(PlayerQuitEvent e) {
 		MissionPlayer.check(e.getPlayer());
+		e.getPlayer().removeMetadata("missionplayer", Core.getInstance());
 	}
 	
 }

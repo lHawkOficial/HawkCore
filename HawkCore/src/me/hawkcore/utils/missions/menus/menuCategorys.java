@@ -11,14 +11,15 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import lombok.Getter;
+import me.clip.placeholderapi.PlaceholderAPI;
 import me.hawkcore.Core;
 import me.hawkcore.utils.API;
 import me.hawkcore.utils.Glass;
 import me.hawkcore.utils.PaginaCreator;
 import me.hawkcore.utils.items.Item;
-import me.hawkcore.utils.missions.MissionPlayer;
 import me.hawkcore.utils.missions.objects.ConfigMission;
 import me.hawkcore.utils.missions.objects.MissionCategory;
+import me.hawkcore.utils.missions.objects.MissionPlayer;
 
 @Getter
 public class menuCategorys {
@@ -83,23 +84,35 @@ public class menuCategorys {
 		try {
 			
 			MissionPlayer mp = MissionPlayer.check(p);
-			PaginaCreator pagina = p.hasMetadata("pMissions") ? (PaginaCreator) p.getMetadata("pMissions").get(0).value() : new PaginaCreator(new ArrayList<>(mp.getCategorys()), slots.size());
-			p.setMetadata("pMissions", new FixedMetadataValue(Core.getInstance(), pagina));
+			if (!p.hasMetadata("pMissions")) p.setMetadata("pMissions", new FixedMetadataValue(Core.getInstance(), new PaginaCreator(new ArrayList<>(mp.getCategorys()), slots.size())));
+			PaginaCreator pagina = (PaginaCreator) p.getMetadata("pMissions").get(0).value();
 			Inventory inv = Bukkit.createInventory(null, 9*size, name.replace("{pagina}", String.valueOf(pagina.getPaginaAtual())).replace("{total}", String.valueOf(pagina.getTotalPaginas())));
 			
 			for(Item item : glass.getVidros()) {
 				inv.setItem(item.getSlot(), item.build().clone());
 			}
 			
+			MissionCategory selected = mp.getCategorySelected();
 			List<Object> lista = pagina.getPagina(pagina.getPaginaAtual());
 			for (int i = 0; i < slots.size(); i++) {
+				int slot = slots.get(i);
 				try {
 					MissionCategory category = (MissionCategory) lista.get(i);
-					inv.setItem(slots.get(i), category.getIcon().build());
+					mp.setCategorySelected(category);
+					Item item = new Item(category.getIcon().build().clone());
+					List<String> lore = new ArrayList<>(item.getLore());
+					lore.replaceAll(l -> PlaceholderAPI.setPlaceholders(p, l).replace("&", "§"));
+					if (category.isCompleted()) lore.add(menuCategorys.get().getConcluido());
+					item.setLore(lore);
+					inv.setItem(slot, item.build());
 				} catch (Exception e) {
-					inv.setItem(slots.get(i), iconCategory.build().clone());
+					inv.setItem(slot, iconCategory.build().clone());
 				}
 			}
+			mp.setCategorySelected(selected);
+			
+			inv.setItem(iconNext.getSlot(), iconNext.getItem().clone());
+			inv.setItem(iconBack.getSlot(), iconBack.getItem().clone());
 			
 			p.openInventory(inv);
 			p.updateInventory();

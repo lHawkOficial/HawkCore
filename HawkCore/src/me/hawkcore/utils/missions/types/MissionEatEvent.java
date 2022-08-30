@@ -1,6 +1,5 @@
 package me.hawkcore.utils.missions.types;
 
-import org.bukkit.inventory.ItemStack;
 
 
 import lombok.Getter;
@@ -9,14 +8,11 @@ import me.hawkcore.utils.missions.objects.Mission;
 import me.hawkcore.utils.missions.types.utils.MissionObjective;
 
 @Getter
-public class MissionPickItem extends MissionObjective {
-
-	private final ItemStack item;
+public class MissionEatEvent extends MissionObjective {
 	
-	public MissionPickItem(Mission mission, int max, ItemStack item) {
+	public MissionEatEvent(Mission mission, int max) {
 		super(mission, max);
 		Task.run(()-> mission.getObjective().setMaxValue(max));
-		this.item = item;
 	}
 	
 	@Override
