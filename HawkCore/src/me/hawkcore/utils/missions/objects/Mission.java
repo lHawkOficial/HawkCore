@@ -19,15 +19,24 @@ import me.hawkcore.utils.items.Item;
 import me.hawkcore.utils.missions.ManagerMissions;
 import me.hawkcore.utils.missions.types.MissionBreakBlock;
 import me.hawkcore.utils.missions.types.MissionBreakItem;
+import me.hawkcore.utils.missions.types.MissionBreakItem2;
 import me.hawkcore.utils.missions.types.MissionChatEvent;
 import me.hawkcore.utils.missions.types.MissionCraftItem;
+import me.hawkcore.utils.missions.types.MissionCraftItem2;
+import me.hawkcore.utils.missions.types.MissionDeath;
 import me.hawkcore.utils.missions.types.MissionDropItem;
 import me.hawkcore.utils.missions.types.MissionEatEvent;
 import me.hawkcore.utils.missions.types.MissionEnchantItem;
+import me.hawkcore.utils.missions.types.MissionEnchantItem2;
+import me.hawkcore.utils.missions.types.MissionExperience;
+import me.hawkcore.utils.missions.types.MissionFishing;
+import me.hawkcore.utils.missions.types.MissionFishing2;
 import me.hawkcore.utils.missions.types.MissionKillEntity;
 import me.hawkcore.utils.missions.types.MissionMoveDistance;
 import me.hawkcore.utils.missions.types.MissionPickItem;
+import me.hawkcore.utils.missions.types.MissionPickItem2;
 import me.hawkcore.utils.missions.types.MissionPlaceBlock;
+import me.hawkcore.utils.missions.types.MissionShootBow;
 import me.hawkcore.utils.missions.types.utils.MissionObjective;
 
 @Getter
@@ -104,7 +113,7 @@ public class Mission {
 			objective = new MissionMoveDistance(this, valueRequired);
 			break;
 		case 4:
-			objective = new MissionPickItem(this, (int) valueRequired, it);
+			objective = new MissionPickItem(this, (int) valueRequired);
 			break;
 		case 5:
 			objective = new MissionPlaceBlock(this, (int) valueRequired, it);
@@ -126,6 +135,33 @@ public class Mission {
 			break;
 		case 11:
 			objective = new MissionBreakItem(this, (int) valueRequired);
+			break;
+		case 12:
+			objective = new MissionBreakItem2(this, (int) valueRequired, it);
+			break;
+		case 13:
+			objective = new MissionCraftItem2(this, (int) valueRequired, it);
+			break;
+		case 14:
+			objective = new MissionEnchantItem2(this, (int) valueRequired, it);
+			break;
+		case 15:
+			objective = new MissionPickItem2(this, (int) valueRequired, it);
+			break;
+		case 16:
+			objective = new MissionExperience(this, (int) valueRequired);
+			break;
+		case 17:
+			objective = new MissionFishing(this, (int) valueRequired);
+			break;
+		case 18:
+			objective = new MissionFishing2(this, (int) valueRequired, it);
+			break;
+		case 19:
+			objective = new MissionDeath(this, (int) valueRequired);
+			break;
+		case 20:
+			objective = new MissionShootBow(this, (int) valueRequired);
 			break;
 		default:
 			System.out.println("[!] Missão " + name + " removida por não achar o id " + idMission);

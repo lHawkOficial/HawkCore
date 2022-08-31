@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
@@ -51,6 +52,18 @@ public class Item {
 	
 	public int getAmount() {
 		return item.getAmount();
+	}
+	
+	@SuppressWarnings("deprecation")
+	public static boolean isSimilar(ItemStack item, ItemStack stack) {
+		if (stack == null || item == null) {
+			return false;
+		} else if (stack == item) {
+			return true;
+		} else {
+			return item.getTypeId() == stack.getTypeId() && item.hasItemMeta() == stack.hasItemMeta()
+			&& (!item.hasItemMeta() || Bukkit.getItemFactory().equals(item.getItemMeta(), stack.getItemMeta()));
+		}
 	}
 	
 	public Item(Material material) {

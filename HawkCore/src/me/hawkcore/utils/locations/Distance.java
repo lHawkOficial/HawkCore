@@ -2,10 +2,12 @@ package me.hawkcore.utils.locations;
 
 import org.bukkit.Location;
 
+import lombok.Getter;
+
+@Getter
 public class Distance {
 	
 	private Location from, to;
-	
 	private double x, y, z;
 	
 	public Distance(Location from, Location to) {
@@ -19,32 +21,12 @@ public class Distance {
 		z = from.getZ() > to.getZ() ? (+from.getZ()) - (+to.getZ()) : (+to.getZ()) - (+from.getZ());
 	}
 	
-	public Boolean maior(double value) {
+	public Boolean hight(double value) {
 		return x > value || y > value || z > value;
 	}
 	
 	public double value() {
 		return y > x && y > z ? y : x > y && x > z ? x : z > y && z > x ? z : x;
-	}
-
-	public Location getFrom() {
-		return from;
-	}
-
-	public Location getTo() {
-		return to;
-	}
-
-	public double getX() {
-		return x;
-	}
-
-	public double getY() {
-		return y;
-	}
-
-	public double getZ() {
-		return z;
 	}
 
 }

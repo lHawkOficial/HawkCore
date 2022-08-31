@@ -1,16 +1,26 @@
-# Lista dos ids das missões
-# 1 - Quebrar blcoos
+#=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+# IDS das missões
+# 1 - Quebrar blocos
 # 2 - Dropar Item
 # 3 - Andar Distância
 # 4 - Pegar um Item dropado
 # 5 - Colocar blocos
-# 6 - Matar Entidades
-# 7 - Encantar Items
-# 8 - Craftar Items
-# 9 - Comer
-# 10 - Interagir no chat
-# 11 - Quebrar Item(s)
-
+# 6 - Matar uma entidade especifica
+# 7 - Encantar um item aleatorio
+# 8 - Craftar um item aleatorio.
+# 9 - Encher a barra da fome.
+# 10 - Escrever algo no chat.
+# 11 - Quebrar um item qualquer.
+# 12 - Quebrar um item especifico.
+# 13 - Craftar um item especifico
+# 14 - Encantar um item especifico.
+# 15 - Pegar um item dropado especifico.
+# 16 - Ganhar quantidade de experiência especifica.
+# 17 - Pescar uma quantidade de vezes.
+# 18 - Pescar um item especifico.
+# 19 - Morrer quantidade de vezes.
+# 20 - Ativar com o arco.
+#=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 # Configuração geral das missões
 Missions:
   # Placeholders das missoes

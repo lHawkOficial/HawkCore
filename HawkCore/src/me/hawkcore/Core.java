@@ -8,8 +8,10 @@ package me.hawkcore;
 import org.bukkit.Bukkit;
 
 
+
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import lombok.Getter;
@@ -24,7 +26,6 @@ import me.hawkcore.utils.itemcreator.ItemCreator;
 import me.hawkcore.utils.itemcreator.ManagerItemCreator;
 import me.hawkcore.utils.missions.ManagerMissions;
 import me.hawkcore.utils.missions.listeners.MenuListeners;
-import me.hawkcore.utils.missions.listeners.MissionsListeners;
 import me.hawkcore.utils.missions.listeners.PlayerListener;
 import me.hawkcore.utils.missions.objects.ConfigMission;
 import me.hawkcore.verifies.PluginVerifier;
@@ -63,7 +64,6 @@ public class Core extends JavaPlugin {
 		new ListenerBar();
 		new PlayerListener();
 		new MenuListeners();
-		new MissionsListeners();
 		new PlaceHolders().register();
 		ManagerMissions.checkPlayers();
 		
@@ -90,6 +90,7 @@ public class Core extends JavaPlugin {
 				all.removeMetadata("missionplayer", instance);
 			}
 		}
+		HandlerList.unregisterAll(this);
 		sendConsole(" ");
 		sendConsole("&cHawkCore desligado com sucesso! &6[Author lHawk_] " + version);
 		sendConsole(" ");

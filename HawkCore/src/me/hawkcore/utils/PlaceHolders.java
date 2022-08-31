@@ -2,21 +2,10 @@ package me.hawkcore.utils;
 
 import org.bukkit.entity.Player;
 
+
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.hawkcore.Core;
 import me.hawkcore.utils.missions.objects.MissionPlayer;
-import me.hawkcore.utils.missions.types.MissionBreakBlock;
-import me.hawkcore.utils.missions.types.MissionBreakItem;
-import me.hawkcore.utils.missions.types.MissionChatEvent;
-import me.hawkcore.utils.missions.types.MissionCraftItem;
-import me.hawkcore.utils.missions.types.MissionDropItem;
-import me.hawkcore.utils.missions.types.MissionEatEvent;
-import me.hawkcore.utils.missions.types.MissionEnchantItem;
-import me.hawkcore.utils.missions.types.MissionKillEntity;
-import me.hawkcore.utils.missions.types.MissionMoveDistance;
-import me.hawkcore.utils.missions.types.MissionPickItem;
-import me.hawkcore.utils.missions.types.MissionPlaceBlock;
-import me.hawkcore.utils.missions.types.utils.MissionObjective;
 
 public class PlaceHolders extends PlaceholderExpansion {
 
@@ -47,20 +36,7 @@ public class PlaceHolders extends PlaceholderExpansion {
 				if (mp.getMissionSelected() != null) return mp.getMissionSelected().getDescription();
 				break;
 			case "missionprogress":
-				if (mp.getMissionSelected() != null) {
-					MissionObjective objective = mp.getMissionSelected().getObjective();
-					if (objective instanceof MissionBreakBlock) return ((MissionBreakBlock)objective).progress();
-					if (objective instanceof MissionDropItem) return ((MissionDropItem)objective).progress();
-					if (objective instanceof MissionMoveDistance) return ((MissionMoveDistance)objective).progress();
-					if (objective instanceof MissionPickItem) return ((MissionPickItem)objective).progress();
-					if (objective instanceof MissionPlaceBlock) return ((MissionPlaceBlock)objective).progress();
-					if (objective instanceof MissionKillEntity) return ((MissionKillEntity)objective).progress();
-					if (objective instanceof MissionEnchantItem) return ((MissionEnchantItem)objective).progress();
-					if (objective instanceof MissionCraftItem) return ((MissionCraftItem)objective).progress();
-					if (objective instanceof MissionEatEvent) return ((MissionEatEvent)objective).progress();
-					if (objective instanceof MissionChatEvent) return ((MissionChatEvent)objective).progress();
-					if (objective instanceof MissionBreakItem) return ((MissionBreakItem)objective).progress();
-				}
+				if (mp.getMissionSelected() != null) return mp.getMissionSelected().getObjective().progress();
 				break;
 			case "categoryname":
 				if (mp.getCategorySelected() != null) return mp.getCategorySelected().getName();

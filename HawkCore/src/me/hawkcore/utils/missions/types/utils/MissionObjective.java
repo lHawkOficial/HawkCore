@@ -1,8 +1,10 @@
 package me.hawkcore.utils.missions.types.utils;
 
 import org.bukkit.Bukkit;
+
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -12,28 +14,34 @@ import me.hawkcore.utils.boosbar.BossBar;
 import me.hawkcore.utils.missions.listeners.plugin.MissionCompleteEvent;
 import me.hawkcore.utils.missions.objects.ConfigMission;
 import me.hawkcore.utils.missions.objects.Mission;
+import me.hawkcore.utils.missions.objects.MissionCategory;
 import me.hawkcore.utils.missions.objects.MissionPlayer;
 
 @Getter
-public class MissionObjective implements MissionProgressRequired {
+public class MissionObjective implements MissionProgressRequired, Listener{
 	
 	@Setter
 	private Mission mission;
 	@Setter
-	private double maxValue, value;
+	private MissionCategory category;
+	@Setter
+	private double maxValue, 
+	value;
 	
 	public MissionObjective(Mission mission, double maxValue) {
 		this.mission = mission;
+		this.category = mission.getCategory();
 	}
 
 	@Override
 	public String progress() {
-		return "0%";
+		int percent = (int) (getValue() * 100 / getMaxValue());
+		return (percent > 100 ? 100 : percent) + "%";
 	}
 	
 	@Override
 	public boolean isCompleted() {
-		return false;
+		return getValue() >= getMaxValue();
 	}
 	
 	@Override
