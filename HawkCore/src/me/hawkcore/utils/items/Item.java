@@ -8,6 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -65,6 +66,40 @@ public class Item {
 			return item.getTypeId() == stack.getTypeId() && item.hasItemMeta() == stack.hasItemMeta()
 			&& (!item.hasItemMeta() || Bukkit.getItemFactory().equals(item.getItemMeta(), stack.getItemMeta()));
 		}
+	}
+	
+	public static int getAmount(Player p, ItemStack item) {
+		int amount = 0;
+		for(ItemStack it : p.getInventory().getContents()) {
+			if (it == null || !isSimilar(item, it)) continue;
+			amount += it.getAmount();
+		}
+		return amount;
+	}
+	
+	public static boolean containsAmount(Player p, ItemStack item, int amountItem) {
+		return getAmount(p, item) >= amountItem;
+	}
+	
+	public static void removeAmount(Player p, ItemStack item, int amountToRemove) {
+		int amount = getAmount(p, item);
+		ItemStack itemClone = item.clone();
+		itemClone.setAmount(1);
+		for(ItemStack it : p.getInventory().getContents()) {
+			if (it == null || !isSimilar(item, it)) continue;
+			p.getInventory().removeItem(it);
+		}
+		int rest = amount-amountToRemove;
+		if (rest>0) {
+			for (int i = 0; i < rest; i++) {
+				if (p.getInventory().firstEmpty() != -1) {
+					p.getInventory().addItem(itemClone.clone());
+				}else {
+					p.getWorld().dropItem(p.getLocation(), itemClone.clone());
+				}
+			}
+		}
+		p.updateInventory();
 	}
 	
 	@SuppressWarnings("deprecation")

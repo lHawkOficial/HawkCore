@@ -20,6 +20,7 @@ import me.hawkcore.commands.ItemCreatorCommand;
 import me.hawkcore.commands.MissionCommand;
 import me.hawkcore.tasks.TaskManager;
 import me.hawkcore.utils.API;
+import me.hawkcore.utils.ConfigGeral;
 import me.hawkcore.utils.PlaceHolders;
 import me.hawkcore.utils.boosbar.ListenerBar;
 import me.hawkcore.utils.itemcreator.ItemCreator;
@@ -28,6 +29,8 @@ import me.hawkcore.utils.missions.ManagerMissions;
 import me.hawkcore.utils.missions.listeners.MenuListeners;
 import me.hawkcore.utils.missions.listeners.PlayerListener;
 import me.hawkcore.utils.missions.objects.ConfigMission;
+import me.hawkcore.utils.playersdata.listeners.PlayerDataListener;
+import me.hawkcore.utils.playersdata.managers.ManagerData;
 import me.hawkcore.verifies.PluginVerifier;
 import net.minecraft.server.v1_8_R3.Entity;
 import net.minecraft.server.v1_8_R3.PacketPlayOutEntityDestroy;
@@ -39,8 +42,10 @@ public class Core extends JavaPlugin {
 	private TaskManager taskmanager;
 	private ManagerMissions managermissions;
 	private ManagerItemCreator manageritemcreator;
+	private ManagerData managerdata;
 	private API api;
 	private ConfigMission configmission;
+	private ConfigGeral configgeral;
 	
 	@Getter
 	private static Core instance;
@@ -56,13 +61,16 @@ public class Core extends JavaPlugin {
 		taskmanager.runTaskTimerAsynchronously(this, 0, 1);
 		managermissions = new ManagerMissions();
 		manageritemcreator = new ManagerItemCreator();
+		managerdata = new ManagerData();
 		ItemCreator.setup();
 		configmission = new ConfigMission();
+		configgeral = new ConfigGeral();
 		new CoreCommand();
 		new ItemCreatorCommand();
 		new ListenerBar();
 		new PlayerListener();
 		new MenuListeners();
+		new PlayerDataListener();
 		new PlaceHolders().register();
 		if (configmission.isActiveMissions()) {
 			new MissionCommand();

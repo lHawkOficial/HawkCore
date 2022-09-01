@@ -10,6 +10,16 @@
 # 8 - Craftar um item aleatorio.
 # 9 - Encher a barra da fome.
 # 10 - Escrever algo no chat.
+# Configuração geral do Core
+Config:
+
+  # atviar sede e calor ?
+  thirst: true
+  heat: true
+
+#=-=-=-=-=-=-=-=-=-
+# Missões
+#=-=-=-=-=-=-=-=-=-
 # 11 - Quebrar um item qualquer.
 # 12 - Quebrar um item especifico.
 # 13 - Craftar um item especifico
