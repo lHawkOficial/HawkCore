@@ -117,15 +117,9 @@ public class MissionCategory {
 	}
 	
 	public MissionQueue getMissionToComplete() {
-		int id = 0;
-		MissionQueue queue = new MissionQueue(null, -1);
+		MissionQueue queue = new MissionQueue(null);
 		for(Mission mission : missions) {
-			if (mission.isCompleted()) {
-				id++;
-				continue;
-			}
-			player.setMissionID(id);
-			queue.setId(id);
+			if (mission.isCompleted()) continue;
 			queue.setMission(mission);
 			return queue;
 		}

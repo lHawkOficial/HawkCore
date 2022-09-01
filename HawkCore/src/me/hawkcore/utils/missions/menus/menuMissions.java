@@ -114,7 +114,7 @@ public class menuMissions {
 				try {
 					Mission mission = (Mission) lista.get(i);
 					mp.setMissionSelected(mission);
-					if (!mission.isCompleted() && !category.getMissionToComplete().equals(mission)) {
+					if (!mission.isCompleted() && !category.getMissionToComplete().getMission().equals(mission)) {
 						inv.setItem(slot, iconMission.build().clone());
 						continue;
 					}

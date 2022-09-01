@@ -33,6 +33,7 @@ public class PlayerListener implements Listener {
 	@EventHandler
 	public void quit(PlayerQuitEvent e) {
 		MissionPlayer mp = MissionPlayer.check(e.getPlayer());
+		mp.saveAsync();
 		e.getPlayer().removeMetadata("missionplayer", Core.getInstance());
 		ManagerMissions.get().getPlayers().remove(mp);
 	}

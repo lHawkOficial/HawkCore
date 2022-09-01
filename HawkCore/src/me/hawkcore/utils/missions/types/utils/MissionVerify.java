@@ -8,23 +8,24 @@ import me.hawkcore.utils.missions.objects.MissionPlayer;
 public class MissionVerify {
 
 	private Player player;
-	private Mission mission;
+	private Mission missionListener;
+	private MissionQueue queue;
 	
-	public MissionVerify(Player player,Mission mission) {
+	public MissionVerify(Player player, Mission missionListener) {
 		this.player = player;
-		this.mission = mission;
+		this.missionListener = missionListener;
+		this.queue = missionListener == null ? null : missionListener.getCategory().getMissionToComplete();
 	}
 	
 	public boolean queue() {
 		Player p = player;
-		Mission m = mission;
-		if (m == null) return false;
-		MissionQueue queue = m.getCategory().getMissionToComplete();
+		if (queue == null) return false;
+		if (missionListener == null) return false;
 		Mission mission = queue.getMission();
+		if (mission == null) return false;
 		MissionPlayer mp = MissionPlayer.check(p);
-		if (!mp.equals(mission.getPlayer())) return false;
-		if (!queue.isValid()) return false;
-		if (!queue.isEquals(mission, mp.getMissionID())) return false;
+		if (!queue.getMission().equals(missionListener)) return false;
+		if (!mp.equals(missionListener.getPlayer())) return false;
 		return true;
 	}
 	
