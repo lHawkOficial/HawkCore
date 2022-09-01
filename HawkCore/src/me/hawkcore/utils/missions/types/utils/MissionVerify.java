@@ -24,7 +24,7 @@ public class MissionVerify {
 		Mission mission = queue.getMission();
 		if (mission == null) return false;
 		MissionPlayer mp = MissionPlayer.check(p);
-		if (!queue.getMission().equals(missionListener)) return false;
+		if (!mission.equals(missionListener)) return false;
 		if (!mp.equals(missionListener.getPlayer())) return false;
 		return true;
 	}

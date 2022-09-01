@@ -59,12 +59,14 @@ public class Core extends JavaPlugin {
 		ItemCreator.setup();
 		configmission = new ConfigMission();
 		new CoreCommand();
-		new MissionCommand();
 		new ItemCreatorCommand();
 		new ListenerBar();
 		new PlayerListener();
 		new MenuListeners();
 		new PlaceHolders().register();
+		if (configmission.isActiveMissions()) {
+			new MissionCommand();
+		}
 		ManagerMissions.checkPlayers();
 		
 		sendConsole(" ");

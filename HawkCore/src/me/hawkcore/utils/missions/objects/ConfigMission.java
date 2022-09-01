@@ -23,14 +23,17 @@ public class ConfigMission {
 	private menuCategorys menucategorys;
 	private menuMissions menumissions;
 	private int save_period;
+	private boolean activeMissions;
 
 	public ConfigMission() {
 		ConfigurationSection section = Core.getInstance().getConfig().getConfigurationSection("Missions");
 		mission_complete = section.getString("mission_complete").replace("&", "§");
 		save_period = section.getInt("save_period");
+		activeMissions = section.getBoolean("activeMissions");
 		menucategorys = new menuCategorys();
 		menumissions = new menuMissions();
 		
+		if (!activeMissions) return;
 		File pasta = new File(Core.getInstance().getDataFolder() + "/missions");
 		if (!pasta.exists()) pasta.mkdir();
 		pasta = new File(pasta + "/categorys");

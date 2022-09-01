@@ -17,6 +17,7 @@ import me.hawkcore.utils.API;
 import me.hawkcore.utils.items.Item;
 import me.hawkcore.utils.missions.ManagerMissions;
 import me.hawkcore.utils.missions.listeners.plugin.PlayerPlantEvent;
+import me.hawkcore.utils.missions.objects.ConfigMission;
 import me.hawkcore.utils.missions.objects.MissionPlayer;
 
 public class PlayerListener implements Listener {
@@ -27,11 +28,13 @@ public class PlayerListener implements Listener {
 	
 	@EventHandler
 	public void join(PlayerJoinEvent e) {
+		if (!ConfigMission.get().isActiveMissions()) return;
 		MissionPlayer.check(e.getPlayer());
 	}
 	
 	@EventHandler
 	public void quit(PlayerQuitEvent e) {
+		if (!ConfigMission.get().isActiveMissions()) return;
 		MissionPlayer mp = MissionPlayer.check(e.getPlayer());
 		mp.saveAsync();
 		e.getPlayer().removeMetadata("missionplayer", Core.getInstance());
@@ -42,7 +45,6 @@ public class PlayerListener implements Listener {
 	public void plant(BlockPlaceEvent e) {
 		if (e.isCancelled()) return;
 		Player p = e.getPlayer();
-		p.sendMessage(e.getBlock().getType().toString());
 		API api = API.get();
 		String[] ids = new String[]{
 				"362>0", "361>0", 

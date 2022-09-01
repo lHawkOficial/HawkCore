@@ -34,6 +34,7 @@ Missions:
   # categoryTotalMissions
   # categoryProgress
   # Tempo em minutos que as informações das missões do jogador serão salvas.
+  activeMissions: true
   save_period: 5
   mission_complete: "&3✔ &9Você Completou a missão &b%hawkcore_missions_missionName%&9 da categoria %hawkcore_missions_categoryName%!"
   Menus:
