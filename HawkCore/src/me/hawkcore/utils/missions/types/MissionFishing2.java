@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 
 
 
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -16,8 +17,8 @@ import me.hawkcore.Core;
 import me.hawkcore.tasks.Task;
 import me.hawkcore.utils.items.Item;
 import me.hawkcore.utils.missions.objects.Mission;
-import me.hawkcore.utils.missions.objects.MissionPlayer;
 import me.hawkcore.utils.missions.types.utils.MissionObjective;
+import me.hawkcore.utils.missions.types.utils.MissionVerify;
 
 @Getter
 public class MissionFishing2 extends MissionObjective {
@@ -36,15 +37,10 @@ public class MissionFishing2 extends MissionObjective {
 		if (e.isCancelled()) return;
 		if (e.getState() != State.CAUGHT_FISH) return;
 		Player p = e.getPlayer();
-		Mission m = getMission();
-		if (m == null) return;
-		Mission mission = m.getCategory().getMissionToComplete();
-		if (mission == null) return;
-		if (!mission.getObjective().equals(this)) return;
-		MissionPlayer mp = MissionPlayer.check(p);
-		if (!mission.getPlayer().equals(mp)) return;
-		if (!Item.isSimilar(item, ((org.bukkit.entity.Item)e.getCaught()).getItemStack())) return;
+		Mission mission = getMission();
+		if (!new MissionVerify(p, getMission()).queue()) return;
 		MissionFishing2 objective = (MissionFishing2) mission.getObjective();
+		if (!Item.isSimilar(item, ((org.bukkit.entity.Item)e.getCaught()).getItemStack())) return;
 		objective.setValue(objective.getValue()+1);
 		if (objective.isCompleted()) objective.complete();
 	}

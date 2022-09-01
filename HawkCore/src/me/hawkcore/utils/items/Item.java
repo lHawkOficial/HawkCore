@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -64,6 +65,16 @@ public class Item {
 			return item.getTypeId() == stack.getTypeId() && item.hasItemMeta() == stack.hasItemMeta()
 			&& (!item.hasItemMeta() || Bukkit.getItemFactory().equals(item.getItemMeta(), stack.getItemMeta()));
 		}
+	}
+	
+	@SuppressWarnings("deprecation")
+	public static boolean isSimilarToBlock(ItemStack item, Block b) {
+		return item.getData().getData() == b.getData() && item.getType() == b.getType();
+	}
+	
+	@SuppressWarnings("deprecation")
+	public static boolean isSimilarMaterial(ItemStack item, ItemStack item1) {
+		return item.getData().getData() == item1.getData().getData() && item.getType() == item1.getType();
 	}
 	
 	public Item(Material material) {

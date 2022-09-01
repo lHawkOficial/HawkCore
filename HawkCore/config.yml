@@ -19,7 +19,9 @@
 # 17 - Pescar uma quantidade de vezes.
 # 18 - Pescar um item especifico.
 # 19 - Morrer quantidade de vezes.
-# 20 - Ativar com o arco.
+# 20 - Atirar com o arco.
+# 21 - Plantar um item aleatorio.
+# 22 - Plantar um item especifico.
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 # Configuração geral das missões
 Missions:

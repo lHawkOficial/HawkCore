@@ -19,6 +19,7 @@ import lombok.Setter;
 import me.hawkcore.Core;
 import me.hawkcore.utils.items.Item;
 import me.hawkcore.utils.missions.ManagerMissions;
+import me.hawkcore.utils.missions.types.utils.MissionQueue;
 
 @Getter
 public class MissionCategory {
@@ -115,12 +116,20 @@ public class MissionCategory {
 		return total;
 	}
 	
-	public Mission getMissionToComplete() {
+	public MissionQueue getMissionToComplete() {
+		int id = 0;
+		MissionQueue queue = new MissionQueue(null, -1);
 		for(Mission mission : missions) {
-			if (mission.isCompleted()) continue;
-			return mission;
+			if (mission.isCompleted()) {
+				id++;
+				continue;
+			}
+			player.setMissionID(id);
+			queue.setId(id);
+			queue.setMission(mission);
+			return queue;
 		}
-		return null;
+		return queue;
 	}
 	
 	public MissionCategory clone(MissionPlayer mp) {

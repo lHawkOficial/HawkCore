@@ -2,6 +2,7 @@ package me.hawkcore.utils.missions.types;
 
 import org.bukkit.Bukkit;
 
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -12,9 +13,10 @@ import org.bukkit.inventory.ItemStack;
 import lombok.Getter;
 import me.hawkcore.Core;
 import me.hawkcore.tasks.Task;
+import me.hawkcore.utils.items.Item;
 import me.hawkcore.utils.missions.objects.Mission;
-import me.hawkcore.utils.missions.objects.MissionPlayer;
 import me.hawkcore.utils.missions.types.utils.MissionObjective;
+import me.hawkcore.utils.missions.types.utils.MissionVerify;
 
 @Getter
 public class MissionPlaceBlock extends MissionObjective {
@@ -32,16 +34,11 @@ public class MissionPlaceBlock extends MissionObjective {
 	public void event(BlockPlaceEvent e) {
 		if (e.isCancelled()) return;
 		Player p = e.getPlayer();
-		Mission m = getMission();
-		if (m == null) return;
-		Mission mission = m.getCategory().getMissionToComplete();
-		if (mission == null) return;
-		if (!mission.getObjective().equals(this)) return;
-		MissionPlayer mp = MissionPlayer.check(p);
-		if (!mission.getPlayer().equals(mp)) return;
+		Mission mission = getMission();
+		if (!new MissionVerify(p, getMission()).queue()) return;
 		MissionPlaceBlock objective = (MissionPlaceBlock) mission.getObjective();
 		ItemStack item = p.getItemInHand().clone();
-		if (!item.isSimilar(objective.getItem())) return;
+		if (!Item.isSimilarMaterial(item, objective.getItem())) return;
 		objective.setValue(objective.getValue()+1);
 		if (objective.isCompleted()) objective.complete();
 	}

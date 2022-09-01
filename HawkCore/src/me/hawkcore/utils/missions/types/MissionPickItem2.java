@@ -2,6 +2,7 @@ package me.hawkcore.utils.missions.types;
 
 import org.bukkit.Bukkit;
 
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -14,8 +15,8 @@ import me.hawkcore.Core;
 import me.hawkcore.tasks.Task;
 import me.hawkcore.utils.items.Item;
 import me.hawkcore.utils.missions.objects.Mission;
-import me.hawkcore.utils.missions.objects.MissionPlayer;
 import me.hawkcore.utils.missions.types.utils.MissionObjective;
+import me.hawkcore.utils.missions.types.utils.MissionVerify;
 
 @Getter
 public class MissionPickItem2 extends MissionObjective {
@@ -33,13 +34,8 @@ public class MissionPickItem2 extends MissionObjective {
 	public void event(PlayerPickupItemEvent e) {
 		if (e.isCancelled()) return;
 		Player p = e.getPlayer();
-		Mission m = getMission();
-		if (m == null) return;
-		Mission mission = m.getCategory().getMissionToComplete();
-		if (mission == null) return;
-		if (!mission.getObjective().equals(this)) return;
-		MissionPlayer mp = MissionPlayer.check(p);
-		if (!mission.getPlayer().equals(mp)) return;
+		Mission mission = getMission();
+		if (!new MissionVerify(p, getMission()).queue()) return;
 		MissionPickItem2 objective = (MissionPickItem2) mission.getObjective();
 		ItemStack item = e.getItem().getItemStack().clone();
 		if (!Item.isSimilar(item, e.getItem().getItemStack())) return;

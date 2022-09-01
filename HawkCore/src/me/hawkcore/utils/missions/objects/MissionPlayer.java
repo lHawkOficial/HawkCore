@@ -26,6 +26,8 @@ public class MissionPlayer {
 	@Setter
 	private MissionCategory categorySelected;
 	private File file;
+	@Setter
+	private int missionID;
 	
 	public MissionPlayer(String namePlayer) {
 		this.name = namePlayer;

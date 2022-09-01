@@ -36,6 +36,8 @@ import me.hawkcore.utils.missions.types.MissionMoveDistance;
 import me.hawkcore.utils.missions.types.MissionPickItem;
 import me.hawkcore.utils.missions.types.MissionPickItem2;
 import me.hawkcore.utils.missions.types.MissionPlaceBlock;
+import me.hawkcore.utils.missions.types.MissionPlant;
+import me.hawkcore.utils.missions.types.MissionPlant2;
 import me.hawkcore.utils.missions.types.MissionShootBow;
 import me.hawkcore.utils.missions.types.utils.MissionObjective;
 
@@ -162,6 +164,12 @@ public class Mission {
 			break;
 		case 20:
 			objective = new MissionShootBow(this, (int) valueRequired);
+			break;
+		case 21:
+			objective = new MissionPlant(this, (int) valueRequired);
+			break;
+		case 22:
+			objective = new MissionPlant2(this, (int) valueRequired, it);
 			break;
 		default:
 			System.out.println("[!] Missão " + name + " removida por não achar o id " + idMission);

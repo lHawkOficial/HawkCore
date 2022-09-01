@@ -3,6 +3,7 @@ package me.hawkcore.utils.missions.types;
 
 import org.bukkit.Bukkit;
 
+
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,8 +14,8 @@ import me.hawkcore.Core;
 import me.hawkcore.tasks.Task;
 import me.hawkcore.utils.locations.Distance;
 import me.hawkcore.utils.missions.objects.Mission;
-import me.hawkcore.utils.missions.objects.MissionPlayer;
 import me.hawkcore.utils.missions.types.utils.MissionObjective;
+import me.hawkcore.utils.missions.types.utils.MissionVerify;
 
 public class MissionMoveDistance extends MissionObjective {
 	
@@ -31,13 +32,8 @@ public class MissionMoveDistance extends MissionObjective {
 		Location loc = e.getTo().clone();
 		Location loc1 = e.getFrom().clone();
 		Task.runAsync(()-> {
-			Mission m = getMission();
-			if (m == null) return;
-			Mission mission = m.getCategory().getMissionToComplete();
-			if (mission == null) return;
-			if (!mission.getObjective().equals(this)) return;
-			MissionPlayer mp = MissionPlayer.check(p);
-			if (!mission.getPlayer().equals(mp)) return;
+			Mission mission = getMission();
+			if (!new MissionVerify(p, getMission()).queue()) return;
 			MissionMoveDistance objective = (MissionMoveDistance) mission.getObjective();
 			Distance distance = new Distance(loc, loc1);
 			double value = distance.value();
