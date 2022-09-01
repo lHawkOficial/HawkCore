@@ -57,7 +57,7 @@ public class BossBar {
 		long time = System.currentTimeMillis();
 		Task task = new Task();
 		task.setRunnable(()-> {
-			if (!p.isOnline()) {
+			if (!p.isOnline() || p.isDead()) {
 				p.removeMetadata("barTitle", Core.getInstance());
 				task.cancel();
 				return;
