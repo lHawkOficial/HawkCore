@@ -37,6 +37,7 @@ public class Heat extends ThirstHeatUtils {
 	private boolean active = ConfigGeral.get().getHeat();
 	private String bar;
 	private long timeBlind, timeFire;
+	private boolean cancelled;
 	
 	public Heat(PlayerData pd) {
 		super(pd);
@@ -77,6 +78,7 @@ public class Heat extends ThirstHeatUtils {
 		if (!active) return;
 		if (p == null || !p.isOnline() || p.isDead() || !p.isValid() || !worlds.contains(p.getWorld())) return;
 		if (p.getGameMode() != GameMode.SURVIVAL) return;
+		if (cancelled) return;
 		
 		double value = getValue();
 		if (value >= getBlindnessValue() && System.currentTimeMillis() - timeBlind >= 1500) {

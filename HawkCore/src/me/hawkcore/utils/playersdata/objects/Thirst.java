@@ -43,6 +43,7 @@ public class Thirst extends ThirstHeatUtils {
 	private String bar;
 	private long tickDamage = -1,
 	timeUseWater = -1;
+	private boolean cancelled;
 	
 	public Thirst(PlayerData pd) {
 		super(pd);
@@ -108,6 +109,7 @@ public class Thirst extends ThirstHeatUtils {
 		Thirst thirst = pd.getThirst();
 		if (thirst.getItem() == null) return;
 		if (!Item.isSimilar(thirst.getItem(), e.getItem())) return;
+		if (cancelled) return;
 		int percent = (int) (thirst.getValue() * 100 / thirst.getMaxValue());
 		if (!(percent < (100-thirst.getItemPercentIncrease()))) {
 			e.setCancelled(true);
