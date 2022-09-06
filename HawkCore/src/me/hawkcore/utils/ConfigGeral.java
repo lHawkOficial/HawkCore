@@ -9,12 +9,17 @@ import me.hawkcore.Core;
 public class ConfigGeral {
 	
 	private Boolean thirst,
-	heat;
+	heat,
+	actionBarActive;
+	
+	private String actionBar;
 	
 	public ConfigGeral() {
 		ConfigurationSection section = Core.getInstance().getConfig().getConfigurationSection("Config");
 		thirst = section.getBoolean("thirst");
 		heat = section.getBoolean("heat");
+		actionBarActive = section.getBoolean("actionBarActive");
+		actionBar = section.getString("actionBar").replace("&", "§");
 	}
 	
 	public static ConfigGeral get() {

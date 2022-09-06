@@ -68,6 +68,14 @@ public class Item {
 		}
 	}
 	
+	public static boolean isPlayerEquiped(Player p, ItemStack item) {
+		for(ItemStack it : p.getInventory().getArmorContents()) {
+			if (it == null || !isSimilar(it, item)) continue;
+			return true;
+		}
+		return false;
+	}
+	
 	public static int getAmount(Player p, ItemStack item) {
 		int amount = 0;
 		for(ItemStack it : p.getInventory().getContents()) {

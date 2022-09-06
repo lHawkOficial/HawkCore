@@ -1,3 +1,72 @@
+# Configuração geral do Core
+Config:
+  
+  # PlaceHolders:
+  # %hawkcore_thirst_percent% - %hawkcore_thirst_bar%
+  # %hawkcore_heat_percent% - %hawkcore_heat_bar%
+  # atviar sede e calor ?
+  thirst: true
+  heat: true
+  # 20 ticks = 1s, tickrate em que a fome ou sede vai ser alterada a todo instante 
+  tickRate: 1
+  # Ativar actionbar na atualização de calor e sede ?
+  actionBarActive: true
+  actionBar: "&3Água %hawkcore_thirst_bar% &7/ &cTemperatura %hawkcore_heat_bar%"
+  
+  # Configure aqui as mensagens da Thirst and Heat
+  MensagensThirstHeat:
+    waterFull: "&cvocê não pode tomar água por agora!"
+  
+  # Config geral da sede
+  thirstConfig:
+    # Configure a barra de progresso da sede, corDefault,corBackground,Icones,Inicio,Final
+    bar: "&8,&3,█████,&8[,&8]>&f%hawkcore_thirst_percent%"
+    # mundo em que a sede vai funcionar
+    worlds:
+    - 'world'
+    # Valor maximo da sede
+    maxValue: 100
+    # Valor inicial da sede
+    valueStart: 100
+    # Valor que vai ser adicionado a sede conforme o jogador anda
+    increase: 0.06
+    # Valor que vai diminuir caso o jogador esteja tomando agua ou qualquer outro motivo.
+    decrease: 0.05
+    # Item que o jogador pode consumir para aumentar a porcentagem de agua per/Item. (item criado pelo itemcreator)
+    item: agua
+    # porcentagem de agua que vai aumentar caso o jogador consuma o item.
+    item_percent_increase: 25
+    # Dano após ficar desidratado
+    damage: 1.5
+    
+  # Config geral do calor
+  heatConfig:
+    # Configure a barra de progresso do calor, corDefault,corBackground,Icones,Inicio,Final
+    bar: "&8,&c,█████,&8[,&8]>&f%hawkcore_heat_percent%"
+    # mundo em que o calor vai funcionar
+    worlds:
+    - 'world'
+    # Valor maximo do calor, aonde o jogador vai começar a pegar fogo.
+    maxValue: 80
+    # Valor maximo para começar a escurecer a vista do jogador
+    blindnessValue: 60
+    # Valor minimo do calor
+    valueStart: 10
+    # Valor que vai ser adicionado ao calor conforme o jogador anda
+    increase: 0.05
+    # Valor que vai diminuir caso o jogador esteja tomando agua ou qualquer outro motivo.
+    decrease: 0.5
+    # Item(s) que se o jogador usar pode diminuir sua temperatura. (item criado pelo itemcreator)
+    # item:decreaseValue (valor por item) (caso o player esteja usando mais que um dos item(s) a temperatura pode cair mais rapido!)
+    items:
+    - 'bota:0.35'
+    # dano após ficar super aquecido
+    damage: 0.5
+    
+
+#=-=-=-=-=-=-=-=-=-
+# Missões
+#=-=-=-=-=-=-=-=-=-
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 # IDS das missões
 # 1 - Quebrar blocos
@@ -10,16 +79,6 @@
 # 8 - Craftar um item aleatorio.
 # 9 - Encher a barra da fome.
 # 10 - Escrever algo no chat.
-# Configuração geral do Core
-Config:
-
-  # atviar sede e calor ?
-  thirst: true
-  heat: true
-
-#=-=-=-=-=-=-=-=-=-
-# Missões
-#=-=-=-=-=-=-=-=-=-
 # 11 - Quebrar um item qualquer.
 # 12 - Quebrar um item especifico.
 # 13 - Craftar um item especifico
@@ -32,6 +91,7 @@ Config:
 # 20 - Atirar com o arco.
 # 21 - Plantar um item aleatorio.
 # 22 - Plantar um item especifico.
+# 23 - Entregar um item especifico para a missão.
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 # Configuração geral das missões
 Missions:
@@ -40,6 +100,8 @@ Missions:
   # missionName
   # missionDesc
   # missionProgress
+  # missionMaxValue
+  # missionValue
   # categoryName
   # categoryTotalMissions
   # categoryProgress

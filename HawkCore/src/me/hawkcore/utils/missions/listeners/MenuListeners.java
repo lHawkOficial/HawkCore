@@ -1,5 +1,6 @@
 package me.hawkcore.utils.missions.listeners;
 
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -10,8 +11,10 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 
 import me.hawkcore.Core;
 import me.hawkcore.utils.PaginaCreator;
+import me.hawkcore.utils.missions.listeners.plugin.MissionCollectItemEvent;
 import me.hawkcore.utils.missions.menus.menuCategorys;
 import me.hawkcore.utils.missions.menus.menuMissions;
+import me.hawkcore.utils.missions.objects.Mission;
 import me.hawkcore.utils.missions.objects.MissionCategory;
 import me.hawkcore.utils.missions.objects.MissionPlayer;
 
@@ -24,7 +27,6 @@ public class MenuListeners implements Listener {
 	@EventHandler
 	public void click(InventoryClickEvent e) {
 		Player p = (Player) e.getWhoClicked();
-		
 		if(p.hasMetadata("pMissions")) {
 			PaginaCreator pagina = (PaginaCreator) p.getMetadata("pMissions").get(0).value();
 			String nome = menuCategorys.get().getName().replace("{pagina}", String.valueOf(pagina.getPaginaAtual())).replace("{total}", String.valueOf(pagina.getTotalPaginas()));
@@ -66,13 +68,11 @@ public class MenuListeners implements Listener {
 				e.setCancelled(true);
 				if (e.getCurrentItem() == null || e.getCurrentItem().getType() == Material.AIR) return;
 				p.playSound(p.getLocation(), Sound.CLICK, 0.5f, 10);
-					
 				if (e.getCurrentItem().isSimilar(menuMissions.get().getIconCategorys().build())) {
 					if(p.hasMetadata("pMissions")) p.removeMetadata("pMissions", Core.getInstance());
 					menuCategorys.get().open(p);
 					return;
 				}
-				
 				if (e.getCurrentItem().isSimilar(menuMissions.get().getIconBack().build())) {
 					if (pagina.containsPagina(pagina.getPaginaAtual()-1)) {
 						pagina.setPaginaAtual(pagina.getPaginaAtual()-1);
@@ -80,7 +80,6 @@ public class MenuListeners implements Listener {
 					}
 					return;
 				}
-				
 				if (e.getCurrentItem().isSimilar(menuMissions.get().getIconNext().build())) {
 					if (pagina.containsPagina(pagina.getPaginaAtual()+1)) {
 						pagina.setPaginaAtual(pagina.getPaginaAtual()+1);
@@ -89,6 +88,12 @@ public class MenuListeners implements Listener {
 					return;
 				}
 				
+				Mission m = mp.getCategorySelected().getMissionToComplete().getMission();
+				Mission mission = mp.getCategorySelected().getMission(mp, e.getCurrentItem());
+				if (mission==null) return;
+				if (m==null)return;
+				MissionCollectItemEvent event = new MissionCollectItemEvent(mp, mission);
+				Bukkit.getPluginManager().callEvent(event);
 			}
 		}
 		

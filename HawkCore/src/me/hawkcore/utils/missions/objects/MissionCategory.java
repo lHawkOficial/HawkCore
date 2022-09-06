@@ -90,11 +90,14 @@ public class MissionCategory {
 		return (missions.isEmpty() ? 0 : total/missions.size()) + "%";
 	}
 	
-	public Mission getMission(ItemStack item) {
+	public Mission getMission(MissionPlayer mp, ItemStack item) {
+		if (mp.getCategorySelected() == null) return null;
+		Mission m = mp.getCategorySelected().getMissionToComplete().getMission();
+		if (m==null) return null;
 		Iterator<Mission> it = missions.iterator();
 		while(it.hasNext()) {
 			Mission mission = it.next();
-			if (mission.getIcon().build().isSimilar(item) || (mission.getIcon().build().hasItemMeta() && mission.getIcon().build().getItemMeta().hasDisplayName() && item.hasItemMeta() && item.getItemMeta().hasDisplayName() && mission.getIcon().getItem().getItemMeta().getDisplayName().equals(item.getItemMeta().getDisplayName()))) return mission; 
+			if ((mission.getIcon().build().isSimilar(item) || (mission.getIcon().build().hasItemMeta() && mission.getIcon().build().getItemMeta().hasDisplayName() && item.hasItemMeta() && item.getItemMeta().hasDisplayName() && mission.getIcon().getItem().getItemMeta().getDisplayName().equals(item.getItemMeta().getDisplayName()))) && mission.equals(m)) return mission; 
 		}
 		return null;
 	}

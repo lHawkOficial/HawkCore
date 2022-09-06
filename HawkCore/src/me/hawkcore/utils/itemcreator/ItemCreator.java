@@ -51,6 +51,10 @@ public class ItemCreator {
 		}
 	}
 	
+	public static ManagerItemCreator get() {
+		return ManagerItemCreator.get();
+	}
+	
 	public void delete() {
 		ManagerItemCreator.get().getItems().remove(this);
 		file.delete();

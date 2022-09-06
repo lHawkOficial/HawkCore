@@ -5,7 +5,11 @@ package me.hawkcore;
 
 
 
+
+
 import org.bukkit.Bukkit;
+
+
 
 
 
@@ -31,6 +35,8 @@ import me.hawkcore.utils.missions.listeners.PlayerListener;
 import me.hawkcore.utils.missions.objects.ConfigMission;
 import me.hawkcore.utils.playersdata.listeners.PlayerDataListener;
 import me.hawkcore.utils.playersdata.managers.ManagerData;
+import me.hawkcore.utils.playersdata.objects.PlayerData;
+import me.hawkcore.utils.playersdata.utils.MensagensThirstHeat;
 import me.hawkcore.verifies.PluginVerifier;
 import net.minecraft.server.v1_8_R3.Entity;
 import net.minecraft.server.v1_8_R3.PacketPlayOutEntityDestroy;
@@ -38,14 +44,18 @@ import net.minecraft.server.v1_8_R3.PacketPlayOutEntityDestroy;
 @Getter
 public class Core extends JavaPlugin {
 	
-	private String tag = "§7[⚒]", version = "§dv" + getDescription().getVersion();
-	private TaskManager taskmanager;
 	private ManagerMissions managermissions;
 	private ManagerItemCreator manageritemcreator;
 	private ManagerData managerdata;
+	private TaskManager taskmanager;
+	
+	private String tag = "§7[⚒]", version = "§dv" + getDescription().getVersion();
 	private API api;
+	
 	private ConfigMission configmission;
 	private ConfigGeral configgeral;
+	
+	private MensagensThirstHeat mensagensthirstheat;
 	
 	@Getter
 	private static Core instance;
@@ -54,17 +64,17 @@ public class Core extends JavaPlugin {
 	public void onEnable() {
 		if (!new PluginVerifier("PlaceholderAPI", "&cHawkCore foi desligado por falta da dependência PlaceholderAPI!").queue()) return;
 		if (!new PluginVerifier("nChat", "&cHawkCore foi desligado por falta da dependência nChat!").queue()) return;
-		instance = this;
 		saveDefaultConfig();
-		api = new API();
+		instance = this;
 		taskmanager = new TaskManager();
 		taskmanager.runTaskTimerAsynchronously(this, 0, 1);
+		api = new API();
 		managermissions = new ManagerMissions();
 		manageritemcreator = new ManagerItemCreator();
+		configgeral = new ConfigGeral();
+		configmission = new ConfigMission();
 		managerdata = new ManagerData();
 		ItemCreator.setup();
-		configmission = new ConfigMission();
-		configgeral = new ConfigGeral();
 		new CoreCommand();
 		new ItemCreatorCommand();
 		new ListenerBar();
@@ -76,6 +86,8 @@ public class Core extends JavaPlugin {
 			new MissionCommand();
 		}
 		ManagerMissions.checkPlayers();
+		PlayerData.checkAll();
+		mensagensthirstheat = new MensagensThirstHeat();
 		
 		sendConsole(" ");
 		sendConsole("&aHawkCore iniciado com sucesso! &6[Author lHawk_] " + version);
@@ -98,6 +110,9 @@ public class Core extends JavaPlugin {
 			}
 			if (all.hasMetadata("missionplayer")) {
 				all.removeMetadata("missionplayer", instance);
+			}
+			if (all.hasMetadata("playerdata")) {
+				all.removeMetadata("playerdata", instance);
 			}
 		}
 		HandlerList.unregisterAll(this);

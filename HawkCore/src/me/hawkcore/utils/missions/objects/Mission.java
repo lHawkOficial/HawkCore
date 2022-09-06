@@ -2,6 +2,7 @@ package me.hawkcore.utils.missions.objects;
 
 import java.io.File;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,13 +15,14 @@ import org.bukkit.inventory.ItemStack;
 import lombok.Getter;
 import lombok.Setter;
 import me.hawkcore.Core;
-import me.hawkcore.utils.itemcreator.ManagerItemCreator;
+import me.hawkcore.utils.itemcreator.ItemCreator;
 import me.hawkcore.utils.items.Item;
 import me.hawkcore.utils.missions.ManagerMissions;
 import me.hawkcore.utils.missions.types.MissionBreakBlock;
 import me.hawkcore.utils.missions.types.MissionBreakItem;
 import me.hawkcore.utils.missions.types.MissionBreakItem2;
 import me.hawkcore.utils.missions.types.MissionChatEvent;
+import me.hawkcore.utils.missions.types.MissionCollectItem;
 import me.hawkcore.utils.missions.types.MissionCraftItem;
 import me.hawkcore.utils.missions.types.MissionCraftItem2;
 import me.hawkcore.utils.missions.types.MissionDeath;
@@ -97,7 +99,8 @@ public class Mission {
 		msgFinalize = section.getString("msgFinalize").replace("&", "§").replace("{tag}", Core.getInstance().getTag());
 		rewards = new ArrayList<>(section.getStringList("rewards"));
 		rewards.replaceAll(l -> l.toLowerCase().replace("/", new String()));
-		ItemStack it = ManagerItemCreator.get().getItem(section.getString("item")).getItem().clone();
+		ItemCreator ic = ItemCreator.get().getItem(section.getString("item"));
+		ItemStack it = ic == null ? null : ic.getItem().clone();
 		idMission = section.getInt("idMission");
 		EntityType entityType = null;
 		try {
@@ -170,6 +173,9 @@ public class Mission {
 			break;
 		case 22:
 			objective = new MissionPlant2(this, (int) valueRequired, it);
+			break;
+		case 23:
+			objective = new MissionCollectItem(this, (int) valueRequired, it);
 			break;
 		default:
 			System.out.println("[!] Missão " + name + " removida por não achar o id " + idMission);

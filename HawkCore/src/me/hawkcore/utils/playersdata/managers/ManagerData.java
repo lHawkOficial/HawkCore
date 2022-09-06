@@ -4,14 +4,32 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.bukkit.Bukkit;
+
 import lombok.Getter;
 import me.hawkcore.Core;
+import me.hawkcore.tasks.Task;
+import me.hawkcore.utils.ConfigGeral;
+import me.hawkcore.utils.playersdata.listeners.plugin.PlayerDataEvent;
 import me.hawkcore.utils.playersdata.objects.PlayerData;
 
 @Getter
 public class ManagerData {
 
 	private List<PlayerData> players = new ArrayList<>();
+	private Task task;
+	
+	public ManagerData() {
+		if (!ConfigGeral.get().getHeat() && !ConfigGeral.get().getThirst()) return;
+		task = new Task(()-> {
+			if (players.isEmpty()) return;
+			for (int i = 0; i < players.size(); i++) {
+				PlayerData pd = players.get(i);
+				PlayerDataEvent event = new PlayerDataEvent(pd);
+				Bukkit.getPluginManager().callEvent(event);
+			}
+		}).run(Core.getInstance().getConfig().getInt("Config.tickRate"));
+	}
 	
 	public static ManagerData get() {
 		return Core.getInstance().getManagerdata();
