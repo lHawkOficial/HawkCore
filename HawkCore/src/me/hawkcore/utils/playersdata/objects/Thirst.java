@@ -21,6 +21,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import lombok.Getter;
+import lombok.Setter;
 import me.hawkcore.Core;
 import me.hawkcore.tasks.Task;
 import me.hawkcore.utils.ConfigGeral;
@@ -43,6 +44,7 @@ public class Thirst extends ThirstHeatUtils {
 	private String bar;
 	private long tickDamage = -1,
 	timeUseWater = -1;
+	@Setter
 	private boolean cancelled;
 	
 	public Thirst(PlayerData pd) {
@@ -75,6 +77,7 @@ public class Thirst extends ThirstHeatUtils {
 		if (!active) return;
 		if (p == null || !p.isOnline() || p.isDead() || !p.isValid() || !worlds.contains(p.getWorld())) return;
 		if (p.getGameMode() != GameMode.SURVIVAL) return;
+		if (cancelled) return;
 		double value = getValue();
 		Block block = p.getLocation().getBlock();
 		double total = getValue()+getIncrease();
@@ -109,7 +112,6 @@ public class Thirst extends ThirstHeatUtils {
 		Thirst thirst = pd.getThirst();
 		if (thirst.getItem() == null) return;
 		if (!Item.isSimilar(thirst.getItem(), e.getItem())) return;
-		if (cancelled) return;
 		int percent = (int) (thirst.getValue() * 100 / thirst.getMaxValue());
 		if (!(percent < (100-thirst.getItemPercentIncrease()))) {
 			e.setCancelled(true);

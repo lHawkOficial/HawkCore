@@ -20,6 +20,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import lombok.Getter;
+import lombok.Setter;
 import me.hawkcore.Core;
 import me.hawkcore.tasks.Task;
 import me.hawkcore.utils.ConfigGeral;
@@ -37,6 +38,7 @@ public class Heat extends ThirstHeatUtils {
 	private boolean active = ConfigGeral.get().getHeat();
 	private String bar;
 	private long timeBlind, timeFire;
+	@Setter
 	private boolean cancelled;
 	
 	public Heat(PlayerData pd) {
