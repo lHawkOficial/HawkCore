@@ -39,7 +39,7 @@ public class Heat extends ThirstHeatUtils {
 	private String bar;
 	private long timeBlind, timeFire;
 	@Setter
-	private boolean cancelled;
+	private boolean cancelled = false;
 	
 	public Heat(PlayerData pd) {
 		super(pd);

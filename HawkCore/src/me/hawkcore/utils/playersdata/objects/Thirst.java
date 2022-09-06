@@ -45,7 +45,7 @@ public class Thirst extends ThirstHeatUtils {
 	private long tickDamage = -1,
 	timeUseWater = -1;
 	@Setter
-	private boolean cancelled;
+	private boolean cancelled = false;
 	
 	public Thirst(PlayerData pd) {
 		super(pd);
