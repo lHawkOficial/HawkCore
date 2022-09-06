@@ -12,7 +12,9 @@ import java.io.ByteArrayInputStream;
 
 
 
+
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -21,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -36,6 +39,13 @@ import org.bukkit.util.io.BukkitObjectInputStream;
 import org.bukkit.util.io.BukkitObjectOutputStream;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
+import com.sk89q.worldedit.CuboidClipboard;
+import com.sk89q.worldedit.EditSession;
+import com.sk89q.worldedit.WorldEdit;
+import com.sk89q.worldedit.bukkit.BukkitUtil;
+import com.sk89q.worldedit.bukkit.BukkitWorld;
+import com.sk89q.worldedit.schematic.SchematicFormat;
+
 import me.hawkcore.Core;
 import me.hawkcore.utils.items.Item;
 import me.hawkcore.utils.items.SkullCreator;
@@ -45,6 +55,7 @@ import net.minecraft.server.v1_8_R3.NavigationAbstract;
 import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
 import net.minecraft.server.v1_8_R3.PathEntity;
 
+@SuppressWarnings("deprecation")
 public class API {
 
 	public static API get() {
@@ -57,6 +68,23 @@ public class API {
         if (path != null) {
             na.a(path, speed);
         }
+	}
+	
+	public void pasteSchematic(Location loc, File file, boolean randomRotate) {
+		try {
+			SchematicFormat sf = SchematicFormat.getFormat(file);
+			if (sf==null) return;
+			CuboidClipboard cc = sf.load(file);
+			if (randomRotate) {
+				for (int i = 0; i < 4; i++) {
+					if (new Random().nextBoolean()) cc.rotate2D(90);
+				}
+			}
+			EditSession session = WorldEdit.getInstance().getEditSessionFactory().getEditSession(new BukkitWorld(loc.getWorld()), Integer.MAX_VALUE);
+			cc.paste(session, BukkitUtil.toVector(loc), true);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public String serializeItem(ItemStack is) {

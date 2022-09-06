@@ -64,6 +64,7 @@ public class Core extends JavaPlugin {
 	public void onEnable() {
 		if (!new PluginVerifier("PlaceholderAPI", "&cHawkCore foi desligado por falta da dependência PlaceholderAPI!").queue()) return;
 		if (!new PluginVerifier("nChat", "&cHawkCore foi desligado por falta da dependência nChat!").queue()) return;
+		if (!new PluginVerifier("WorldEdit", "&cHawkCore foi desligado por falta da dependência WorldEdit!").queue()) return;
 		saveDefaultConfig();
 		instance = this;
 		taskmanager = new TaskManager();
