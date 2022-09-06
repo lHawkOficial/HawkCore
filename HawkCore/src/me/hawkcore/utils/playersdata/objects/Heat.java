@@ -49,6 +49,7 @@ public class Heat extends ThirstHeatUtils {
 			try {
 				worlds.add(Bukkit.getWorld(name));
 			} catch (Exception e) {
+				e.printStackTrace();
 				continue;
 			}
 		}
