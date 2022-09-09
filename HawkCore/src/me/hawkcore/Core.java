@@ -22,6 +22,7 @@ import lombok.Getter;
 import me.hawkcore.commands.CoreCommand;
 import me.hawkcore.commands.ItemCreatorCommand;
 import me.hawkcore.commands.MissionCommand;
+import me.hawkcore.entities.ArmorEntity;
 import me.hawkcore.tasks.TaskManager;
 import me.hawkcore.utils.API;
 import me.hawkcore.utils.ConfigGeral;
@@ -89,6 +90,7 @@ public class Core extends JavaPlugin {
 		ManagerMissions.checkPlayers();
 		PlayerData.checkAll();
 		mensagensthirstheat = new MensagensThirstHeat();
+		ArmorEntity.deleteAll();
 		
 		sendConsole(" ");
 		sendConsole("&aHawkCore iniciado com sucesso! &6[Author lHawk_] " + version);
@@ -99,6 +101,7 @@ public class Core extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		taskmanager.cancel();
+		ArmorEntity.deleteAll();
 		for(Player all : Bukkit.getOnlinePlayers()) {
 			if (all.hasMetadata("barTitle")) {
 				Entity entity = (Entity) all.getMetadata("barTitle").get(0).value();
