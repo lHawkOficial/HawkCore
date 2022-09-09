@@ -1,6 +1,7 @@
 package me.hawkcore.entities;
 
 import java.io.File;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -8,7 +9,6 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 
 import lombok.Getter;
@@ -18,18 +18,22 @@ import me.hawkcore.utils.Save;
 
 @Getter
 @Setter
-public class ArmorEntity {
+public class EntityCreator {
 
 	private File file;
 	private Entity entity;
 	
-	public ArmorEntity(Location loc) {
-		this.entity = loc.getWorld().spawn(loc.clone(), ArmorStand.class);
+	public EntityCreator(Location loc, Class<Entity> classType) {
+		try {
+			this.entity = loc.getWorld().spawn(loc, classType);
+		} catch (Exception e) {
+			return;
+		}
 		save();
 	}
 	
 	public void save() {
-		file = new File(Core.getInstance().getDataFolder() + "/armorstands.yml");
+		file = new File(Core.getInstance().getDataFolder() + "/entities.yml");
 		if (!file.exists()) {
 			try {
 				file.createNewFile();
@@ -44,7 +48,7 @@ public class ArmorEntity {
 	}
 	
 	public static void deleteAll() {
-		File file = new File(Core.getInstance().getDataFolder() + "/armorstands.yml");
+		File file = new File(Core.getInstance().getDataFolder() + "/entities.yml");
 		if (!file.exists()) return;
 		List<Object> lista = Save.load(file);
 		if (lista == null) return;
