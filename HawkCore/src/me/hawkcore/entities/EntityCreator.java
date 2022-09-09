@@ -10,6 +10,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -23,9 +24,9 @@ public class EntityCreator {
 	private File file;
 	private Entity entity;
 	
-	public EntityCreator(Location loc, Class<Entity> classType) {
+	public EntityCreator(Location loc, EntityType type) {
 		try {
-			this.entity = loc.getWorld().spawn(loc, classType);
+			this.entity = loc.getWorld().spawnEntity(loc, type);
 		} catch (Exception e) {
 			return;
 		}
