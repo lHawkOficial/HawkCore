@@ -11,6 +11,7 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.metadata.FixedMetadataValue;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -27,6 +28,7 @@ public class EntityCreator {
 	public EntityCreator(Location loc, EntityType type) {
 		try {
 			this.entity = loc.getWorld().spawnEntity(loc, type);
+			this.entity.setMetadata("entitycreator", new FixedMetadataValue(Core.getInstance(), entity.getUniqueId()));
 		} catch (Exception e) {
 			return;
 		}
