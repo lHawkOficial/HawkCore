@@ -23,6 +23,7 @@ import me.hawkcore.commands.CoreCommand;
 import me.hawkcore.commands.ItemCreatorCommand;
 import me.hawkcore.commands.MissionCommand;
 import me.hawkcore.entities.EntityCreator;
+import me.hawkcore.entities.listeners.Listeners;
 import me.hawkcore.tasks.TaskManager;
 import me.hawkcore.utils.API;
 import me.hawkcore.utils.ConfigGeral;
@@ -83,6 +84,7 @@ public class Core extends JavaPlugin {
 		new PlayerListener();
 		new MenuListeners();
 		new PlayerDataListener();
+		new Listeners();
 		new PlaceHolders().register();
 		if (configmission.isActiveMissions()) {
 			new MissionCommand();
