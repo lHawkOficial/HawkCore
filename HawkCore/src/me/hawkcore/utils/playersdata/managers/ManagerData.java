@@ -1,16 +1,15 @@
 package me.hawkcore.utils.playersdata.managers;
 
 import java.util.ArrayList;
+
 import java.util.Iterator;
 import java.util.List;
 
-import org.bukkit.Bukkit;
 
 import lombok.Getter;
 import me.hawkcore.Core;
 import me.hawkcore.tasks.Task;
 import me.hawkcore.utils.ConfigGeral;
-import me.hawkcore.utils.playersdata.listeners.plugin.PlayerDataEvent;
 import me.hawkcore.utils.playersdata.objects.PlayerData;
 
 @Getter
@@ -25,8 +24,8 @@ public class ManagerData {
 			if (players.isEmpty()) return;
 			for (int i = 0; i < players.size(); i++) {
 				PlayerData pd = players.get(i);
-				PlayerDataEvent event = new PlayerDataEvent(pd);
-				Bukkit.getPluginManager().callEvent(event);
+				pd.getThirst().tickUpdate();
+				pd.getHeat().tickUpdate();
 			}
 		}).run(Core.getInstance().getConfig().getInt("Config.tickRate"));
 	}

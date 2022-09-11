@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 
 
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -13,8 +14,6 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -26,7 +25,6 @@ import me.hawkcore.tasks.Task;
 import me.hawkcore.utils.ConfigGeral;
 import me.hawkcore.utils.itemcreator.ItemCreator;
 import me.hawkcore.utils.items.Item;
-import me.hawkcore.utils.playersdata.listeners.plugin.PlayerDataEvent;
 import me.hawkcore.utils.playersdata.objects.utils.ThirstHeatUtils;
 
 @Getter
@@ -43,7 +41,6 @@ public class Heat extends ThirstHeatUtils {
 	
 	public Heat(PlayerData pd) {
 		super(pd);
-		Bukkit.getPluginManager().registerEvents(this, Core.getInstance());
 		ConfigurationSection section = Core.getInstance().getConfig().getConfigurationSection("Config.heatConfig");
 		for(String name : section.getStringList("worlds")) {
 			try {
@@ -74,9 +71,8 @@ public class Heat extends ThirstHeatUtils {
 		}
 	}
 	
-	@EventHandler(priority = EventPriority.LOWEST)
-	public void tickUpdate(PlayerDataEvent e) {
-		PlayerData pd = e.getPlayerData();
+	public void tickUpdate() {
+		PlayerData pd = getPlayerData();
 		Player p = pd.getPlayer();
 		if (!active) return;
 		if (p == null || !p.isOnline() || p.isDead() || !p.isValid() || !worlds.contains(p.getWorld())) return;

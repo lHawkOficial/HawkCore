@@ -3,7 +3,7 @@ package me.hawkcore.utils.playersdata.objects.utils;
 
 import org.bukkit.entity.Player;
 
-import org.bukkit.event.Listener;
+
 
 import lombok.Getter;
 import lombok.Setter;
@@ -15,7 +15,7 @@ import me.hawkcore.utils.playersdata.objects.Thirst;
 
 @Getter
 @Setter
-public class ThirstHeatUtils implements Listener {
+public class ThirstHeatUtils {
 	
 	private double increase, decrease, maxValue, value, damage, minValue;
 	private final PlayerData playerData;
@@ -46,11 +46,8 @@ public class ThirstHeatUtils implements Listener {
 	}
 	
 	public void reset() {
-		if (this instanceof Thirst) {
-			this.value = maxValue;
-		}else {
-			this.value = minValue;
-		}
+		if (this instanceof Thirst) setValue(maxValue);
+		else setValue(minValue);
 	}
 	
 }

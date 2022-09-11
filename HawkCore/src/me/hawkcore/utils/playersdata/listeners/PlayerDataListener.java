@@ -1,13 +1,16 @@
 package me.hawkcore.utils.playersdata.listeners;
 
+
 import org.bukkit.Bukkit;
+
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.player.PlayerRespawnEvent;
 
 import me.hawkcore.Core;
 import me.hawkcore.tasks.Task;
@@ -33,10 +36,12 @@ public class PlayerDataListener implements Listener {
 		ManagerData.get().getPlayers().remove(pd);
 	}
 	
-	@EventHandler(priority = EventPriority.LOWEST)
-	public void respawn(PlayerRespawnEvent e) {
-		PlayerData pd = PlayerData.check(e.getPlayer());
+	@EventHandler(priority = EventPriority.MONITOR)
+	public void respawn(PlayerDeathEvent e) {
+		Player p = e.getEntity();
+		PlayerData pd = PlayerData.check(p);
 		Task.run(()-> {
+			p.spigot().respawn();
 			pd.getThirst().reset();
 			pd.getHeat().reset();
 		});

@@ -1,5 +1,5 @@
 name: HawkCore
-version: 0.7
+version: 0.9
 author: lHawk_
 description: Plugin para gerenciamento geral dos plugins Hawk.
 depend: [PlaceholderAPI,nChat,WorldEdit,Vault]

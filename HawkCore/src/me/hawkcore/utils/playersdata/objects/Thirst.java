@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 
 
+
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -29,7 +30,6 @@ import me.hawkcore.utils.boosbar.BossBar;
 import me.hawkcore.utils.itemcreator.ItemCreator;
 import me.hawkcore.utils.items.Item;
 import me.hawkcore.utils.locations.Distance;
-import me.hawkcore.utils.playersdata.listeners.plugin.PlayerDataEvent;
 import me.hawkcore.utils.playersdata.objects.utils.ThirstHeatUtils;
 import me.hawkcore.utils.playersdata.utils.MensagensThirstHeat;
 
@@ -49,7 +49,6 @@ public class Thirst extends ThirstHeatUtils {
 	
 	public Thirst(PlayerData pd) {
 		super(pd);
-		Bukkit.getPluginManager().registerEvents(this, Core.getInstance());
 		ConfigurationSection section = Core.getInstance().getConfig().getConfigurationSection("Config.thirstConfig");
 		for(String name : section.getStringList("worlds")) {
 			try {
@@ -71,9 +70,8 @@ public class Thirst extends ThirstHeatUtils {
 		setMinValue(0);
 	}
 	
-	@EventHandler(priority = EventPriority.LOWEST)
-	public void tickUpdate(PlayerDataEvent e) {
-		PlayerData pd = e.getPlayerData();
+	public void tickUpdate() {
+		PlayerData pd = getPlayerData();
 		Player p = pd.getPlayer();
 		if (!active) return;
 		if (p == null || !p.isOnline() || p.isDead() || !p.isValid() || !worlds.contains(p.getWorld())) return;
