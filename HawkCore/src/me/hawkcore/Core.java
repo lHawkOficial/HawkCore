@@ -16,6 +16,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import lombok.Getter;
@@ -96,7 +97,9 @@ public class Core extends JavaPlugin {
 		PlayerData.checkAll();
 		mensagensthirstheat = new MensagensThirstHeat();
 		Task.run(()-> EntityCreator.deleteAll());
-		econ = getServer().getServicesManager().getRegistration(Economy.class).getProvider();
+		
+		RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+		this.econ = (Economy) rsp.getProvider();
 		
 		sendConsole(" ");
 		sendConsole("&aHawkCore iniciado com sucesso! &6[Author lHawk_] " + version);
