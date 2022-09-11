@@ -96,10 +96,11 @@ public class Core extends JavaPlugin {
 		ManagerMissions.checkPlayers();
 		PlayerData.checkAll();
 		mensagensthirstheat = new MensagensThirstHeat();
-		Task.run(()-> EntityCreator.deleteAll());
-		
-		RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
-		this.econ = (Economy) rsp.getProvider();
+		Task.run(()-> {
+			EntityCreator.deleteAll();
+			RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+			this.econ = (Economy) rsp.getProvider();
+		});
 		
 		sendConsole(" ");
 		sendConsole("&aHawkCore iniciado com sucesso! &6[Author lHawk_] " + version);
