@@ -16,6 +16,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 import lombok.Getter;
 import lombok.Setter;
 import me.hawkcore.Core;
+import me.hawkcore.tasks.Task;
 import me.hawkcore.utils.Save;
 
 @Getter
@@ -32,7 +33,7 @@ public class EntityCreator {
 		} catch (Exception e) {
 			return;
 		}
-		save();
+		Task.runAsync(()-> save());
 	}
 	
 	public void save() {

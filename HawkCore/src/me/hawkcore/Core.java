@@ -24,6 +24,7 @@ import me.hawkcore.commands.ItemCreatorCommand;
 import me.hawkcore.commands.MissionCommand;
 import me.hawkcore.entities.EntityCreator;
 import me.hawkcore.entities.listeners.Listeners;
+import me.hawkcore.tasks.Task;
 import me.hawkcore.tasks.TaskManager;
 import me.hawkcore.utils.API;
 import me.hawkcore.utils.ConfigGeral;
@@ -40,6 +41,7 @@ import me.hawkcore.utils.playersdata.managers.ManagerData;
 import me.hawkcore.utils.playersdata.objects.PlayerData;
 import me.hawkcore.utils.playersdata.utils.MensagensThirstHeat;
 import me.hawkcore.verifies.PluginVerifier;
+import net.milkbowl.vault.economy.Economy;
 import net.minecraft.server.v1_8_R3.Entity;
 import net.minecraft.server.v1_8_R3.PacketPlayOutEntityDestroy;
 
@@ -50,6 +52,7 @@ public class Core extends JavaPlugin {
 	private ManagerItemCreator manageritemcreator;
 	private ManagerData managerdata;
 	private TaskManager taskmanager;
+	private Economy econ;
 	
 	private String tag = "§7[⚒]", version = "§dv" + getDescription().getVersion();
 	private API api;
@@ -92,7 +95,8 @@ public class Core extends JavaPlugin {
 		ManagerMissions.checkPlayers();
 		PlayerData.checkAll();
 		mensagensthirstheat = new MensagensThirstHeat();
-		EntityCreator.deleteAll();
+		Task.run(()-> EntityCreator.deleteAll());
+		econ = getServer().getServicesManager().getRegistration(Economy.class).getProvider();
 		
 		sendConsole(" ");
 		sendConsole("&aHawkCore iniciado com sucesso! &6[Author lHawk_] " + version);
@@ -103,7 +107,6 @@ public class Core extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		taskmanager.cancel();
-		EntityCreator.deleteAll();
 		for(Player all : Bukkit.getOnlinePlayers()) {
 			if (all.hasMetadata("barTitle")) {
 				Entity entity = (Entity) all.getMetadata("barTitle").get(0).value();

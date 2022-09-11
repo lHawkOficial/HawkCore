@@ -5,12 +5,12 @@ Config:
   # %hawkcore_thirst_percent% - %hawkcore_thirst_bar%
   # %hawkcore_heat_percent% - %hawkcore_heat_bar%
   # atviar sede e calor ?
-  thirst: true
-  heat: true
+  thirst: false
+  heat: false
   # 20 ticks = 1s, tickrate em que a fome ou sede vai ser alterada a todo instante 
   tickRate: 1
   # Ativar actionbar na atualização de calor e sede ?
-  actionBarActive: true
+  actionBarActive: false
   actionBar: "&3Água %hawkcore_thirst_bar% &7/ &cTemperatura %hawkcore_heat_bar%"
   
   # Configure aqui as mensagens da Thirst and Heat
@@ -106,7 +106,7 @@ Missions:
   # categoryTotalMissions
   # categoryProgress
   # Tempo em minutos que as informações das missões do jogador serão salvas.
-  activeMissions: true
+  activeMissions: false
   save_period: 5
   mission_complete: "&3✔ &9Você Completou a missão &b%hawkcore_missions_missionName%&9 da categoria %hawkcore_missions_categoryName%!"
   Menus:

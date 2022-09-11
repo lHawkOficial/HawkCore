@@ -11,5 +11,6 @@
 	<classpathentry kind="lib" path="C:/Users/Luan Victor/Desktop/servidorM/FullPvP - V.2/plugins/PlaceholderAPI-2.10.4.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Luan Victor/Desktop/servidorM/dependencias/nChat.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Luan Victor/Desktop/servidorM/criação de plugins/plugins/worldedit-bukkit-6.1.9.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Luan Victor/Desktop/servidorM/FullPvP - V.2/plugins/Vault.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
