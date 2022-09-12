@@ -2,11 +2,13 @@ package me.hawkcore.entities;
 
 import java.io.File;
 
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
@@ -33,7 +35,10 @@ public class EntityCreator {
 		} catch (Exception e) {
 			return;
 		}
-		Task.runAsync(()-> save());
+		Task.runAsync(()-> {
+			save();
+			loc.getWorld().save();
+		});
 	}
 	
 	public void save() {
@@ -47,7 +52,7 @@ public class EntityCreator {
 		}
 		List<Object> lista = Save.load(file);
 		if (lista==null) lista = new ArrayList<>();
-		lista.add(this.getEntity().getUniqueId().toString());
+		lista.add(entity.getLocation().getChunk().getX() + ":"+entity.getLocation().getChunk().getZ()+":"+this.getEntity().getUniqueId().toString());
 		new Save(file, lista);
 	}
 	
@@ -58,10 +63,18 @@ public class EntityCreator {
 		if (lista == null) return;
 		if (lista.isEmpty()) return;
 		for(Object o : lista) {
-			UUID uuid = UUID.fromString((String) o);
+			String line = (String)o;
+			String[] args = line.split(":");
+			UUID uuid = UUID.fromString(args[2]);
+			int x = Integer.valueOf(args[0]);
+			int z = Integer.valueOf(args[1]);
 			for(World world : Bukkit.getWorlds()) {
-				for(Entity entity : world.getEntities()) {
-					if (entity.getUniqueId().equals(uuid)) entity.remove();
+				world.loadChunk(x, z);
+				Chunk chunk = world.getChunkAt(x, z);
+				for(Entity entity : chunk.getEntities()) {
+					if (entity.getUniqueId().equals(uuid)) {
+						entity.remove();
+					}
 				}
 			}
 		}
