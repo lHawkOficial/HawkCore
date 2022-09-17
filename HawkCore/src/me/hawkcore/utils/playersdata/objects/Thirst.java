@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 
 
+
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -19,14 +20,18 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+
 import lombok.Getter;
 import lombok.Setter;
+import me.HMasterTesouros.Objects.TesouroPlayer;
 import me.hawkcore.Core;
 import me.hawkcore.tasks.Task;
+import me.hawkcore.utils.API;
 import me.hawkcore.utils.ConfigGeral;
 import me.hawkcore.utils.itemcreator.ItemCreator;
 import me.hawkcore.utils.locations.Distance;
 import me.hawkcore.utils.playersdata.objects.utils.ThirstHeatUtils;
+import me.hawkcore.verifies.PluginVerifier;
 
 @Getter
 public class Thirst extends ThirstHeatUtils {
@@ -72,6 +77,10 @@ public class Thirst extends ThirstHeatUtils {
 		if (p == null || !p.isOnline() || p.isDead() || !p.isValid() || !worlds.contains(p.getWorld())) return;
 		if (p.getGameMode() != GameMode.SURVIVAL) return;
 		if (cancelled) return;
+		if (new PluginVerifier("H_MasterTesouros", "").queue()) {
+			TesouroPlayer tp = TesouroPlayer.check(p);
+			if (API.get().containsRegion(p.getLocation()) && tp.getSpawnSelecionado() == null) return;
+		}
 		double value = getValue();
 		Block block = p.getLocation().getBlock();
 		double total = getValue()+getIncrease();

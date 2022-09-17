@@ -13,6 +13,7 @@ import java.io.ByteArrayInputStream;
 
 
 
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -45,6 +46,9 @@ import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.bukkit.BukkitUtil;
 import com.sk89q.worldedit.bukkit.BukkitWorld;
 import com.sk89q.worldedit.schematic.SchematicFormat;
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+import com.sk89q.worldguard.protection.ApplicableRegionSet;
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 
 import me.hawkcore.Core;
 import me.hawkcore.utils.items.Item;
@@ -60,6 +64,16 @@ public class API {
 
 	public static API get() {
 		return Core.getInstance().getApi();
+	}
+	
+	public boolean containsRegion(Location loc) {
+		ApplicableRegionSet aregion = WorldGuardPlugin.inst().getRegionManager(loc.getWorld()).getApplicableRegions(loc.clone());
+		for(String txt : ConfigGeral.get().getRegionsDisables()) {
+			for(ProtectedRegion region : aregion.getRegions()) {
+				if (region.getId().equalsIgnoreCase(txt)) return true;
+			}
+		}
+		return false;
 	}
 	
 	public void makeEntityMoveTo(Entity entity, Location loc, double speed) {

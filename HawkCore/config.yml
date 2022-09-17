@@ -13,6 +13,10 @@ Config:
   actionBarActive: false
   actionBar: "&3Água %hawkcore_thirst_bar% &7/ &cTemperatura %hawkcore_heat_bar%"
   
+  # Configure aqui o nome das regioes do worldguard que não vai funcionar a sede e calor.
+  regionsDisables:
+  - ''
+  
   # Configure aqui as mensagens da Thirst and Heat
   MensagensThirstHeat:
     waterFull: "&cvocê não pode tomar água por agora!"

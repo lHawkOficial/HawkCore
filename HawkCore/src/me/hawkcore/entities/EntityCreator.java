@@ -78,6 +78,12 @@ public class EntityCreator {
 				}
 			}
 		}
+		for(World world : Bukkit.getWorlds()) {
+			for(Entity e : world.getEntities()) {
+				if (e.hasMetadata("entitycreator")) e.remove();
+			}
+			world.save();
+		}
 		new Save(file, new ArrayList<>());
 	}
 	
