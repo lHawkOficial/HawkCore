@@ -24,7 +24,7 @@ public class MissionBreakItem extends MissionObjective {
 		Task.run(()-> mission.getObjective().setMaxValue(max));
 	}
 
-	@EventHandler(priority = EventPriority.LOWEST)
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void event(PlayerItemBreakEvent e) {
 		Player p = e.getPlayer();
 		Mission mission = getMission();

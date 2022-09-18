@@ -25,7 +25,7 @@ public class MissionPlant extends MissionObjective {
 		Task.run(()-> mission.getObjective().setMaxValue(max));
 	}
 
-	@EventHandler(priority = EventPriority.LOWEST)
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void event(PlayerPlantEvent e) {
 		if (e.isCancelled()) return;
 		Player p = e.getPlayer();

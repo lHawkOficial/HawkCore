@@ -32,7 +32,7 @@ public class MissionCollectItem extends MissionObjective {
 		Task.run(()-> mission.getObjective().setMaxValue(max));
 	}
 	
-	@EventHandler(priority = EventPriority.LOWEST)
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void event(MissionCollectItemEvent e) {
 		Player p = e.getMissionPlayer().getPlayer();
 		Mission mission = getMission();

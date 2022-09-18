@@ -30,7 +30,7 @@ public class MissionPlaceBlock extends MissionObjective {
 		this.item = item;
 	}
 	
-	@EventHandler(priority = EventPriority.LOWEST)
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void event(BlockPlaceEvent e) {
 		if (e.isCancelled()) return;
 		Player p = e.getPlayer();

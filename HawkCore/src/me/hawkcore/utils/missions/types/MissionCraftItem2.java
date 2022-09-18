@@ -28,7 +28,7 @@ public class MissionCraftItem2 extends MissionObjective {
 		Task.run(()-> mission.getObjective().setMaxValue(max));
 	}
 	
-	@EventHandler(priority = EventPriority.LOWEST)
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void event(CraftItemEvent e) {
 		if (e.isCancelled()) return;
 		Player p = (Player) e.getView().getPlayer();

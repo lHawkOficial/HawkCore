@@ -32,7 +32,7 @@ public class MissionFishing2 extends MissionObjective {
 		Task.run(()-> mission.getObjective().setMaxValue(max));
 	}
 	
-	@EventHandler(priority = EventPriority.LOWEST)
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void event(PlayerFishEvent e) {
 		if (e.isCancelled()) return;
 		if (e.getState() != State.CAUGHT_FISH) return;

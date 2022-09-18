@@ -27,7 +27,7 @@ public class MissionDeath extends MissionObjective {
 		Task.run(()-> mission.getObjective().setMaxValue(max));
 	}
 
-	@EventHandler(priority = EventPriority.LOWEST)
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void event(PlayerDeathEvent e) {
 		if (!(e.getEntity() instanceof Player)) return;
 		Player p = e.getEntity();

@@ -6,6 +6,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -178,7 +179,7 @@ public class Mission {
 			objective = new MissionCollectItem(this, (int) valueRequired, it);
 			break;
 		default:
-			System.out.println("[!] Missão " + name + " removida por não achar o id " + idMission);
+			Bukkit.getConsoleSender().sendMessage(Core.getInstance().getTag() + " §cA missão §4" + name + " §cda categoria §4" + category.getName() + " §cfoi removida por não encontrar o §4id " + idMission + " §ctente novamente colocar outro tipo de id!");
 			category.getMissions().remove(this);
 			break;
 		}

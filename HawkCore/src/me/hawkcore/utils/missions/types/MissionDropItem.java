@@ -27,7 +27,7 @@ public class MissionDropItem extends MissionObjective {
 		this.item = item;
 	}
 	
-	@EventHandler(priority = EventPriority.LOWEST)
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void event(PlayerDropItemEvent e) {
 		if (e.isCancelled()) return;
 		Player p = e.getPlayer();

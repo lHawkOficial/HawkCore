@@ -30,7 +30,7 @@ public class MissionKillEntity extends MissionObjective {
 		this.type = type;
 	}
 	
-	@EventHandler(priority = EventPriority.LOWEST)
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void event(EntityDeathEvent e) {
 		Entity entity = e.getEntity();
 		Player p = e.getEntity().getKiller() instanceof Player ? (Player)e.getEntity().getKiller() : null;

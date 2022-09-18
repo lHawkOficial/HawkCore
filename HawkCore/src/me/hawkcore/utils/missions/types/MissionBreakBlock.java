@@ -29,7 +29,7 @@ public class MissionBreakBlock extends MissionObjective {
 		this.item = item;
 	}
 	
-	@EventHandler(priority = EventPriority.LOWEST)
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void event(BlockBreakEvent e) {
 		if (e.isCancelled()) return;
 		Player p = e.getPlayer();

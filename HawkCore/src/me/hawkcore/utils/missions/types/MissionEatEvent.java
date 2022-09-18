@@ -26,7 +26,7 @@ public class MissionEatEvent extends MissionObjective {
 		Task.run(()-> mission.getObjective().setMaxValue(max));
 	}
 
-	@EventHandler(priority = EventPriority.LOWEST)
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void event(FoodLevelChangeEvent e) {
 		if (e.isCancelled()) return;
 		if (!(e.getEntity() instanceof Player)) return;
