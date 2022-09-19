@@ -128,6 +128,7 @@ public class Core extends JavaPlugin {
 				all.removeMetadata("playerdata", instance);
 			}
 		}
+		EntityCreator.deleteAll();
 		HandlerList.unregisterAll(this);
 		sendConsole(" ");
 		sendConsole("&cHawkCore desligado com sucesso! &6[Author lHawk_] " + version);
