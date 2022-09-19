@@ -3,6 +3,7 @@ package me.hawkcore.entities;
 import java.io.File;
 
 
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -18,7 +19,6 @@ import org.bukkit.metadata.FixedMetadataValue;
 import lombok.Getter;
 import lombok.Setter;
 import me.hawkcore.Core;
-import me.hawkcore.tasks.Task;
 import me.hawkcore.utils.Save;
 
 @Getter
@@ -35,10 +35,8 @@ public class EntityCreator {
 		} catch (Exception e) {
 			return;
 		}
-		Task.runAsync(()-> {
-			save();
-			loc.getWorld().save();
-		});
+		save();
+		loc.getWorld().save();
 	}
 	
 	public void save() {
