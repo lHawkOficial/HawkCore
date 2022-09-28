@@ -66,6 +66,16 @@ public class API {
 		return Core.getInstance().getApi();
 	}
 	
+	public boolean containsRegion(Location loc, List<String> names) {
+		ApplicableRegionSet aregion = WorldGuardPlugin.inst().getRegionManager(loc.getWorld()).getApplicableRegions(loc.clone());
+		for(String txt : names) {
+			for(ProtectedRegion region : aregion.getRegions()) {
+				if (region.getId().equalsIgnoreCase(txt)) return true;
+			}
+		}
+		return false;
+	}
+	
 	public boolean containsRegion(Location loc) {
 		ApplicableRegionSet aregion = WorldGuardPlugin.inst().getRegionManager(loc.getWorld()).getApplicableRegions(loc.clone());
 		for(String txt : ConfigGeral.get().getRegionsDisables()) {
