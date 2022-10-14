@@ -97,9 +97,9 @@ public class Core extends JavaPlugin {
 		PlayerData.checkAll();
 		mensagensthirstheat = new MensagensThirstHeat();
 		Task.run(()-> {
-			EntityCreator.deleteAll();
 			RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
 			this.econ = (Economy) rsp.getProvider();
+			Task.run(()-> EntityCreator.deleteAll());
 		});
 		
 		sendConsole(" ");
@@ -128,7 +128,6 @@ public class Core extends JavaPlugin {
 				all.removeMetadata("playerdata", instance);
 			}
 		}
-		EntityCreator.deleteAll();
 		HandlerList.unregisterAll(this);
 		sendConsole(" ");
 		sendConsole("&cHawkCore desligado com sucesso! &6[Author lHawk_] " + version);
