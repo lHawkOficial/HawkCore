@@ -17,7 +17,12 @@ public class CoreCommand implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender s, Command c, String lb, String[] args) {
 		if (!s.hasPermission("*")) return false;
-		s.sendMessage(Core.getInstance().getTag() + " §6A Última latência calculada para o tick principal do servidor foi de §e" + TaskManager.get().getLastTick() + "ms §6com um total de §e" + TaskManager.get().getTasks().size() + " tasks §6em execução!.");
+		s.sendMessage(" ");
+		s.sendMessage(Core.getInstance().getTag() + " §7Atualização do Plugin " + Core.getInstance().getVersion());
+		s.sendMessage("§7Tasks em execução: §e" + TaskManager.get().getTasks().size());
+		s.sendMessage("§7Latência per/Tick: §e" + TaskManager.get().getLastTick() + "ms");
+		s.sendMessage("§7Tasks ignoradas: §e" + TaskManager.get().getErrors());
+		s.sendMessage(" ");
 		return false;
 	}
 	

@@ -33,6 +33,7 @@ public class EntityCreator {
 			this.entity = loc.getWorld().spawnEntity(loc, type);
 			this.entity.setMetadata("entitycreator", new FixedMetadataValue(Core.getInstance(), entity.getUniqueId()));
 		} catch (Exception e) {
+			e.printStackTrace();
 			return;
 		}
 		save();

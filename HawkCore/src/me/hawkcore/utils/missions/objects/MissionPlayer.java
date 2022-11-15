@@ -89,7 +89,7 @@ public class MissionPlayer {
 		new Save(file, lista);
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked" })
 	public void load() {
 		for(MissionCategory category : ManagerMissions.get().getCategorys()) {
 			category.clone(this);
@@ -110,6 +110,51 @@ public class MissionPlayer {
 				}
 			}
 		}
+		
+		List<MissionCategory> categorys = new ArrayList<>();
+		List<MissionCategory> rest = new ArrayList<>();
+		int i = -1;
+		while(!this.categorys.isEmpty() && i < this.categorys.size()) {
+			try {
+				i++;
+				MissionCategory category = this.categorys.get(i);
+				for(char c = 'a'; c < 'z'; c++) {
+					if (category.getName().toLowerCase().toCharArray()[0] == c) {
+						categorys.add(category);
+					}
+				}
+				if (!categorys.contains(category))
+				rest.add(category);
+			} catch (Exception e) {
+				continue;
+			}
+		}
+		this.categorys = new ArrayList<>(categorys);
+		this.categorys.addAll(rest);
+		
+		for(MissionCategory category : this.categorys) {
+			List<Mission> missions = new ArrayList<>();
+			List<Mission> restM = new ArrayList<>();
+			i = -1;
+			while(!category.getMissions().isEmpty() && i < category.getMissions().size()) {
+				try {
+					i++;
+					Mission mission = category.getMissions().get(i);
+					for(char c = 'a'; c < 'z'; c++) {
+						if (mission.getName().toLowerCase().toCharArray()[0] == c) {
+							missions.add(mission);
+						}
+					}
+					if (!missions.contains(mission))
+					restM.add(mission);
+				} catch (Exception e) {
+				}
+			}
+			category.getMissions().clear();
+			category.getMissions().addAll(missions);
+			category.getMissions().addAll(restM);
+		}
+		
 		save();
 	}
 	

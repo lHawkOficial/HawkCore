@@ -14,6 +14,7 @@ public class TaskManager extends BukkitRunnable {
 	
 	private List<Task> tasks = new ArrayList<>();
 	private int lastTick;
+	private int errors;
 	
 	public static TaskManager get() {
 		return Core.getInstance().getTaskmanager();
@@ -34,6 +35,7 @@ public class TaskManager extends BukkitRunnable {
 				} else task.tickRelative++;
 			} catch (Exception e) {
 				e.printStackTrace();
+				errors+=1;
 				continue;
 			}
 		}

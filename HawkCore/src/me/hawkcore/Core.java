@@ -7,6 +7,8 @@ package me.hawkcore;
 
 
 
+import java.io.File;
+
 import org.bukkit.Bukkit;
 
 
@@ -73,6 +75,7 @@ public class Core extends JavaPlugin {
 		if (!new PluginVerifier("WorldEdit", "&cHawkCore foi desligado por falta da dependência WorldEdit!").queue()) return;
 		saveDefaultConfig();
 		instance = this;
+		initFiles();
 		taskmanager = new TaskManager();
 		taskmanager.runTaskTimerAsynchronously(this, 0, 1);
 		api = new API();
@@ -99,7 +102,7 @@ public class Core extends JavaPlugin {
 		Task.run(()-> {
 			RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
 			this.econ = (Economy) rsp.getProvider();
-			Task.run(()-> EntityCreator.deleteAll());
+			EntityCreator.deleteAll();
 		});
 		
 		sendConsole(" ");
@@ -132,6 +135,15 @@ public class Core extends JavaPlugin {
 		sendConsole(" ");
 		sendConsole("&cHawkCore desligado com sucesso! &6[Author lHawk_] " + version);
 		sendConsole(" ");
+	}
+	
+	private void initFiles() {
+		File folderMissions = new File(getDataFolder() + "/missions");
+		if (!folderMissions.exists()) folderMissions.mkdir();
+		
+		File folderPlayersMissions = new File(folderMissions + "/players");
+		if (!folderPlayersMissions.exists()) folderPlayersMissions.mkdir();
+		
 	}
 	
 	private void sendConsole(String msg) {Bukkit.getConsoleSender().sendMessage(msg.replace("&", "§"));}

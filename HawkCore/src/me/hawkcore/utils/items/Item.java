@@ -112,6 +112,7 @@ public class Item {
 	
 	@SuppressWarnings("deprecation")
 	public static boolean isSimilarToBlock(ItemStack item, Block b) {
+		if (item == null || b == null) return false;
 		return item.getData().getData() == b.getData() && item.getType() == b.getType();
 	}
 	
