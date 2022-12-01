@@ -51,6 +51,7 @@ import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 
 import me.hawkcore.Core;
+import me.hawkcore.tasks.Task;
 import me.hawkcore.utils.items.Item;
 import me.hawkcore.utils.items.SkullCreator;
 import net.minecraft.server.v1_8_R3.ChatComponentText;
@@ -87,11 +88,13 @@ public class API {
 	}
 	
 	public void makeEntityMoveTo(Entity entity, Location loc, double speed) {
-		NavigationAbstract na = ((EntityInsentient)((CraftEntity) entity).getHandle()).getNavigation();
-		PathEntity path = na.a(loc.getX(), loc.getY(), loc.getZ());
-        if (path != null) {
-            na.a(path, speed);
-        }
+		Task.run(()->{
+			NavigationAbstract na = ((EntityInsentient)((CraftEntity) entity).getHandle()).getNavigation();
+			PathEntity path = na.a(loc.getX(), loc.getY(), loc.getZ());
+	        if (path != null) {
+	            na.a(path, speed);
+	        }
+		});
 	}
 	
 	public void pasteSchematic(Location loc, File file, boolean randomRotate) {
