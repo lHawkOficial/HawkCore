@@ -2,7 +2,8 @@ package me.hawkcore.commands;
 
 
 import java.io.File;
-
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -10,6 +11,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import me.hawkcore.Core;
 import me.hawkcore.tasks.TaskManager;
@@ -27,8 +30,9 @@ public class CoreCommand implements CommandExecutor {
 			if (args[0].equalsIgnoreCase("reload")) {
 				Plugin plugin = Bukkit.getPluginManager().getPlugin(args[1]);
 				try {
-					Bukkit.getPluginManager().disablePlugin(plugin);
-					Bukkit.getPluginManager().loadPlugin(new File(plugin.getName() + ".jar"));
+					PluginManager manager = Bukkit.getPluginManager();
+					manager.disablePlugin(plugin);
+					manager.loadPlugin(getPluginFile(plugin));
 					Bukkit.getConsoleSender().sendMessage("§aPlugin §f" + plugin.getName() + " §arecarregado com sucesso!");
 					return false;
 				} catch (Exception e) {
@@ -45,5 +49,17 @@ public class CoreCommand implements CommandExecutor {
 		s.sendMessage(" ");
 		return false;
 	}
+	
+	private static File getPluginFile(Plugin plugin) {
+        Method method;
+        try {
+            method = JavaPlugin.class.getDeclaredMethod("getFile");
+            method.setAccessible(true);
+            return (File) method.invoke(plugin);
+        } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 	
 }
