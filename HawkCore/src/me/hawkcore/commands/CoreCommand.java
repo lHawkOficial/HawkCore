@@ -33,6 +33,7 @@ public class CoreCommand implements CommandExecutor {
 					PluginManager manager = Bukkit.getPluginManager();
 					manager.disablePlugin(plugin);
 					manager.loadPlugin(getPluginFile(plugin));
+					manager.enablePlugin(plugin);
 					Bukkit.getConsoleSender().sendMessage("§aPlugin §f" + plugin.getName() + " §arecarregado com sucesso!");
 					return false;
 				} catch (Exception e) {
