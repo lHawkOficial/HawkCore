@@ -1,7 +1,5 @@
 package me.hawkcore.tasks;
-
 import java.util.ArrayList;
-
 import java.util.List;
 
 import org.bukkit.scheduler.BukkitRunnable;
@@ -25,6 +23,7 @@ public class TaskManager extends BukkitRunnable {
 		
 		if (tasks.isEmpty()) return;
 		long time = System.currentTimeMillis();
+		
 		for (int i = 0; i < tasks.size(); i++) {
 			try {
 				Task task = tasks.get(i);
@@ -36,7 +35,6 @@ public class TaskManager extends BukkitRunnable {
 			} catch (Exception e) {
 				e.printStackTrace();
 				errors+=1;
-				continue;
 			}
 		}
 		lastTick = (int) (System.currentTimeMillis()-time);

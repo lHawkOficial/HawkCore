@@ -56,13 +56,10 @@ public class Core extends JavaPlugin {
 	private ManagerData managerdata;
 	private TaskManager taskmanager;
 	private Economy econ;
-	
 	private String tag = "§7[⚒]", version = "§dv" + getDescription().getVersion();
 	private API api;
-	
 	private ConfigMission configmission;
 	private ConfigGeral configgeral;
-	
 	private MensagensThirstHeat mensagensthirstheat;
 	
 	@Getter
@@ -93,9 +90,7 @@ public class Core extends JavaPlugin {
 		new PlayerDataListener();
 		new Listeners();
 		new PlaceHolders().register();
-		if (configmission.isActiveMissions()) {
-			new MissionCommand();
-		}
+		if (configmission.isActiveMissions()) new MissionCommand();
 		ManagerMissions.checkPlayers();
 		PlayerData.checkAll();
 		mensagensthirstheat = new MensagensThirstHeat();

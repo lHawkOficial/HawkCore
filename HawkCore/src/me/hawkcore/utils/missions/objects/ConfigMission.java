@@ -111,15 +111,14 @@ public class ConfigMission {
 			if (!f.isDirectory()) continue;
 			String nameCategory = f.getName();
 			MissionCategory category = new MissionCategory(nameCategory);
-			for(File file : f.listFiles()) {
-				if (file.getName().equals("missions") && file.isDirectory()) {
-					for(File f1 : file.listFiles()) {
-						if (f1.getName().endsWith(".mission")) {
-							String nameMission = f1.getName().replace(".mission", new String());
-							new Mission(category, nameMission, 1);
-						}
-					}
+			loop: for(File file : f.listFiles()) {
+				if (!(file.getName().equals("missions") && file.isDirectory())) continue loop;
+				loop1: for(File f1 : file.listFiles()) {
+					if (!f1.getName().endsWith(".mission")) continue loop1;
+					String nameMission = f1.getName().replace(".mission", new String());
+					new Mission(category, nameMission, 1);
 				}
+				break loop;
 			}
 		}
 		

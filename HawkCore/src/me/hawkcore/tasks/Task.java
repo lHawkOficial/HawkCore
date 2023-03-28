@@ -7,13 +7,13 @@ import lombok.Setter;
 import me.hawkcore.Core;
 
 
+@Getter
 public class Task implements TaskRequired {
-	@Getter
-	private Runnable runnable;
-	@Getter
+	
 	@Setter
 	private int tickRate = 1;
 	public int tickRelative = 1;
+	private Runnable runnable;
 	
 	public Task(Runnable runnable) {
 		this.runnable = runnable;
