@@ -82,6 +82,7 @@ public class Core extends JavaPlugin {
 		configgeral = new ConfigGeral();
 		configmission = new ConfigMission();
 		managerdata = new ManagerData();
+		mensagensthirstheat = new MensagensThirstHeat();
 		ItemCreator.setup();
 		new CoreCommand();
 		new ItemCreatorCommand();
@@ -94,17 +95,14 @@ public class Core extends JavaPlugin {
 		if (configmission.isActiveMissions()) new MissionCommand();
 		ManagerMissions.checkPlayers();
 		PlayerData.checkAll();
-		mensagensthirstheat = new MensagensThirstHeat();
 		Task.run(()-> {
 			RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
 			this.econ = (Economy) rsp.getProvider();
 			EntityCreator.deleteAll();
 		});
-		
 		sendConsole(" ");
 		sendConsole("&aHawkCore iniciado com sucesso! &6[Author lHawk_] " + version);
 		sendConsole(" ");
-		
 	}
 	
 	@Override
@@ -139,7 +137,6 @@ public class Core extends JavaPlugin {
 		
 		File folderPlayersMissions = new File(folderMissions + "/players");
 		if (!folderPlayersMissions.exists()) folderPlayersMissions.mkdir();
-		
 	}
 	
 	private void sendConsole(String msg) {Bukkit.getConsoleSender().sendMessage(msg.replace("&", "§"));}
