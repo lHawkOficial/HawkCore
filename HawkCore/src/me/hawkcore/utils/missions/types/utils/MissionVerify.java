@@ -26,6 +26,7 @@ public class MissionVerify {
 		MissionPlayer mp = MissionPlayer.check(p);
 		if (!mission.equals(missionListener)) return false;
 		if (!mp.equals(missionListener.getPlayer())) return false;
+		if (mp.getCategoryToComplete() == null || !mp.getCategoryToComplete().equals(mission.getCategory())) return false;
 		return true;
 	}
 	

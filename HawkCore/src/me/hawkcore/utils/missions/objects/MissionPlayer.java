@@ -24,6 +24,8 @@ public class MissionPlayer {
 	@Setter
 	private Mission missionSelected;
 	@Setter
+	private MissionCategory categoryToComplete;
+	@Setter
 	private MissionCategory categorySelected;
 	private File file;
 	
@@ -86,6 +88,7 @@ public class MissionPlayer {
 			}
 		}
 		lista.add(missoes);
+		lista.add(categoryToComplete == null ? "N.A" : categoryToComplete.getName());
 		new Save(file, lista);
 	}
 	
@@ -110,6 +113,7 @@ public class MissionPlayer {
 				}
 			}
 		}
+		categoryToComplete = ((String)lista.get(1)).equalsIgnoreCase("N.A") ? null : getMissionCategory(((String)lista.get(1)));
 		
 		List<MissionCategory> categorys = new ArrayList<>();
 		List<MissionCategory> rest = new ArrayList<>();
@@ -154,7 +158,7 @@ public class MissionPlayer {
 			category.getMissions().addAll(missions);
 			category.getMissions().addAll(restM);
 		}
-		
+		if (categoryToComplete == null && !this.categorys.isEmpty()) categoryToComplete = this.categorys.get(0);
 		save();
 	}
 	

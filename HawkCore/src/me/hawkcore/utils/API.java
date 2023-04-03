@@ -18,8 +18,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Calendar;
@@ -160,6 +162,21 @@ public class API {
 		}
 	}
 	
+	public String formatValueLetters(double numero) {
+        String[] sufixos = {"", "K", "M", "B", "T", "Q", "QQ", "S", "SS", "O", "N", "D", "UN", "DD", "TD", "QT", "QN", "SX", "SP", "O", "N", "V", "U", "D", "T", "QT", "QN", "SX", "SP", "O", "N", "C", "U", "D", "T", "QT", "QN", "SX", "SP", "O", "N", "V", "U", "D", "T", "QT", "QN", "SX", "SP", "O", "N", "C", "U", "D", "T", "QT", "QN", "SX", "SP", "O", "N", "D", "U", "DD", "TD", "QT", "QN", "SX", "SP", "O", "N", "V", "U", "D", "T", "QT", "QN", "SX", "SP", "O", "N", "C", "U", "D", "T", "QT", "QN", "SX", "SP", "O", "N", "V", "U", "D", "T", "QT", "QN", "SX", "SP", "O", "N", "C", "U", "D", "T", "QT", "QN", "SX", "SP", "O", "N"};
+        int exp = (int) (Math.log10(numero) / 3);
+        if (exp >= sufixos.length) {
+            exp = sufixos.length - 1;
+        }
+        DecimalFormatSymbols symbols = DecimalFormatSymbols.getInstance();
+        symbols.setGroupingSeparator(',');
+        symbols.setDecimalSeparator('.');
+        DecimalFormat formatter = new DecimalFormat("#,##0.#", symbols);
+        double valorAbreviado = numero / Math.pow(10, exp * 3);
+        String valorFormatado = formatter.format(valorAbreviado);
+        return valorFormatado + sufixos[exp];
+    }
+	
 	public double formatValue(double valor) {
 		NumberFormat formatter = new DecimalFormat("0.00");
 		return Double.valueOf(formatter.format(valor).replace(",", "."));
@@ -214,21 +231,37 @@ public class API {
 				+ ":" + loc.getPitch();
 	}
 
-	public String formatTime(int segundos) {
-		int seconds = segundos;
-		long DD = segundos / 86400;
-		long HH = seconds / 3600;
-		long MM = (seconds % 3600) / 60;
-		long SS = seconds % 60;
-		String data = " ";
-		if (DD > 0) data+=" "+DD+"d";
-		if (HH > 0) data+=" "+HH+"h";
-		if (MM > 0) data+=" "+MM+"m";
-		if (SS > 0) data+=" "+SS+"s";
-		while(data.startsWith(" ")) {
-			data = data.replaceFirst(" ", new String());
-		}
-		return data.length() > 0 ? data : "0s";
+	public String formatTime(int sg) {
+		long numero = sg;
+        Duration duracao = Duration.ofSeconds(numero);
+        long anos = duracao.toDays() / 365;
+        long meses = (duracao.toDays() % 365) / 30;
+        long dias = (duracao.toDays() % 365) % 30;
+        long horas = duracao.toHours() % 24;
+        long minutos = duracao.toMinutes() % 60;
+        long segundos = duracao.getSeconds() % 60;
+        StringBuilder dataFormatadaBuilder = new StringBuilder();
+        if (anos > 0) {
+            dataFormatadaBuilder.append(anos).append("a ");
+        }
+        if (meses > 0) {
+            dataFormatadaBuilder.append(meses).append("mth ");
+        }
+        if (dias > 0) {
+            dataFormatadaBuilder.append(dias).append("d ");
+        }
+        if (horas > 0) {
+            dataFormatadaBuilder.append(horas).append("h ");
+        }
+        if (minutos > 0) {
+            dataFormatadaBuilder.append(minutos).append("m ");
+        }
+        if (segundos > 0 || dataFormatadaBuilder.length() == 0) {
+            dataFormatadaBuilder.append(segundos).append("s");
+        } else {
+            dataFormatadaBuilder.deleteCharAt(dataFormatadaBuilder.length() - 1);
+        }
+        return dataFormatadaBuilder.toString();
 	}
 	
 	public String getData() {

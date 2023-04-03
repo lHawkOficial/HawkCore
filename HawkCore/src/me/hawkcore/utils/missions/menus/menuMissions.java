@@ -131,9 +131,8 @@ public class menuMissions {
 				}
 			}
 			mp.setMissionSelected(selected);
-			
-			inv.setItem(iconNext.getSlot(), iconNext.getItem().clone());
-			inv.setItem(iconBack.getSlot(), iconBack.getItem().clone());
+			if (pagina.containsPagina(pagina.getPaginaAtual()+1)) inv.setItem(iconNext.getSlot(), iconNext.getItem().clone());
+			if (pagina.containsPagina(pagina.getPaginaAtual()-1)) inv.setItem(iconBack.getSlot(), iconBack.getItem().clone());
 			inv.setItem(iconCategorys.getSlot(), iconCategorys.getItem().clone());
 			
 			p.openInventory(inv);

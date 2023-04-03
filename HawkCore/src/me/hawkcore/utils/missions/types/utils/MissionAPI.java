@@ -20,12 +20,12 @@ public class MissionAPI {
 	
 	public static boolean isCategoryMissionComplete(Player p, String name) {
 		MissionCategory category = getMissionCategory(p, name);
-		return category == null ? false : category.isCompleted();
+		return category == null ? true : category.isCompleted();
 	}
 	
 	public static boolean isMissionCompleted(Player p, MissionCategory category, String nameMission) {
 		Mission mission = getMission(p, category, nameMission);
-		return mission == null ? false : mission.isCompleted();
+		return mission == null ? true : mission.isCompleted();
 	}
 	
 	public static ManagerMissions get() {

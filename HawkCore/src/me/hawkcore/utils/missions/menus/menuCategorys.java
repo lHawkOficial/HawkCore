@@ -25,6 +25,7 @@ import me.hawkcore.utils.missions.objects.MissionPlayer;
 public class menuCategorys {
 
 	private String name, concluido;
+	private List<String> selecionada, naoselecionada;
 	private List<Integer> slots = new ArrayList<>();
 	private Glass glass;
 	private int size;
@@ -41,6 +42,10 @@ public class menuCategorys {
 				continue;
 			}
 		}
+		selecionada = new ArrayList<>(section.getStringList("selecionada"));
+		selecionada.replaceAll(l -> l.replace("&", "§"));
+		naoselecionada = new ArrayList<>(section.getStringList("naoselecionada"));
+		naoselecionada.replaceAll(l -> l.replace("&", "§"));
 		concluido = section.getString("concluido").replace("&", "§");
 		size = section.getInt("size");
 		name = section.getString("name").replace("&", "§");
@@ -103,6 +108,13 @@ public class menuCategorys {
 					List<String> lore = new ArrayList<>(item.getLore());
 					lore.replaceAll(l -> PlaceholderAPI.setPlaceholders(p, l).replace("&", "§"));
 					if (category.isCompleted()) lore.add(menuCategorys.get().getConcluido());
+					else {
+						if (mp.getCategoryToComplete() == null || !mp.getCategoryToComplete().equals(category)) {
+							lore.addAll(naoselecionada);
+						}else {
+							lore.addAll(selecionada);
+						}
+					}
 					item.setLore(lore);
 					inv.setItem(slot, item.build());
 				} catch (Exception e) {
@@ -110,10 +122,8 @@ public class menuCategorys {
 				}
 			}
 			mp.setCategorySelected(selected);
-			
-			inv.setItem(iconNext.getSlot(), iconNext.getItem().clone());
-			inv.setItem(iconBack.getSlot(), iconBack.getItem().clone());
-			
+			if (pagina.containsPagina(pagina.getPaginaAtual()+1)) inv.setItem(iconNext.getSlot(), iconNext.getItem().clone());
+			if (pagina.containsPagina(pagina.getPaginaAtual()-1)) inv.setItem(iconBack.getSlot(), iconBack.getItem().clone());
 			p.openInventory(inv);
 			p.updateInventory();
 			p.playSound(p.getLocation(), Sound.NOTE_PIANO, 0.5f, 10);

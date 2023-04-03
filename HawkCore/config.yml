@@ -120,6 +120,15 @@ Missions:
       # slots das categorias
       slots: [11,12,13,14,15,16,17]
       concluido: "&a✔ Categoria Concluída"
+      selecionada: 
+      - ' '
+      - '&6● Esta categoria esta selecionada'
+      - ' '
+      naoselecionada: 
+      - ' '
+      - '&c❓ Esta categoria esta pendente,'
+      - '&cclique para selecionar.'
+      - ' '
       Icons:
         iconNext:
           ID: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjc2YjM5NmEzNDZmYmQ1ZGM5OGRmOWMwNjA5N2JiNTkxZmVmZDc2OGVkNWIzYmI5MGJiMzJhZjg1ZWI5MTQwNiJ9fX0="

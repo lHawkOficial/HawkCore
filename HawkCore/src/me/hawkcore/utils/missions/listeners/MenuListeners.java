@@ -55,6 +55,13 @@ public class MenuListeners implements Listener {
 				MissionCategory category = MissionCategory.get(e.getCurrentItem(), p);
 				if (category != null) {
 					if (p.hasMetadata("pMissions")) p.removeMetadata("pMissions", Core.getInstance());
+					if (mp.getCategoryToComplete() == null || !mp.getCategoryToComplete().equals(category)) {
+						mp.setCategoryToComplete(category);
+						mp.save();
+						menuCategorys.get().open(p);
+						p.playSound(p.getLocation(), Sound.LEVEL_UP, 0.5f, 10);
+						return;
+					}
 					mp.setCategorySelected(category);
 					menuMissions.get().open(p);
 				}
