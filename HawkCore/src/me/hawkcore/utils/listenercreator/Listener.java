@@ -4,14 +4,18 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
+import lombok.Getter;
 import lombok.Setter;
 
-public class Listener extends Event implements Cancellable{
+public class Listener extends Event implements Cancellable {
 
 private static final HandlerList HANDLERS_LIST = new HandlerList();
 	
 	@Setter
 	private boolean cancel = false;
+	@Setter
+	@Getter
+	private boolean clickSound = false;
 	
 	@Override
 	public boolean isCancelled() {
