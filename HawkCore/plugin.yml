@@ -3,7 +3,7 @@ version: 4.1
 author: lHawk_
 description: Plugin para gerenciamento geral dos plugins Hawk.
 depend: [PlaceholderAPI,nChat,WorldEdit,Vault,WorldGuard]
-softdepend: [H_MasterTesouros]
+softdepend: [H_MasterTesouros,LuckyPerms]
 load: STARTUP
 awareness:
 - !@UTF-8
