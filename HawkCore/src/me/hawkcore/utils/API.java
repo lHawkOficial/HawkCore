@@ -14,6 +14,7 @@ import java.io.ByteArrayInputStream;
 
 
 
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -146,7 +147,7 @@ public class API {
 	
 	public boolean isInteger(String txt) {
 		try {
-			Integer.valueOf(txt);
+			Long.valueOf(txt);
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -163,6 +164,7 @@ public class API {
 	}
 	
 	public String formatValueLetters(double numero) {
+		if (numero == 0) return String.valueOf(numero);
         String[] sufixos = {"", "K", "M", "B", "T", "Q", "QQ", "S", "SS", "O", "N", "D", "UN", "DD", "TD", "QT", "QN", "SX", "SP", "O", "N", "V", "U", "D", "T", "QT", "QN", "SX", "SP", "O", "N", "C", "U", "D", "T", "QT", "QN", "SX", "SP", "O", "N", "V", "U", "D", "T", "QT", "QN", "SX", "SP", "O", "N", "C", "U", "D", "T", "QT", "QN", "SX", "SP", "O", "N", "D", "U", "DD", "TD", "QT", "QN", "SX", "SP", "O", "N", "V", "U", "D", "T", "QT", "QN", "SX", "SP", "O", "N", "C", "U", "D", "T", "QT", "QN", "SX", "SP", "O", "N", "V", "U", "D", "T", "QT", "QN", "SX", "SP", "O", "N", "C", "U", "D", "T", "QT", "QN", "SX", "SP", "O", "N"};
         int exp = (int) (Math.log10(numero) / 3);
         if (exp >= sufixos.length) {
@@ -187,7 +189,11 @@ public class API {
 	}
 	
 	public ItemStack getItemStack(String linha) {
-		if (linha.equalsIgnoreCase("player")) return new ItemStack(Material.STONE);
+		if (linha.equalsIgnoreCase("player")) {
+			Item item = new Item(Material.STONE);
+			item.setDisplayName("player_head");
+			return item.build();
+		}
 		try {
 			String[] args = linha.split(">");
 			Item item = new Item(Integer.valueOf(args[0]), Integer.valueOf(args[1]));

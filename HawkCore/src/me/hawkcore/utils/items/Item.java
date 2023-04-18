@@ -118,7 +118,9 @@ public class Item {
 	
 	@SuppressWarnings("deprecation")
 	public static boolean isSimilarMaterial(ItemStack item, ItemStack item1) {
-		return item.getData().getData() == item1.getData().getData() && item.getType() == item1.getType();
+		ItemStack it = item.clone();
+		it.setDurability(item1.getDurability());
+		return it.getData().getData() == item1.getData().getData() && it.getType() == item1.getType();
 	}
 	
 	public Item(Material material) {

@@ -45,18 +45,17 @@ import me.hawkcore.utils.missions.types.MissionShootBow;
 import me.hawkcore.utils.missions.types.utils.MissionObjective;
 
 @Getter
+@Setter
 public class Mission {
 	
 	private String name, description, msgFinalize;
 	private Item icon;
 	private MissionObjective objective;
-	@Setter
 	private MissionPlayer player;
 	private MissionCategory category;
 	private File file;
 	private List<String> rewards = new ArrayList<>();
 	private double valueRequired;
-	@Setter
 	private boolean completed = false;
 	private int idMission;
 

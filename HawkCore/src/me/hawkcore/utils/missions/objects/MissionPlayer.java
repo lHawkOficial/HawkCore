@@ -113,7 +113,7 @@ public class MissionPlayer {
 				}
 			}
 		}
-		categoryToComplete = ((String)lista.get(1)).equalsIgnoreCase("N.A") ? null : getMissionCategory(((String)lista.get(1)));
+		categoryToComplete = ((String)lista.get(1)).equalsIgnoreCase("N.A") ? null : getMissionCategory(((String)lista.get(1)));		
 		
 		List<MissionCategory> categorys = new ArrayList<>();
 		List<MissionCategory> rest = new ArrayList<>();

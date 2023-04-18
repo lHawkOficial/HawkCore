@@ -1,6 +1,22 @@
 # Configuração geral do Core
 Config:
   
+  # mensagem de login ao entrar
+  join:
+    active: false
+    message: "&7[&a●&7] &f{player}"
+    
+  # mensagem de quit ao sair
+  quit:
+    active: false
+    message: "&7[&c●&7] &f{player}"
+  
+  # Configure aqui os comandos
+  commandDesenchant:
+    active: true
+    # valor para poder desencantar o item.
+    value: 50
+  
   # PlaceHolders:
   # %hawkcore_thirst_percent% - %hawkcore_thirst_bar%
   # %hawkcore_heat_percent% - %hawkcore_heat_bar%
@@ -160,6 +176,7 @@ Missions:
       concluido: "&a✔ Missão Concluída"
       # ID do item quando a missão ainda não foi concluida.
       id: 340>0
+      glow: false
       Icons:
         iconNext:
           ID: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjc2YjM5NmEzNDZmYmQ1ZGM5OGRmOWMwNjA5N2JiNTkxZmVmZDc2OGVkNWIzYmI5MGJiMzJhZjg1ZWI5MTQwNiJ9fX0="
@@ -190,3 +207,10 @@ Missions:
           glow: true
       glass:
       - '160>2:1,2,3,4,5,36,35,34,33,32'
+      
+# Configure todas as mensagens do plugin aqui
+Mensagens:
+  commandDesenchant_sucess: "{tag} &aItem desencantado com sucesso!"
+  commandDesenchant_itemErro: "{tag} &cSegure um item valido para poder desencantar."
+  commandDesenchant_noMoney: "{tag} &cDinheiro insuficiente para desencantar, você precisa de {valor}!"
+  permission: "{tag} &cVoce não tem permissão para executar isso!"

@@ -1,8 +1,11 @@
 package me.hawkcore.utils.missions.objects;
 
 import java.io.File;
+
+
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.bukkit.configuration.ConfigurationSection;
@@ -107,13 +110,17 @@ public class ConfigMission {
 		}
 		
 		pasta = new File(Core.getInstance().getDataFolder() + "/missions/categorys");
-		for(File f : pasta.listFiles()) {
+		File[] files = pasta.listFiles();
+		Arrays.sort(files, (f1, f2) -> f1.getName().compareToIgnoreCase(f2.getName()));
+		for(File f : files) {
 			if (!f.isDirectory()) continue;
 			String nameCategory = f.getName();
 			MissionCategory category = new MissionCategory(nameCategory);
 			loop: for(File file : f.listFiles()) {
 				if (!(file.getName().equals("missions") && file.isDirectory())) continue loop;
-				loop1: for(File f1 : file.listFiles()) {
+				File[] filesMissions = file.listFiles();
+				Arrays.sort(filesMissions, (f1, f2) -> f1.getName().compareToIgnoreCase(f2.getName()));
+				loop1: for(File f1 : filesMissions) {
 					if (!f1.getName().endsWith(".mission")) continue loop1;
 					String nameMission = f1.getName().replace(".mission", new String());
 					new Mission(category, nameMission, 1);

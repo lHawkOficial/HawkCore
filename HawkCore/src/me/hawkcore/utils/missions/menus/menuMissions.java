@@ -27,6 +27,7 @@ public class menuMissions {
 
 	private String name, concluido, id;
 	private int size;
+	private boolean glow;
 	private List<Integer> slots = new ArrayList<>();
 	private Glass glass;
 	private Item iconNext,
@@ -48,6 +49,7 @@ public class menuMissions {
 			}
 		}
 		id = section.getString("id");
+		glow = section.getBoolean("glow");
 		
 		section = Core.getInstance().getConfig().getConfigurationSection("Missions.Menus.menuMissions.Icons.iconNext");
 		Item item = new Item(section.getString("ID"));
@@ -95,7 +97,6 @@ public class menuMissions {
 	
 	public void open(Player p) {
 		try {
-			
 			MissionPlayer mp = MissionPlayer.check(p);
 			MissionCategory category = mp.getCategorySelected();
 			if (category==null) return;
@@ -119,7 +120,7 @@ public class menuMissions {
 						continue;
 					}
 					Item item = new Item(mission.isCompleted() ? API.get().getItemStack(menuMissions.get().getId()) : mission.getIcon().build().clone());
-					if (mission.isCompleted()) item.setGlow();
+					if (mission.isCompleted() && glow) item.setGlow();
 					item.setDisplayName(mission.getIcon().getItem().getItemMeta().getDisplayName());
 					List<String> lore = new ArrayList<>(mission.getIcon().getItem().getItemMeta().getLore());
 					lore.replaceAll(l -> PlaceholderAPI.setPlaceholders(p, l).replace("&", "§"));

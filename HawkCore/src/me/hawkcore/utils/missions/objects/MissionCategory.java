@@ -3,6 +3,7 @@ package me.hawkcore.utils.missions.objects;
 import java.io.File;
 
 
+
 import java.util.ArrayList;
 
 import java.util.Iterator;
@@ -22,9 +23,9 @@ import me.hawkcore.utils.missions.ManagerMissions;
 import me.hawkcore.utils.missions.types.utils.MissionQueue;
 
 @Getter
+@Setter
 public class MissionCategory {
 
-	@Setter
 	private MissionPlayer player;
 	private Item icon;
 	private String name;

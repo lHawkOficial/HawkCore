@@ -16,7 +16,7 @@ import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
 
 
-public class Save implements Serializable {
+public class Save implements Serializable{
 
 	private static final long serialVersionUID = 8549640245219903487L;
 	private List<Object> saves;

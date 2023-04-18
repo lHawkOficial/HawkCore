@@ -23,7 +23,6 @@ public class TaskManager extends BukkitRunnable {
 		
 		if (tasks.isEmpty()) return;
 		long time = System.currentTimeMillis();
-		
 		for (int i = 0; i < tasks.size(); i++) {
 			try {
 				Task task = tasks.get(i);

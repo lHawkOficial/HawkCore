@@ -23,6 +23,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import lombok.Getter;
 import me.hawkcore.commands.CoreCommand;
+import me.hawkcore.commands.DesenchantCommand;
 import me.hawkcore.commands.ItemCreatorCommand;
 import me.hawkcore.commands.MissionCommand;
 import me.hawkcore.entities.EntityCreator;
@@ -31,8 +32,10 @@ import me.hawkcore.tasks.Task;
 import me.hawkcore.tasks.TaskManager;
 import me.hawkcore.utils.API;
 import me.hawkcore.utils.ConfigGeral;
+import me.hawkcore.utils.Mensagens;
 import me.hawkcore.utils.PlaceHolders;
 import me.hawkcore.utils.boosbar.ListenerBar;
+import me.hawkcore.utils.configs.ConfigCommands;
 import me.hawkcore.utils.itemcreator.ItemCreator;
 import me.hawkcore.utils.itemcreator.ManagerItemCreator;
 import me.hawkcore.utils.missions.ManagerMissions;
@@ -43,6 +46,7 @@ import me.hawkcore.utils.playersdata.listeners.PlayerDataListener;
 import me.hawkcore.utils.playersdata.managers.ManagerData;
 import me.hawkcore.utils.playersdata.objects.PlayerData;
 import me.hawkcore.utils.playersdata.utils.MensagensThirstHeat;
+import me.hawkcore.utils.showonline.events.EventsShow;
 import me.hawkcore.verifies.PluginVerifier;
 import net.milkbowl.vault.economy.Economy;
 import net.minecraft.server.v1_8_R3.Entity;
@@ -61,6 +65,7 @@ public class Core extends JavaPlugin {
 	private ConfigMission configmission;
 	private ConfigGeral configgeral;
 	private MensagensThirstHeat mensagensthirstheat;
+	private Mensagens mensagens;
 	
 	@Getter
 	private static Core instance;
@@ -83,6 +88,7 @@ public class Core extends JavaPlugin {
 		configmission = new ConfigMission();
 		managerdata = new ManagerData();
 		mensagensthirstheat = new MensagensThirstHeat();
+		mensagens = new Mensagens();
 		ItemCreator.setup();
 		new CoreCommand();
 		new ItemCreatorCommand();
@@ -91,8 +97,10 @@ public class Core extends JavaPlugin {
 		new MenuListeners();
 		new PlayerDataListener();
 		new Listeners();
+		new EventsShow();
 		new PlaceHolders().register();
 		if (configmission.isActiveMissions()) new MissionCommand();
+		if (ConfigCommands.get().getActiveCommandDesenchant()) new DesenchantCommand();
 		ManagerMissions.checkPlayers();
 		PlayerData.checkAll();
 		Task.run(()-> {
@@ -139,6 +147,6 @@ public class Core extends JavaPlugin {
 		if (!folderPlayersMissions.exists()) folderPlayersMissions.mkdir();
 	}
 	
-	private void sendConsole(String msg) {Bukkit.getConsoleSender().sendMessage(msg.replace("&", "§"));}
+	public void sendConsole(String msg) {Bukkit.getConsoleSender().sendMessage(msg.replace("&", "§"));}
 	
 }

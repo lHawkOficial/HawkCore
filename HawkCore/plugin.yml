@@ -1,5 +1,5 @@
 name: HawkCore
-version: 2.9
+version: 4.1
 author: lHawk_
 description: Plugin para gerenciamento geral dos plugins Hawk.
 depend: [PlaceholderAPI,nChat,WorldEdit,Vault,WorldGuard]
@@ -9,6 +9,9 @@ awareness:
 - !@UTF-8
 main: me.hawkcore.Core
 commands:
+  desencantar:
+    aliases: [desenchant]
+    description: desencantar item(s)
   hawkcore:
     description: Comando geral do HawkCore.
   mission:

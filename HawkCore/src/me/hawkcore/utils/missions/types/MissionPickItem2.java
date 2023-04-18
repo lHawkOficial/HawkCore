@@ -37,8 +37,7 @@ public class MissionPickItem2 extends MissionObjective {
 		Mission mission = getMission();
 		if (!new MissionVerify(p, getMission()).queue()) return;
 		MissionPickItem2 objective = (MissionPickItem2) mission.getObjective();
-		ItemStack item = e.getItem().getItemStack().clone();
-		if (!Item.isSimilar(item, e.getItem().getItemStack())) return;
+		if (!Item.isSimilar(this.item, e.getItem().getItemStack().clone())) return;
 		objective.setValue(objective.getValue()+item.getAmount());
 		if (objective.isCompleted()) objective.complete();
 	}

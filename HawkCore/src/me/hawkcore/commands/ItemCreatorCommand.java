@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 
 import me.hawkcore.Core;
 import me.hawkcore.utils.API;
+import me.hawkcore.utils.inventories.InventoryAPI;
 import me.hawkcore.utils.itemcreator.ItemCreator;
 import me.hawkcore.utils.itemcreator.ManagerItemCreator;
 
@@ -77,7 +78,7 @@ public class ItemCreatorCommand implements CommandExecutor {
 							int total = 0;
 							for(Player p : Bukkit.getOnlinePlayers()) {
 								for (int i = 0; i < amount; i++) {
-									if (p.getInventory().firstEmpty() != -1) {
+									if (InventoryAPI.hasSpace(p, ic.getItem())) {
 										p.getInventory().addItem(ic.getItem().clone());
 									} else {
 										p.getWorld().dropItem(p.getLocation(), ic.getItem().clone());
@@ -91,7 +92,7 @@ public class ItemCreatorCommand implements CommandExecutor {
 							Player p = Bukkit.getPlayerExact(args[1]);
 							if (p != null) {
 								for (int i = 0; i < amount; i++) {
-									if (p.getInventory().firstEmpty() != -1) {
+									if (InventoryAPI.hasSpace(p, ic.getItem())) {
 										p.getInventory().addItem(ic.getItem().clone());
 									} else {
 										p.getWorld().dropItem(p.getLocation(), ic.getItem().clone());
