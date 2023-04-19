@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
@@ -42,6 +43,7 @@ public class Event {
 	private EventType eventType = EventType.PVP;
 	private EventStatus eventStatus = EventStatus.STOPPED;
 	private MessagesEvent messages;
+	private FileConfiguration config;
 	private ConfigEvent configEvent;
 	private RankingEvent ranking;
 	private Location locationLobby, locationExit, locationStart;
@@ -52,7 +54,7 @@ public class Event {
 	private Scoreboard score;
 	protected Event event;
 	
-	public Event(String name, EventType type, boolean enabled) {
+	public Event(String name, FileConfiguration config, EventType type, boolean enabled) {
 		this.event = this;
 		this.name = name;
 		this.eventType = type;
