@@ -1,0 +1,6 @@
+# Configure aqui o evento bolão
+Config:
+  
+  # o evento vai se auto iniciar a cada quanto tempo? coloque em minutos
+  autoStartTime: 60
+  autoStart: false

@@ -1,6 +1,9 @@
 # Configuração geral do Core
 Config:
   
+  # habilitar os eventos e seus comandos?
+  enable_events: true
+  
   # mensagem de login ao entrar
   join:
     active: false

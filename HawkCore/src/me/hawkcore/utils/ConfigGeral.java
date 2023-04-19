@@ -17,7 +17,8 @@ public class ConfigGeral {
 	private ConfigShowMessages configshowmessages;
 	private Boolean thirst,
 	heat,
-	actionBarActive;
+	actionBarActive,
+	enable_events;
 	private List<String> regionsDisables;
 	private String actionBar;
 	
@@ -25,6 +26,7 @@ public class ConfigGeral {
 		configcommands = new ConfigCommands();
 		configshowmessages = new ConfigShowMessages();
 		ConfigurationSection section = Core.getInstance().getConfig().getConfigurationSection("Config");
+		enable_events = section.getBoolean("enable_events");
 		thirst = section.getBoolean("thirst");
 		heat = section.getBoolean("heat");
 		actionBarActive = section.getBoolean("actionBarActive");

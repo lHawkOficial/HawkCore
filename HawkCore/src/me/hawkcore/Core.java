@@ -36,6 +36,7 @@ import me.hawkcore.utils.Mensagens;
 import me.hawkcore.utils.PlaceHolders;
 import me.hawkcore.utils.boosbar.ListenerBar;
 import me.hawkcore.utils.configs.ConfigCommands;
+import me.hawkcore.utils.events.CommandEvents;
 import me.hawkcore.utils.itemcreator.ItemCreator;
 import me.hawkcore.utils.itemcreator.ManagerItemCreator;
 import me.hawkcore.utils.missions.ManagerMissions;
@@ -100,6 +101,7 @@ public class Core extends JavaPlugin {
 		new EventsShow();
 		new PlaceHolders().register();
 		if (configmission.isActiveMissions()) new MissionCommand();
+		if (configgeral.getEnable_events()) new CommandEvents();
 		if (ConfigCommands.get().getActiveCommandDesenchant()) new DesenchantCommand();
 		ManagerMissions.checkPlayers();
 		PlayerData.checkAll();

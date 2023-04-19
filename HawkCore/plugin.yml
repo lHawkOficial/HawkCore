@@ -3,7 +3,7 @@ version: 4.2
 author: lHawk_
 description: Plugin para gerenciamento geral dos plugins Hawk.
 depend: [PlaceholderAPI,nChat,WorldEdit,Vault,WorldGuard]
-softdepend: [H_MasterTesouros,LuckyPerms,H_Clan,H_Tags]
+softdepend: [H_MasterTesouros,LuckyPerms,H_Clan,H_Tags,H_Bot]
 load: STARTUP
 awareness:
 - !@UTF-8
@@ -20,3 +20,10 @@ commands:
   itemcreator:
     aliases: [ic]
     description: crie items customizados para dar aos jogadores.
+  events:
+    aliases: [eventos,evento,event]
+    description: comando geral para ver os eventos e seus tops.
+  bolao:
+  parkour:
+  fight:
+  killer:

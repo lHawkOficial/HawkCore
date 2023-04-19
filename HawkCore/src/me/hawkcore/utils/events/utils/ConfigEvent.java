@@ -8,7 +8,9 @@ import lombok.Setter;
 public class ConfigEvent {
 	
 	private Event event;
-	private int tickQueue = 5;
+	private int tickQueue = 5,
+	autoStartTime;
+	private boolean autoStart;
 	
 	public ConfigEvent(Event event) {
 		this.event = event;

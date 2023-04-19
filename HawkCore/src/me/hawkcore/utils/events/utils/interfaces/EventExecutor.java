@@ -12,13 +12,14 @@ public interface EventExecutor {
 		if (p.hasMetadata("event")) p.removeMetadata("event", Core.getInstance());
 		p.setMetadata("event", new FixedMetadataValue(Core.getInstance(), event));
 	}
-	default void removePlayerFromEvent(Player p, Event event) {
+	default void removePlayerFromEvent(Player p) {
 		if (p.hasMetadata("event")) p.removeMetadata("event", Core.getInstance());
 	}
+	void setupConfig();
 	void updateScore();
-	boolean containsPlayerOnEvent(Player p, Event event);
-	void addPlayerToEspectator(Player p, Event event);
-	void removePlayerFromEspectator(Player p, Event event);
+	boolean containsPlayerOnEvent(Player p);
+	void addPlayerToEspectator(Player p);
+	void removePlayerFromEspectator(Player p);
 	void start();
 	void closed();
 	void forceStart();
