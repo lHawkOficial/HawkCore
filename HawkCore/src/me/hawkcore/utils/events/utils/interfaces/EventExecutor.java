@@ -1,21 +1,30 @@
 package me.hawkcore.utils.events.utils.interfaces;
 
 import org.bukkit.entity.Player;
+import org.bukkit.metadata.FixedMetadataValue;
 
-import me.HClan.Objects.Clan;
+import me.hawkcore.Core;
+import me.hawkcore.utils.events.utils.Event;
 
 public interface EventExecutor {
 
-	void addPlayerToEvent(Player p);
-	void removePlayerFromEvent(Player p);
-	boolean containsPlayerOnEvent(Player p);
-	boolean containsClanOnEvent(Clan clan);
-	void addPlayerToEspectator(Player p);
-	void removePlayerFromEspectator(Player p);
+	default void addPlayerToEvent(Player p, Event event) {
+		if (p.hasMetadata("event")) p.removeMetadata("event", Core.getInstance());
+		p.setMetadata("event", new FixedMetadataValue(Core.getInstance(), event));
+	}
+	
+	default void removePlayerFromEvent(Player p, Event event) {
+		if (p.hasMetadata("event")) p.removeMetadata("event", Core.getInstance());
+	}
+	
+	boolean containsPlayerOnEvent(Player p, Event event);
+	void addPlayerToEspectator(Player p, Event event);
+	void removePlayerFromEspectator(Player p, Event event);
 	void start();
-	void stop();
+	void closed();
 	void forceStart();
 	void warning();
-	void closed();
+	void stop();
+	void finish();
 	
 }
