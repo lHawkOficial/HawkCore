@@ -1,9 +1,9 @@
 name: HawkCore
-version: 4.1
+version: 4.2
 author: lHawk_
 description: Plugin para gerenciamento geral dos plugins Hawk.
 depend: [PlaceholderAPI,nChat,WorldEdit,Vault,WorldGuard]
-softdepend: [H_MasterTesouros,LuckyPerms,H_Clan]
+softdepend: [H_MasterTesouros,LuckyPerms,H_Clan,H_Tags]
 load: STARTUP
 awareness:
 - !@UTF-8

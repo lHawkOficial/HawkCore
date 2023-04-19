@@ -7,16 +7,15 @@ import me.hawkcore.Core;
 import me.hawkcore.utils.events.utils.Event;
 
 public interface EventExecutor {
-
+	
 	default void addPlayerToEvent(Player p, Event event) {
 		if (p.hasMetadata("event")) p.removeMetadata("event", Core.getInstance());
 		p.setMetadata("event", new FixedMetadataValue(Core.getInstance(), event));
 	}
-	
 	default void removePlayerFromEvent(Player p, Event event) {
 		if (p.hasMetadata("event")) p.removeMetadata("event", Core.getInstance());
 	}
-	
+	void updateScore();
 	boolean containsPlayerOnEvent(Player p, Event event);
 	void addPlayerToEspectator(Player p, Event event);
 	void removePlayerFromEspectator(Player p, Event event);

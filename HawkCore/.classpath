@@ -16,5 +16,6 @@
 	<classpathentry kind="lib" path="C:/Users/Luan Victor/Desktop/servidorM/dependencias/H_MasterTesourosV2.1.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Luan Victor/Desktop/servidorM/dependencias/LuckPerms-5.4.41.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Luan Victor/Desktop/servidorM/dependencias/H_Clans.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Luan Victor/Desktop/servidorM/dependencias/H_Tags.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
