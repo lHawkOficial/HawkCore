@@ -16,6 +16,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 import lombok.Getter;
 import me.hawkcore.tasks.Task;
+import me.hawkcore.utils.events.EventManager;
 import me.hawkcore.utils.events.events.bolao.utils.ConfigBolao;
 import me.hawkcore.utils.events.utils.Event;
 import me.hawkcore.utils.events.utils.enums.EventType;
@@ -31,6 +32,7 @@ public class Bolao extends Event implements EventExecutor, EventListeners {
 		super(name, config, type, enabled);
 		setupConfig();
 		setupListeners();
+		EventManager.get().getEvents().add(this);
 	}
 
 	@Override

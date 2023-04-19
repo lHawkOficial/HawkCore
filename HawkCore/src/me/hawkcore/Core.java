@@ -37,6 +37,8 @@ import me.hawkcore.utils.PlaceHolders;
 import me.hawkcore.utils.boosbar.ListenerBar;
 import me.hawkcore.utils.configs.ConfigCommands;
 import me.hawkcore.utils.events.CommandEvents;
+import me.hawkcore.utils.events.EventManager;
+import me.hawkcore.utils.events.events.bolao.utils.BolaoAPI;
 import me.hawkcore.utils.itemcreator.ItemCreator;
 import me.hawkcore.utils.itemcreator.ManagerItemCreator;
 import me.hawkcore.utils.missions.ManagerMissions;
@@ -59,6 +61,7 @@ public class Core extends JavaPlugin {
 	private ManagerMissions managermissions;
 	private ManagerItemCreator manageritemcreator;
 	private ManagerData managerdata;
+	private EventManager eventmanager;
 	private TaskManager taskmanager;
 	private Economy econ;
 	private String tag = "§7[⚒]", version = "§dv" + getDescription().getVersion();
@@ -85,6 +88,7 @@ public class Core extends JavaPlugin {
 		api = new API();
 		managermissions = new ManagerMissions();
 		manageritemcreator = new ManagerItemCreator();
+		eventmanager = new EventManager();
 		configgeral = new ConfigGeral();
 		configmission = new ConfigMission();
 		managerdata = new ManagerData();
@@ -101,7 +105,10 @@ public class Core extends JavaPlugin {
 		new EventsShow();
 		new PlaceHolders().register();
 		if (configmission.isActiveMissions()) new MissionCommand();
-		if (configgeral.getEnable_events()) new CommandEvents();
+		if (configgeral.getEnable_events()) {
+			new CommandEvents();
+			setupEvents();
+		}
 		if (ConfigCommands.get().getActiveCommandDesenchant()) new DesenchantCommand();
 		ManagerMissions.checkPlayers();
 		PlayerData.checkAll();
@@ -139,6 +146,10 @@ public class Core extends JavaPlugin {
 		sendConsole(" ");
 		sendConsole("&cHawkCore desligado com sucesso! &6[Author lHawk_] " + version);
 		sendConsole(" ");
+	}
+	
+	private void setupEvents() {
+		BolaoAPI.checkFiles();
 	}
 	
 	private void initFiles() {
