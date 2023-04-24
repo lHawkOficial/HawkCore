@@ -9,6 +9,7 @@ package me.hawkcore;
 
 import java.io.File;
 
+
 import org.bukkit.Bukkit;
 
 
@@ -22,6 +23,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import lombok.Getter;
+import lombok.Setter;
 import me.hawkcore.commands.CoreCommand;
 import me.hawkcore.commands.DesenchantCommand;
 import me.hawkcore.commands.ItemCreatorCommand;
@@ -56,6 +58,7 @@ import net.minecraft.server.v1_8_R3.Entity;
 import net.minecraft.server.v1_8_R3.PacketPlayOutEntityDestroy;
 
 @Getter
+@Setter
 public class Core extends JavaPlugin {
 	
 	private ManagerMissions managermissions;

@@ -9,7 +9,9 @@ public class ConfigEvent {
 	
 	private Event event;
 	private int tickQueue = 5,
-	autoStartTime;
+	autoStartTime,
+	minPlayers,
+	maxPlayers;
 	private boolean autoStart;
 	
 	public ConfigEvent(Event event) {

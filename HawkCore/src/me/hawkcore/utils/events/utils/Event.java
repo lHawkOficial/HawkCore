@@ -1,6 +1,8 @@
 package me.hawkcore.utils.events.utils;
 
+import java.io.File;
 import java.util.ArrayList;
+
 
 import java.util.HashMap;
 import java.util.List;
@@ -29,6 +31,7 @@ import lombok.Setter;
 import me.hawkcore.Core;
 import me.hawkcore.tasks.Task;
 import me.hawkcore.utils.Scoreboard;
+import me.hawkcore.utils.events.EventManager;
 import me.hawkcore.utils.events.utils.enums.EventStatus;
 import me.hawkcore.utils.events.utils.enums.EventType;
 import me.hawkcore.utils.events.utils.enums.PlayerType;
@@ -44,6 +47,7 @@ public class Event {
 	private EventStatus eventStatus = EventStatus.STOPPED;
 	private MessagesEvent messages;
 	private FileConfiguration config;
+	private String tag = "§7[Evento]";
 	private ConfigEvent configEvent;
 	private RankingEvent ranking;
 	private Location locationLobby, locationExit, locationStart;
@@ -51,12 +55,14 @@ public class Event {
 	private HashMap<Player, Location> queueList = new HashMap<>();
 	private List<Listener> listeners = new ArrayList<>();
 	private Task taskQueue;
-	private Scoreboard score;
 	protected Event event;
+	private File folder;
 	
-	public Event(String name, FileConfiguration config, EventType type, boolean enabled) {
+	public Event(String name, File folder, FileConfiguration config, EventType type, boolean enabled) {
+		EventManager.get().getEvents().add(this);
 		this.event = this;
 		this.name = name;
+		this.config = config;
 		this.eventType = type;
 		this.enabled = enabled;
 		if (!enabled) return;
@@ -175,6 +181,15 @@ public class Event {
 			if (this.players.get(p) == type) players.add(p);
 		}
 		return players;
+	}
+	
+	public List<Scoreboard> getScoreBoardPlayers() {
+		List<Scoreboard> list = new ArrayList<>();
+		for(Player p : Bukkit.getOnlinePlayers()) {
+			if (!p.hasMetadata("scoreevent")) continue;
+			list.add((Scoreboard) p.getMetadata("scoreevent").get(0).value());
+		}
+		return list;
 	}
 	
 	public void teleportPlayers(Location loc) {

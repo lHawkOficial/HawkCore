@@ -16,9 +16,9 @@ public class BolaoAPI {
 		if (!folder.exists()) folder.mkdirs();
 		File fileConfig = new File(folder + "/config.yml");
 		if (!fileConfig.exists()) {
-			FileAPI.copyFileToPath(Core.getInstance().getClass(), "/config_bolao.yml", folder + "/config.yml");
+			FileAPI.copyFileToPath(Core.getInstance().getClass(), "/events/bolao.yml", folder + "/config.yml");
 		}
-		new Bolao("Bolão", YamlConfiguration.loadConfiguration(fileConfig), EventType.CHAT, true);
+		new Bolao("Bolao", folder, YamlConfiguration.loadConfiguration(fileConfig), EventType.CHAT, true);
 	}
 	
 }
