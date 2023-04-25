@@ -23,6 +23,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
@@ -162,6 +163,13 @@ public class Event {
 				if (event != null && event.equals(getEvent()))
 				((EventListeners)event).onHunger(e);
 			}
+			@EventHandler
+			public void join(PlayerJoinEvent e) {
+				Player p = (Player) e.getPlayer();
+				Event event = Event.getEvent(p);
+				if (event != null && event.equals(getEvent()))
+				((EventListeners)event).onJoin(e);
+			}
 		});
 		listeners.forEach(listener -> {
 			HandlerList.unregisterAll(listener);
@@ -183,6 +191,7 @@ public class Event {
 	public static void clearDatas() {
 		for(Player p : Bukkit.getOnlinePlayers()) {
 			p.removeMetadata("event", Core.getInstance());
+			p.removeMetadata("scoreevent", Core.getInstance());
 		}
 	}
 	

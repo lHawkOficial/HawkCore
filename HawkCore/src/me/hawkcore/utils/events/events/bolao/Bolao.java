@@ -21,8 +21,10 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.metadata.FixedMetadataValue;
 
 import br.com.devpaulo.legendchat.api.events.ChatMessageEvent;
 import lombok.Getter;
@@ -184,7 +186,7 @@ public class Bolao extends Event implements EventExecutor, EventListeners {
 			Player target = Bukkit.getPlayerExact(name);
 			if (target!=null) target.removeMetadata("event", Core.getInstance());
 		});
-		if (participantes.size() > 1) {
+		if (participantes.size() >= 1) {
 			String name = participantes.isEmpty() ? null : participantes.get(new Random().nextInt(participantes.size()));
 			Bukkit.getOnlinePlayers().forEach(p -> {
 				MensagensBolao.get().getFinish().forEach(msg -> p.sendMessage(msg
@@ -212,6 +214,7 @@ public class Bolao extends Event implements EventExecutor, EventListeners {
 		}
 		getRanking().updateAsync();
 		participantes.clear();
+		Event.clearDatas();
 		save();
 	}
 
@@ -303,6 +306,13 @@ public class Bolao extends Event implements EventExecutor, EventListeners {
 			p.sendTitle(configbolao.getMito().split("<nl>")[0].replace("{player}", e.getTop()), configbolao.getMito().split("<nl>")[1].replace("{player}", e.getTop()));
 			p.playSound(p.getLocation(), Sound.NOTE_PLING, 0.5f, 10);
 		}
+	}
+
+	@Override
+	public void onJoin(PlayerJoinEvent e) {
+		Player p = e.getPlayer();
+		if (!containsPlayerOnEvent(p)) return;
+		p.setMetadata("scoreevent", new FixedMetadataValue(Core.getInstance(), new Scoreboard(p, event.getTag())));
 	}
 
 }

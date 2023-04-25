@@ -9,6 +9,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
@@ -22,6 +23,7 @@ public interface EventListeners {
 	void onMove(PlayerMoveEvent e);
 	void onClickInventory(InventoryClickEvent e);
 	void onQuit(PlayerQuitEvent e);
+	void onJoin(PlayerJoinEvent e);
 	void onCommands(PlayerCommandPreprocessEvent e);
 	void onDamageEntity(EntityDamageByEntityEvent e);
 	void onInteract(PlayerInteractEvent e);
