@@ -18,7 +18,9 @@ public class ConfigBolao extends ConfigEvent {
 	private int timeWarn,
 	time;
 	private boolean score_active;
-	private String score_title;
+	private String score_title,
+	mito,
+	tag_mito;
 	private List<String> score_lines;
 	private double valueJoin;
 	
@@ -31,7 +33,8 @@ public class ConfigBolao extends ConfigEvent {
 		timeWarn = section.getInt("timeWarn");
 		time = section.getInt("time");
 		valueJoin = section.getDouble("valueJoin");
-		
+		mito = section.getString("mito").replace("&", "§").replace("{tag}", event.getTag());
+		tag_mito = section.getString("tag_mito").replace("&", "§").replace("{tag}", event.getTag());
 		section = config.getConfigurationSection("ScoreBoard");
 		score_active = section.getBoolean("active");
 		score_title = section.getString("title").replace("{tag}", event.getTag()).replace("&", "§");

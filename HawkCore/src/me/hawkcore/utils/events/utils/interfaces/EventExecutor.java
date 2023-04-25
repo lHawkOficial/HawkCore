@@ -4,6 +4,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import me.hawkcore.Core;
+import me.hawkcore.tasks.Task;
 import me.hawkcore.utils.Scoreboard;
 import me.hawkcore.utils.events.utils.Event;
 
@@ -33,5 +34,10 @@ public interface EventExecutor {
 	void warning();
 	void stop();
 	void finish();
+	void save();
+	default void saveAsync() {
+		Task.runAsync(()->save());
+	}
+	void load();
 	
 }

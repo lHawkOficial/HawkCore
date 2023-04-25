@@ -16,58 +16,32 @@ public class Parkour extends Event implements EventExecutor {
 	}
 
 	@Override
-	public void setupConfig() {
-		
-	}
-
+	public void setupConfig() {}
 	@Override
-	public void updateScore() {
-		
-	}
-
+	public void updateScore() {}
 	@Override
 	public boolean containsPlayerOnEvent(Player p) {
 		return getPlayers().containsKey(p);
 	}
-
 	@Override
-	public void addPlayerToEspectator(Player p) {
-		
-	}
-
+	public void addPlayerToEspectator(Player p) {}
 	@Override
-	public void removePlayerFromEspectator(Player p) {
-		
-	}
-
+	public void removePlayerFromEspectator(Player p) {}
 	@Override
-	public void start() {
-		
-	}
-
+	public void start() {}
 	@Override
-	public void closed() {
-		
-	}
-
+	public void closed() {}
 	@Override
-	public void forceStart() {
-		
-	}
-
+	public void forceStart() {}
 	@Override
-	public void warning() {
-		
-	}
-
+	public void warning() {}
 	@Override
-	public void stop() {
-		
-	}
-
+	public void stop() {}
 	@Override
-	public void finish() {
-		
-	}
+	public void finish() {}
+	@Override
+	public void save() {}
+	@Override
+	public void load() {}
 
 }

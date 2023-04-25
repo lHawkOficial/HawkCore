@@ -10,6 +10,7 @@ package me.hawkcore;
 import java.io.File;
 
 
+
 import org.bukkit.Bukkit;
 
 
@@ -41,6 +42,7 @@ import me.hawkcore.utils.configs.ConfigCommands;
 import me.hawkcore.utils.events.CommandEvents;
 import me.hawkcore.utils.events.EventManager;
 import me.hawkcore.utils.events.events.bolao.utils.BolaoAPI;
+import me.hawkcore.utils.events.utils.Event;
 import me.hawkcore.utils.itemcreator.ItemCreator;
 import me.hawkcore.utils.itemcreator.ManagerItemCreator;
 import me.hawkcore.utils.missions.ManagerMissions;
@@ -79,6 +81,8 @@ public class Core extends JavaPlugin {
 	
 	@Override
 	public void onEnable() {
+		long time = System.currentTimeMillis();
+		sendConsole(tag + " &3HawkCore carregando dados.");
 		if (!new PluginVerifier("Vault", "&cHawkCore foi desligado por falta da dependência Vault!").queue()) return;
 		if (!new PluginVerifier("PlaceholderAPI", "&cHawkCore foi desligado por falta da dependência PlaceholderAPI!").queue()) return;
 		if (!new PluginVerifier("nChat", "&cHawkCore foi desligado por falta da dependência nChat!").queue()) return;
@@ -106,6 +110,7 @@ public class Core extends JavaPlugin {
 		new PlayerDataListener();
 		new Listeners();
 		new EventsShow();
+		new me.hawkcore.utils.events.utils.listeners.PlayerListener();
 		new PlaceHolders().register();
 		if (configmission.isActiveMissions()) new MissionCommand();
 		if (configgeral.getEnable_events()) {
@@ -119,6 +124,7 @@ public class Core extends JavaPlugin {
 			RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
 			this.econ = (Economy) rsp.getProvider();
 			EntityCreator.deleteAll();
+			sendConsole(tag + " &3HawkCore carregou todos os dados em &b" + (System.currentTimeMillis()-time) + "ms&3!");
 		});
 		sendConsole(" ");
 		sendConsole("&aHawkCore iniciado com sucesso! &6[Author lHawk_] " + version);
@@ -145,6 +151,7 @@ public class Core extends JavaPlugin {
 				all.removeMetadata("playerdata", instance);
 			}
 		}
+		Event.clearDatas();
 		HandlerList.unregisterAll(this);
 		sendConsole(" ");
 		sendConsole("&cHawkCore desligado com sucesso! &6[Author lHawk_] " + version);

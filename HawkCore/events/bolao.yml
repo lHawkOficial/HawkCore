@@ -1,3 +1,4 @@
+# permissao: hawkcore.commands.bolao
 # Configure aqui o evento bolão
 Config:
 
@@ -16,6 +17,10 @@ Config:
   # valor para participar do evento
   valueJoin: 100
   
+  # mensagem de novo mito
+  mito: "&b{player} &3é o novo<nl>&3mito do bolão!"
+  tag_mito: "&7[MitoBolao]"
+  
 # configure aqui a scoreboard do evento
 ScoreBoard:
   active: true
@@ -33,6 +38,11 @@ ScoreBoard:
   
 # configure as mensagens do evento aqui
 Mensagens:
+  noPermission: "{tag} &cVoce nao possui permissao para fazer isso!"
+  eventJoin: "{tag} &aVoce agora esta participando do evento, aguarde finalizar!"
+  noMoney: "{tag} &cDinheiro insuficiente para participar deste evento!"
+  isOnEvent: "{tag} &cVoce ja esta participando do evento!"
+  eventStopped: "{tag} &cPara voce participar deste evento ele precisa estar aberto!"
   alreadyStart: "{tag} &cO bolão ja foi iniciado!"
   alreadyStopped: "{tag} &cO bolão ja esta parado!"
   started: "{tag} &aVoce iniciou o evento com sucesso!"
@@ -51,6 +61,8 @@ Mensagens:
   - ' '
   - '{tag} &3Foi Fechado!'
   - '&c[&f!&c] o evento foi fechado'
+  - '&cpor algum admin ou por falta'
+  - '&cde jogadores!,'
   - '&ce foram devolvidos toda a quantia'
   - '&cacomulada para os jogadores.'
   - ' '
@@ -60,4 +72,16 @@ Mensagens:
   - '&7Acomulado: &3{quantia}'
   - '&7Total Apostadores: &3{total}'
   - '&7Ganhador: &f{player}'
+  - ' '
+  commands_adm:
+  - ' '
+  - '{tag} &aComandos disponiveis:'
+  - '&e/Bolao [Iniciar] &7- Iniciar o evento.'
+  - '&e/Bolao [Parar] &7- Parar o evento.'
+  - '&e/Bolao [Entrar] &7- Entrar no evento!'
+  - ' '
+  commands_player:
+  - ' '
+  - '{tag} &aComandos disponiveis:'
+  - '&e/Bolao [Entrar] &7- Entrar no evento!'
   - ' '

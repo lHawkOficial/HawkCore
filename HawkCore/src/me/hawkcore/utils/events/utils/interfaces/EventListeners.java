@@ -12,9 +12,13 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+import br.com.devpaulo.legendchat.api.events.ChatMessageEvent;
+import me.hawkcore.utils.events.utils.listeners.ChangeTopEvent;
+
 public interface EventListeners {
 
-	void onChat(AsyncPlayerChatEvent e);
+	void onChatVanilla(AsyncPlayerChatEvent e);
+	void onChat(ChatMessageEvent e);
 	void onMove(PlayerMoveEvent e);
 	void onClickInventory(InventoryClickEvent e);
 	void onQuit(PlayerQuitEvent e);
@@ -25,5 +29,6 @@ public interface EventListeners {
 	void onPlaceBlock(BlockPlaceEvent e);
 	void onDeath(PlayerDeathEvent e);
 	void onHunger(FoodLevelChangeEvent e);
+	void onRankingUpdate(ChangeTopEvent e);
 	
 }

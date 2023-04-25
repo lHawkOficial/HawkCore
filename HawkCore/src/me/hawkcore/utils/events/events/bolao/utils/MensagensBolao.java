@@ -12,14 +12,28 @@ public class MensagensBolao extends MessagesEvent {
 	
 	private List<String> open,
 	stop,
-	finish;
+	finish,
+	commands_adm,
+	commands_player,
+	noPermission;
 	private String alreadyStart,
 	alreadyStopped,
 	started,
-	stopped;
+	stopped,
+	eventStopped,
+	isOnEvent,
+	noMoney,
+	eventJoin;
 	
 	public MensagensBolao(Event event) {
 		super(event);
+		noPermission = replaceList("noPermission");
+		commands_player = replaceList("commands_player");
+		commands_adm = replaceList("commands_adm");
+		eventJoin = replace("eventJoin");
+		noMoney = replace("noMoney");
+		isOnEvent = replace("isOnEvent");
+		eventStopped = replace("eventStopped");
 		finish = replaceList("finish");
 		stop = replaceList("stop");
 		open = replaceList("open");

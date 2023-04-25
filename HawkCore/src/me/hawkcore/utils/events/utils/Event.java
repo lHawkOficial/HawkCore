@@ -26,6 +26,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+import br.com.devpaulo.legendchat.api.events.ChatMessageEvent;
 import lombok.Getter;
 import lombok.Setter;
 import me.hawkcore.Core;
@@ -56,7 +57,7 @@ public class Event {
 	private List<Listener> listeners = new ArrayList<>();
 	private Task taskQueue;
 	protected Event event;
-	private File folder;
+	private File folder, fileSaves;
 	
 	public Event(String name, File folder, FileConfiguration config, EventType type, boolean enabled) {
 		EventManager.get().getEvents().add(this);
@@ -64,6 +65,7 @@ public class Event {
 		this.name = name;
 		this.config = config;
 		this.eventType = type;
+		this.folder = folder;
 		this.enabled = enabled;
 		if (!enabled) return;
 		this.ranking = new RankingEvent(this);
@@ -76,11 +78,18 @@ public class Event {
 	public void setupListeners() {
 		listeners.add(new Listener() {
 			@EventHandler
-			public void chat(AsyncPlayerChatEvent e) {
-				Player p = e.getPlayer();
+			public void chat(ChatMessageEvent e) {
+				Player p = e.getSender();
 				Event event = Event.getEvent(p);
 				if (event != null && event.equals(getEvent()))
 				((EventListeners)event).onChat(e);
+			}
+			@EventHandler
+			public void chatVanilla(AsyncPlayerChatEvent e) {
+				Player p = e.getPlayer();
+				Event event = Event.getEvent(p);
+				if (event != null && event.equals(getEvent()))
+				((EventListeners)event).onChatVanilla(e);
 			}
 			@EventHandler
 			public void move(PlayerMoveEvent e) {
@@ -171,6 +180,12 @@ public class Event {
 		listeners.forEach(listener -> HandlerList.unregisterAll(listener));
 	}
 	
+	public static void clearDatas() {
+		for(Player p : Bukkit.getOnlinePlayers()) {
+			p.removeMetadata("event", Core.getInstance());
+		}
+	}
+	
 	public static Event getEvent(Player p) {
 		return p.hasMetadata("event") ? (Event) p.getMetadata("event").get(0).value() : null;
 	}
@@ -187,9 +202,29 @@ public class Event {
 		List<Scoreboard> list = new ArrayList<>();
 		for(Player p : Bukkit.getOnlinePlayers()) {
 			if (!p.hasMetadata("scoreevent")) continue;
-			list.add((Scoreboard) p.getMetadata("scoreevent").get(0).value());
+			try {
+				list.add((Scoreboard) p.getMetadata("scoreevent").get(0).value());
+			} catch (Exception e) {
+				continue;
+			}
 		}
 		return list;
+	}
+	
+	public Scoreboard getScoreBoardPlayer(String name) {
+		for(Player p : Bukkit.getOnlinePlayers()) {
+			if (!p.hasMetadata("scoreevent")) continue;
+			if (!p.getName().equalsIgnoreCase(name)) continue;
+			return (Scoreboard) p.getMetadata("scoreevent").get(0).value();
+		}
+		return null;
+	}
+	
+	public void removeScoreBoard(Player p) {
+		Scoreboard board = getScoreBoardPlayer(name);
+		if (board==null) return;
+		board.destroy();
+		p.removeMetadata("scoreevent", Core.getInstance());
 	}
 	
 	public void teleportPlayers(Location loc) {
