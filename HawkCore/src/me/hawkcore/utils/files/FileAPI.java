@@ -26,41 +26,48 @@ public class FileAPI {
 	}
 
 	public static void copyFileToPath(Class<?> classpath, String pathFile, String pathCopy) {
-		String arquivoYmlDentroDoJar = pathFile;
-		String destinoNoSistemaDeArquivos = pathCopy;
-		InputStream inputStream = classpath.getResourceAsStream(arquivoYmlDentroDoJar);
-		File destino = new File(destinoNoSistemaDeArquivos);
-		destino.getParentFile().mkdirs();
-		try {
-			OutputStream outputStream = new FileOutputStream(destino);
-			byte[] buffer = new byte[4096];
-			int bytesRead;
-			while ((bytesRead = inputStream.read(buffer)) != -1) {
-				outputStream.write(buffer, 0, bytesRead);
-			}
-			inputStream.close();
-			outputStream.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		if (classpath == null || pathFile == null || pathCopy == null) {
+	        throw new IllegalArgumentException("Arguments cannot be null");
+	    }
+
+	    InputStream inputStream = classpath.getResourceAsStream(pathFile);
+	    if (inputStream == null) {
+	        throw new IllegalArgumentException("File not found: " + pathFile);
+	    }
+
+	    File destino = new File(pathCopy);
+	    destino.getParentFile().mkdirs();
+
+	    try (OutputStream outputStream = new FileOutputStream(destino)) {
+	        byte[] buffer = new byte[4096];
+	        int bytesRead;
+	        while ((bytesRead = inputStream.read(buffer)) != -1) {
+	            outputStream.write(buffer, 0, bytesRead);
+	        }
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
 	}
 
 	public static void copyFileToPath(File file, String pathCopy) {
-		String origem = file.getPath();
-		String destino = pathCopy;
-		try {
-			FileInputStream fileInputStream = new FileInputStream(origem);
-			FileOutputStream fileOutputStream = new FileOutputStream(destino);
-			byte[] buffer = new byte[4096];
-			int bytesRead;
-			while ((bytesRead = fileInputStream.read(buffer)) != -1) {
-				fileOutputStream.write(buffer, 0, bytesRead);
-			}
-			fileInputStream.close();
-			fileOutputStream.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		if (file == null || pathCopy == null) {
+	        throw new IllegalArgumentException("Arguments cannot be null");
+	    }
+
+	    try (InputStream inputStream = new FileInputStream(file)) {
+	        File destino = new File(pathCopy);
+	        destino.getParentFile().mkdirs();
+
+	        try (OutputStream outputStream = new FileOutputStream(destino)) {
+	            byte[] buffer = new byte[4096];
+	            int bytesRead;
+	            while ((bytesRead = inputStream.read(buffer)) != -1) {
+	                outputStream.write(buffer, 0, bytesRead);
+	            }
+	        }
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
 	}
 
 }

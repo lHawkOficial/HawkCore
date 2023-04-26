@@ -31,6 +31,8 @@ public class ConfigBolao extends ConfigEvent {
 		ConfigurationSection section = config.getConfigurationSection("Config");
 		event.setTag(section.getString("tag").replace("&", "§"));
 		timeWarn = section.getInt("timeWarn");
+		setAutoStart(section.getBoolean("autoStart"));
+		setAutoStartTime(section.getInt("autoStartTime"));
 		time = section.getInt("time");
 		valueJoin = section.getDouble("valueJoin");
 		mito = section.getString("mito").replace("&", "§").replace("{tag}", event.getTag());

@@ -1,10 +1,15 @@
 package me.hawkcore.utils.inventories;
 
 import org.bukkit.Material;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+
+import net.minecraft.server.v1_8_R3.ChatMessage;
+import net.minecraft.server.v1_8_R3.EntityPlayer;
+import net.minecraft.server.v1_8_R3.PacketPlayOutOpenWindow;
 
 public class InventoryAPI {
 
@@ -34,6 +39,13 @@ public class InventoryAPI {
 		return amount;
 	}
 
+	public static void updateTitlePacket(Player p, String title) {
+		EntityPlayer ep = ((CraftPlayer)p).getHandle();
+	    PacketPlayOutOpenWindow packet = new PacketPlayOutOpenWindow(ep.activeContainer.windowId, "minecraft:chest", new ChatMessage(title.replace("&", "§")), p.getOpenInventory().getTopInventory().getSize());
+	    ep.playerConnection.sendPacket(packet);
+	    ep.updateInventory(ep.activeContainer);
+	}
+	
 	public static void removeItem(Player player, ItemStack itemStack, int quantidade) {
 		PlayerInventory inventario = player.getInventory();
 		ItemStack[] itens = inventario.getContents();

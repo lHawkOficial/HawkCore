@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -32,24 +33,27 @@ import lombok.Getter;
 import lombok.Setter;
 import me.hawkcore.Core;
 import me.hawkcore.tasks.Task;
+import me.hawkcore.utils.API;
 import me.hawkcore.utils.Scoreboard;
 import me.hawkcore.utils.events.EventManager;
 import me.hawkcore.utils.events.utils.enums.EventStatus;
 import me.hawkcore.utils.events.utils.enums.EventType;
 import me.hawkcore.utils.events.utils.enums.PlayerType;
 import me.hawkcore.utils.events.utils.interfaces.EventListeners;
+import me.hawkcore.utils.items.Item;
 
 @Getter
 @Setter
 public class Event {
 	
 	private String name;
-	private boolean enabled;
+	private boolean enabled,warn=false;
 	private EventType eventType = EventType.PVP;
 	private EventStatus eventStatus = EventStatus.STOPPED;
 	private MessagesEvent messages;
 	private FileConfiguration config;
 	private String tag = "§7[Evento]";
+	private Item icon;
 	private ConfigEvent configEvent;
 	private RankingEvent ranking;
 	private Location locationLobby, locationExit, locationStart;
@@ -59,6 +63,7 @@ public class Event {
 	private Task taskQueue;
 	protected Event event;
 	private File folder, fileSaves;
+	private long lastStart = System.currentTimeMillis();
 	
 	public Event(String name, File folder, FileConfiguration config, EventType type, boolean enabled) {
 		EventManager.get().getEvents().add(this);
@@ -80,9 +85,6 @@ public class Event {
 		listeners.add(new Listener() {
 			@EventHandler
 			public void chat(ChatMessageEvent e) {
-				Player p = e.getSender();
-				Event event = Event.getEvent(p);
-				if (event != null && event.equals(getEvent()))
 				((EventListeners)event).onChat(e);
 			}
 			@EventHandler
@@ -181,6 +183,14 @@ public class Event {
 		listeners.add(listener);
 		HandlerList.unregisterAll(listener);
 		Bukkit.getPluginManager().registerEvents(listener, Core.getInstance());
+	}
+	
+	public String getTimeLastFormatted() {
+		return !configEvent.isAutoStart() ? "Aguardando" : eventStatus != EventStatus.STOPPED ? "Em Jogo" : getTimeLast() <= 0 ? "§3Iniciando..." : API.get().formatTime(getTimeLast());
+	}
+	
+	public int getTimeLast() {
+		return (int) (configEvent.getAutoStartTime()*60-TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()-lastStart));
 	}
 	
 	public void removeListeners() {

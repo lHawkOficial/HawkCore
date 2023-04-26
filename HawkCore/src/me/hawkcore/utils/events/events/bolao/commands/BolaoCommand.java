@@ -24,6 +24,18 @@ public class BolaoCommand implements CommandExecutor {
 		Player p = !(s instanceof Player) ? null : (Player)s;
 		if (p != null) p.playSound(p.getLocation(), Sound.NOTE_BASS, 0.5f, 10);
 		if (args.length == 1) {
+			if (args[0].equalsIgnoreCase("menu")) {
+				if (p != null) {
+					bolao.getMenu().open(p);
+					return false;
+				}
+			}
+			if (args[0].equalsIgnoreCase("top")) {
+				if (p != null) {
+					bolao.getMenu().getMenutop().open(p);
+					return false;
+				}
+			}
 			if (args[0].equalsIgnoreCase("entrar")) {
 				if (p != null) {
 					if (bolao.getEventStatus() == EventStatus.INGAME) {

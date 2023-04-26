@@ -35,6 +35,7 @@ import me.hawkcore.utils.Eco;
 import me.hawkcore.utils.Save;
 import me.hawkcore.utils.Scoreboard;
 import me.hawkcore.utils.events.EventManager;
+import me.hawkcore.utils.events.events.bolao.menus.MenuBolao;
 import me.hawkcore.utils.events.events.bolao.utils.ConfigBolao;
 import me.hawkcore.utils.events.events.bolao.utils.MensagensBolao;
 import me.hawkcore.utils.events.utils.Event;
@@ -44,6 +45,7 @@ import me.hawkcore.utils.events.utils.enums.EventType;
 import me.hawkcore.utils.events.utils.interfaces.EventExecutor;
 import me.hawkcore.utils.events.utils.interfaces.EventListeners;
 import me.hawkcore.utils.events.utils.listeners.ChangeTopEvent;
+import me.hawkcore.utils.menus.MenuAPI;
 
 @Getter
 public class Bolao extends Event implements EventExecutor, EventListeners {
@@ -52,12 +54,12 @@ public class Bolao extends Event implements EventExecutor, EventListeners {
 	private ConfigBolao configbolao;
 	private List<String> participantes = new ArrayList<>();
 	private String timeRestante = "N.A";
+	private MenuBolao menu;
 	
 	public Bolao(String name, File folder, FileConfiguration config, EventType type, boolean enabled) {
 		super(name, folder, config, type, enabled);
 		setupConfig();
 		setupListeners();
-		EventManager.get().getEvents().add(this);
 	}
 
 	public static Bolao get() {
@@ -69,6 +71,8 @@ public class Bolao extends Event implements EventExecutor, EventListeners {
 		configbolao = new ConfigBolao(this);
 		setConfigEvent(configbolao);
 		setMessages(new MensagensBolao(this));
+		setIcon(MenuAPI.getItemFromSection(getConfig().getConfigurationSection("Icon")));
+		this.menu = new MenuBolao(getConfig().getString("MenuMain.title").replace("&", "§"), getConfig().getInt("MenuMain.row"), getConfig().getStringList("MenuMain.Glass"));
 		File fileSaves = new File(getFolder() + "/saves.json");
 		if (!fileSaves.exists()) {
 			try {
@@ -186,7 +190,7 @@ public class Bolao extends Event implements EventExecutor, EventListeners {
 			Player target = Bukkit.getPlayerExact(name);
 			if (target!=null) target.removeMetadata("event", Core.getInstance());
 		});
-		if (participantes.size() >= 1) {
+		if (participantes.size() > 1) {
 			String name = participantes.isEmpty() ? null : participantes.get(new Random().nextInt(participantes.size()));
 			Bukkit.getOnlinePlayers().forEach(p -> {
 				MensagensBolao.get().getFinish().forEach(msg -> p.sendMessage(msg
@@ -212,7 +216,8 @@ public class Bolao extends Event implements EventExecutor, EventListeners {
 				Eco.get().depositPlayer(name, configbolao.getValueJoin());
 			}
 		}
-		getRanking().updateAsync();
+		setLastStart(System.currentTimeMillis());
+		getRanking().update();
 		participantes.clear();
 		Event.clearDatas();
 		save();
@@ -291,6 +296,7 @@ public class Bolao extends Event implements EventExecutor, EventListeners {
 			String name = args[0];
 			int value = Integer.valueOf(args[1]);
 			getRanking().getTops().put(name, value);
+			System.out.println(name);
 		}
 		getRanking().update();
 	}

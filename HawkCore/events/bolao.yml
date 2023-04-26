@@ -21,6 +21,18 @@ Config:
   mito: "&b{player} &3é o novo<nl>&3mito do bolão!"
   tag_mito: "&7[MitoBolao]"
   
+# configure aqui o icone deste evento
+Icon:
+  ID: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDRkYjI0YTAwYWZkMTFjNTQyYjVmZWVlMDBjN2I0MTZkNzhhNjhiNmYwMzY3YTllMTAyNWYwYTJmY2FkMTNhNiJ9fX0=
+  name: "&eBolão"
+  lore:
+  - '&7neste evento voce'
+  - '&7participa com uma quantia'
+  - '&7e no final é sorteado um'
+  - '&7jogador vencedor para levar'
+  - '&7o bolão acomulado.'
+  - '&c[&f!&c] clique para ver sobre.'
+  
 # configure aqui a scoreboard do evento
 ScoreBoard:
   active: true
@@ -35,7 +47,70 @@ ScoreBoard:
   - '&c[&f!&c] para participar'
   - '&cuse /Bolao [Entrar].'
   - '&8● {tempo}'
+
+# configure aqui o menu do evento
+MenuMain:
+  title: "&8Evento Bolão"
+  row: 3
+  Icons:
+    iconBack:
+      ID: 262>0
+      name: "&cVoltar"
+      lore: []
+      glow: true
+      slot: 10
+    iconInfoPlayer:
+      ID: player
+      name: "&eInformações pessoais"
+      lore:
+      - ' '
+      - '&5# &7Ranking &f{rank}º'
+      - '&5# &f{total} &7Win(s)'
+      - ' '
+      slot: 13
+    iconInfoEvent:
+      ID: 339>0
+      glow: true
+      name: "&eInformação Evento"
+      lore:
+      - ' '
+      - '&5# &7Este evento será'
+      - '&7iniciado em &3{tempo}&7!'
+      - ' '
+      slot: 16
+    iconTop:
+      ID: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTRiZjg5M2ZjNmRlZmFkMjE4Zjc4MzZlZmVmYmU2MzZmMWMyY2MxYmI2NTBjODJmY2NkOTlmMmMxZWU2In19fQ==
+      name: "&eTop Jogadores"
+      lore:
+      - '&7clique para ver'
+      slot: 17
+  Glass: []
   
+# configure aqui o menu do top jogadores
+MenuTop:
+  title: "&8Mito(s) Bolão"
+  row: 4
+  slots: [12,13,14,15,16,21,22,23,24,25]
+  Icons:
+    iconBack:
+      ID: 262>0
+      name: "&cVoltar"
+      lore: []
+      glow: true
+      slot: 28
+    iconPlayers:
+      name: "&f{player}"
+      lore:
+      - ' '
+      - '&5# &7Rank &f{rank}º'
+      - '&5# &f{total} &7Win(s)'
+      - ' '
+    iconNonPlayer:
+      ID: 166>0
+      name: "&c&m-/-"
+  Glass:
+  - '160>10:1,2,3,4,10,27,33,34,35,36'
+
 # configure as mensagens do evento aqui
 Mensagens:
   noPermission: "{tag} &cVoce nao possui permissao para fazer isso!"
@@ -79,9 +154,13 @@ Mensagens:
   - '&e/Bolao [Iniciar] &7- Iniciar o evento.'
   - '&e/Bolao [Parar] &7- Parar o evento.'
   - '&e/Bolao [Entrar] &7- Entrar no evento!'
+  - '&e/Bolao [Menu] &7- Abrir o menu principal deste evento.'
+  - '&e/Bolao [Top] &7- Abrir o menu dos top jogadores.'
   - ' '
   commands_player:
   - ' '
   - '{tag} &aComandos disponiveis:'
   - '&e/Bolao [Entrar] &7- Entrar no evento!'
+  - '&e/Bolao [Menu] &7- Abrir o menu principal deste evento.'
+  - '&e/Bolao [Top] &7- Abrir o menu dos top jogadores.'
   - ' '

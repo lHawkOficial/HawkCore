@@ -4,8 +4,6 @@ import org.bukkit.entity.Player;
 
 public interface MenuInterface {
 
-	public default void open(Player p) {
-		
-	}
+	public void open(Player p);
 	
 }

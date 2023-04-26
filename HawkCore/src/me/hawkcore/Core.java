@@ -43,6 +43,7 @@ import me.hawkcore.utils.events.CommandEvents;
 import me.hawkcore.utils.events.EventManager;
 import me.hawkcore.utils.events.events.bolao.utils.BolaoAPI;
 import me.hawkcore.utils.events.utils.Event;
+import me.hawkcore.utils.events.utils.MenuEvents;
 import me.hawkcore.utils.itemcreator.ItemCreator;
 import me.hawkcore.utils.itemcreator.ManagerItemCreator;
 import me.hawkcore.utils.missions.ManagerMissions;
@@ -75,6 +76,7 @@ public class Core extends JavaPlugin {
 	private ConfigGeral configgeral;
 	private MensagensThirstHeat mensagensthirstheat;
 	private Mensagens mensagens;
+	private MenuEvents menuevents;
 	
 	@Getter
 	private static Core instance;
@@ -116,6 +118,7 @@ public class Core extends JavaPlugin {
 		if (configgeral.getEnable_events()) {
 			new CommandEvents();
 			setupEvents();
+			menuevents = new MenuEvents(getConfig().getString("Config.MenuEvents.title").replace("&", "§"), getConfig().getInt("Config.MenuEvents.row"), getConfig().getStringList("Config.MenuEvents.Glass"));
 		}
 		if (ConfigCommands.get().getActiveCommandDesenchant()) new DesenchantCommand();
 		ManagerMissions.checkPlayers();
@@ -158,7 +161,8 @@ public class Core extends JavaPlugin {
 		sendConsole(" ");
 	}
 	
-	private void setupEvents() {
+	public void setupEvents() {
+		eventmanager.getEvents().clear();
 		BolaoAPI.checkFiles();
 	}
 	
