@@ -1,7 +1,6 @@
-package me.hawkcore.utils.events.utils;
+package me.hawkcore.utils.events.events.parkour.menus;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -12,11 +11,10 @@ import org.bukkit.inventory.Inventory;
 import lombok.Getter;
 import lombok.Setter;
 import me.hawkcore.Core;
-import me.hawkcore.utils.PaginaCreator;
-import me.hawkcore.utils.events.EventManager;
-import me.hawkcore.utils.events.events.bolao.Bolao;
 import me.hawkcore.utils.events.events.parkour.Parkour;
+import me.hawkcore.utils.events.utils.RankingEvent;
 import me.hawkcore.utils.items.Item;
+import me.hawkcore.utils.items.SkullCreator;
 import me.hawkcore.utils.menus.Menu;
 import me.hawkcore.utils.menus.MenuAPI;
 import me.hawkcore.utils.menus.interfaces.MenuExecutor;
@@ -26,50 +24,56 @@ import me.hawkcore.utils.menus.listeners.MenuCloseEvent;
 
 @Getter
 @Setter
-public class MenuEvents extends Menu implements MenuExecutor, MenuInterface {
+public class MenuTop extends Menu implements MenuExecutor, MenuInterface {
 
-	private HashMap<Player, PaginaCreator> paginas = new HashMap<>();
+	private Item iconBack,
+	iconPlayers,
+	iconNonPlayer;
 	private List<Integer> slots;
-	private Item iconNext,
-	iconBack;
 	
-	public MenuEvents(String title, int row, List<String> glass) {
+	public MenuTop(String title, int row, List<String> glass) {
 		super(title, row, glass);
+		iconBack = MenuAPI.getItemFromSection(Parkour.get().getConfig().getConfigurationSection("MenuTop.Icons.iconBack"));
+		iconPlayers = MenuAPI.getItemFromSection(Parkour.get().getConfig().getConfigurationSection("MenuTop.Icons.iconPlayers"));
+		iconNonPlayer = MenuAPI.getItemFromSection(Parkour.get().getConfig().getConfigurationSection("MenuTop.Icons.iconNonPlayer"));
 		this.slots = new ArrayList<>();
-		for(int slot : Core.getInstance().getConfig().getIntegerList("Config.MenuEvents.slots")) {
+		for(int slot : Parkour.get().getConfig().getIntegerList("MenuTop.slots")) {
 			this.slots.add(slot-1);
 		}
-		iconNext = MenuAPI.getItemFromSection(Core.getInstance().getConfig().getConfigurationSection("Config.MenuEvents.Icons.iconNext"));
-		iconBack = MenuAPI.getItemFromSection(Core.getInstance().getConfig().getConfigurationSection("Config.MenuEvents.Icons.iconBack"));
 		register();
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void open(Player p) {
 		try {
-			
-			PaginaCreator pagina = paginas.containsKey(p) ? paginas.get(p) : new PaginaCreator(new ArrayList<>(EventManager.get().getEvents()), slots.size());
 			
 			Inventory inv = Bukkit.createInventory(null, 9*getRow(), getTitle());
 			for(Item item : getGlass().getVidros()) {
 				inv.setItem(item.getSlot(), item.build().clone());
 			}
+			inv.setItem(iconBack.getSlot(), iconBack.build().clone());
 			
+			RankingEvent ranking = Parkour.get().getRanking();
 			for (int i = 0; i < slots.size(); i++) {
+				int slot = slots.get(i);
 				try {
-					int slot = slots.get(i);
-					Event event = (Event) pagina.getPagina(pagina.getPaginaAtual()).get(i);
-					inv.setItem(slot, event.getIcon().build().clone());
+					String name = (String) ranking.getTops().keySet().toArray()[i];
+					int rank = ranking.getRankingPlayer(name);
+					int total = ranking.getWinsPlayer(name);
+					Item item = new Item(SkullCreator.itemFromName(name));
+					item.setDisplayName(iconPlayers.getDisplayName().replace("{player}", name));
+					List<String> lore = new ArrayList<>(iconPlayers.getLore());
+					lore.replaceAll(l -> l.replace("{rank}", String.valueOf(rank)).replace("{total}", String.valueOf(total)));
+					item.setLore(lore);
+					inv.setItem(slot, item.build().clone());
 				} catch (Exception e) {
-					continue;
+					inv.setItem(slot, iconNonPlayer.build().clone());
 				}
 			}
 			
-			if (pagina.containsPagina(pagina.getPaginaAtual()+1)) inv.setItem(iconNext.getSlot(), iconNext.build().clone());
-			if (pagina.containsPagina(pagina.getPaginaAtual()-1)) inv.setItem(iconBack.getSlot(), iconBack.build().clone());
-			
 			p.openInventory(inv);
-			p.updateInventory();	
+			p.updateInventory();
 			p.playSound(p.getLocation(), Sound.NOTE_STICKS, 0.5f, 10);
 			
 		} catch (Exception e) {
@@ -78,18 +82,15 @@ public class MenuEvents extends Menu implements MenuExecutor, MenuInterface {
 			p.sendMessage(Core.getInstance().getTag() + " §cNão foi possível abrir este menu, contate um administrador!");
 		}
 	}
-	
+
 	@Override
 	public void click(MenuClickEvent e) {
 		Player p = e.getPlayer();
 		e.setClickSound(true);
 		e.setCancelled(true);
 		if (e.getCurrentItem() != null && e.getCurrentItem().hasItemMeta() && e.getCurrentItem().getItemMeta().hasDisplayName()) {
-			Event event = EventManager.get().getEvent(e.getCurrentItem());
-			if (event != null) {
-				if (event instanceof Bolao) ((Bolao)event).getMenu().open(p);
-				if (event instanceof Parkour) ((Parkour) event).getMenu().open(p);
-				return;
+			if (e.getCurrentItem().isSimilar(iconBack.build())) {
+				MenuParkour.get().open(p);
 			}
 		}
 	}
@@ -97,10 +98,6 @@ public class MenuEvents extends Menu implements MenuExecutor, MenuInterface {
 	@Override
 	public void close(MenuCloseEvent e) {
 		
-	}
-	
-	public static MenuEvents get() {
-		return Core.getInstance().getMenuevents();
 	}
 
 }

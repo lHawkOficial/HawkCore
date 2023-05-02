@@ -27,6 +27,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 
 import br.com.devpaulo.legendchat.api.events.ChatMessageEvent;
 import lombok.Getter;
@@ -83,6 +84,13 @@ public class Event {
 	
 	public void setupListeners() {
 		listeners.add(new Listener() {
+			@EventHandler
+			public void teleport(PlayerTeleportEvent e) {
+				Player p = e.getPlayer();
+				Event event = Event.getEvent(p);
+				if (event != null && event.equals(getEvent()))
+				((EventListeners)event).onTeleport(e);
+			}
 			@EventHandler
 			public void chat(ChatMessageEvent e) {
 				((EventListeners)event).onChat(e);

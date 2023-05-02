@@ -1,6 +1,25 @@
 # Configuração geral do Core
 Config:
   
+  # configure aqui os fragmentos e suas chances (todos criados no itemcreator)
+  active_fragments: true
+  # o jogador devera estar apenas no survival para quebrar os blocos e receber os fragmentos ?
+  only_survival_fragments: false
+  message_fragments: "&aVoce recebeu<nl>&a{fragmento}"
+  # nome:chance
+  blocks_fragments:
+  - 21>0
+  - 73>0
+  - 74>0
+  - 56>0
+  - 129>0
+  - 14>0
+  - 15>0
+  - 16>0
+  fragments:
+  - 'frag_ultrararo:0.001'
+  - 'frag_comum:0.05'
+  
   # coloque aqui o canal aonde os eventos serão anunciados (deixe "" caso nao queira usar!)
   channel_events: "1100867602227675328"
   

@@ -44,13 +44,12 @@ public class Menu {
 			@EventHandler
 			public void clickMenu(InventoryClickEvent e) {
 				Player p = (Player) e.getWhoClicked();
-				if (e.getView().getTitle().equals(title)) {
-					MenuClickEvent event = new MenuClickEvent(p, e.getInventory(), menu, e);
-					if (menu instanceof MenuExecutor) ((MenuExecutor)menu).click(event);
-					Bukkit.getPluginManager().callEvent(event);
-					if (event.isCancelled()) e.setCancelled(true);
-					if (event.isClickSound() && e.getCurrentItem() != null && e.getCurrentItem().getType() != Material.AIR) p.playSound(p.getLocation(), Sound.CLICK, 0.5f, 10);
-				}
+				if (!e.getView().getTitle().equals(title)) return;
+				MenuClickEvent event = new MenuClickEvent(p, e.getInventory(), menu, e);
+				if (menu instanceof MenuExecutor) ((MenuExecutor)menu).click(event);
+				Bukkit.getPluginManager().callEvent(event);
+				if (event.isCancelled()) e.setCancelled(true);
+				if (event.isClickSound() && e.getCurrentItem() != null && e.getCurrentItem().getType() != Material.AIR) p.playSound(p.getLocation(), Sound.CLICK, 0.5f, 10);	
 			}
 			@EventHandler
 			public void closeMenu(InventoryCloseEvent e) {

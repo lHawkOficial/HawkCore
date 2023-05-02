@@ -40,14 +40,16 @@ public class EventManager {
 					event.setWarn(true);
 					if (new PluginVerifier("H_Bot", "").queue()) {
 						Bot bot = Bot.get();
-						TextChannel channel = bot.getGuild().getTextChannelById(ConfigGeral.get().getChannel_events());
-						if (channel != null && !ConfigGeral.get().getWarn_text().isEmpty()) {
-							EmbedBuilder builder = new EmbedBuilder();
-							builder.setTitle(ConfigGeral.get().getWarn_title().replace("{evento}", event.getName()));
-							builder.setColor(Color.YELLOW.darker());
-							ConfigGeral.get().getWarn_text().forEach(msg -> builder.appendDescription(msg.replace("{evento}", event.getName()).replace("{tempo}", event.getTimeLastFormatted())));
-							builder.setFooter("Atenciosamente\nHyzard entertainment");
-							channel.sendMessageEmbeds(builder.build()).queue();
+						if (!ConfigGeral.get().getChannel_events().isEmpty()) {
+							TextChannel channel = bot.getGuild().getTextChannelById(ConfigGeral.get().getChannel_events());
+							if (channel != null && !ConfigGeral.get().getWarn_text().isEmpty()) {
+								EmbedBuilder builder = new EmbedBuilder();
+								builder.setTitle(ConfigGeral.get().getWarn_title().replace("{evento}", event.getName()));
+								builder.setColor(Color.YELLOW.darker());
+								ConfigGeral.get().getWarn_text().forEach(msg -> builder.appendDescription(msg.replace("{evento}", event.getName()).replace("{tempo}", event.getTimeLastFormatted())));
+								builder.setFooter("Atenciosamente\nHyzard entertainment");
+								channel.sendMessageEmbeds(builder.build()).queue();
+							}
 						}
 					}
 					continue;
@@ -59,14 +61,16 @@ public class EventManager {
 					if (!ConfigGeral.get().getWarn_start().isEmpty()) {
 						if (new PluginVerifier("H_Bot", "").queue()) {
 							Bot bot = Bot.get();
-							TextChannel channel = bot.getGuild().getTextChannelById(ConfigGeral.get().getChannel_events());
-							if (channel != null && !ConfigGeral.get().getWarn_text().isEmpty()) {
-								EmbedBuilder builder = new EmbedBuilder();
-								builder.setTitle(ConfigGeral.get().getWarn_title().replace("{evento}", event.getName()));
-								builder.setColor(Color.YELLOW.darker());
-								ConfigGeral.get().getWarn_start().forEach(msg -> builder.appendDescription(msg.replace("{evento}", event.getName()).replace("{tempo}", event.getTimeLastFormatted())));
-								builder.setFooter("Atenciosamente\nHyzard entertainment");
-								channel.sendMessageEmbeds(builder.build()).queue();
+							if (!ConfigGeral.get().getChannel_events().isEmpty()) {
+								TextChannel channel = bot.getGuild().getTextChannelById(ConfigGeral.get().getChannel_events());
+								if (channel != null && !ConfigGeral.get().getWarn_text().isEmpty()) {
+									EmbedBuilder builder = new EmbedBuilder();
+									builder.setTitle(ConfigGeral.get().getWarn_title().replace("{evento}", event.getName()));
+									builder.setColor(Color.YELLOW.darker());
+									ConfigGeral.get().getWarn_start().forEach(msg -> builder.appendDescription(msg.replace("{evento}", event.getName()).replace("{tempo}", event.getTimeLastFormatted())));
+									builder.setFooter("Atenciosamente\nHyzard entertainment");
+									channel.sendMessageEmbeds(builder.build()).queue();
+								}
 							}
 						}
 					}
@@ -78,7 +82,7 @@ public class EventManager {
 	
 	public Event getEvent(String name) {
 		for(Event event : events) {
-			if (event.getName().equalsIgnoreCase(name)) return event;
+			if (event.getName() != null && event.getName().equalsIgnoreCase(name)) return event;
 		}
 		return null;
 	}

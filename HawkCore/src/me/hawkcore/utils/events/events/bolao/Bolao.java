@@ -2,6 +2,8 @@ package me.hawkcore.utils.events.events.bolao;
 
 
 import java.io.File;
+
+
 import java.util.ArrayList;
 
 import java.util.List;
@@ -24,6 +26,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import br.com.devpaulo.legendchat.api.events.ChatMessageEvent;
@@ -116,10 +119,19 @@ public class Bolao extends Event implements EventExecutor, EventListeners {
 	}
 	
 	@Override
+	public void onTeleport(PlayerTeleportEvent e) {
+		Player p = e.getPlayer();
+		Task.run(()->{
+			Scoreboard board = getScoreBoardPlayer(p.getName());
+			if (board!=null)board.destroy();
+		});
+	}
+	
+	@Override
 	public void addPlayerToEvent(Player p, Event event) {
 		EventExecutor.super.addPlayerToEvent(p, event);
 		participantes.add(p.getName().toLowerCase());
-		if (!getRanking().getTops().containsKey(p.getName())) getRanking().getTops().put(p.getName(), 0);
+		if (!getRanking().getTops().containsKey(p.getName())) getRanking().getTops().put(p.getName().toLowerCase(), 0);
 		Eco.get().withdrawPlayer(p, configbolao.getValueJoin());
 	}
 
@@ -179,11 +191,13 @@ public class Bolao extends Event implements EventExecutor, EventListeners {
 		setEventStatus(EventStatus.STOPPED);
 		if (task != null) task.cancel();
 		getScoreBoardPlayers().forEach(score -> score.destroy());
+		Task.run(()->Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "asb reload"));
 	}
-
+	
 	@SuppressWarnings("deprecation")
 	@Override
 	public void finish() {
+		if (getEventStatus() == EventStatus.STOPPED) return;
 		stop();
 		RankingEvent ranking = getRanking();
 		participantes.forEach(name -> {
@@ -296,7 +310,6 @@ public class Bolao extends Event implements EventExecutor, EventListeners {
 			String name = args[0];
 			int value = Integer.valueOf(args[1]);
 			getRanking().getTops().put(name, value);
-			System.out.println(name);
 		}
 		getRanking().update();
 	}

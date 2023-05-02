@@ -4,6 +4,7 @@ package me.hawkcore.commands;
 import java.io.File;
 
 
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -32,6 +33,7 @@ public class CoreCommand implements CommandExecutor {
 		s.sendMessage("§7Latência per/Tick: §e" + TaskManager.get().getLastTick() + "ms");
 		s.sendMessage("§7Tasks ignoradas: §e" + TaskManager.get().getErrors());
 		s.sendMessage(" ");
+		
 		return false;
 	}
 	

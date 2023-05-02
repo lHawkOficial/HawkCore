@@ -19,18 +19,30 @@ public class ConfigGeral {
 	private Boolean thirst,
 	heat,
 	actionBarActive,
-	enable_events;
+	enable_events,
+	active_fragments,
+	only_survival_fragments;
 	private List<String> regionsDisables,
 	events_command,
 	warn_text,
-	warn_start;
-	private String actionBar,channel_events,warn_title;
+	warn_start,
+	fragments,
+	blocks_fragments;
+	private String actionBar,
+	channel_events,
+	warn_title,
+	message_fragments;
 	private int time_warn_events;
 	
 	public ConfigGeral() {
 		configcommands = new ConfigCommands();
 		configshowmessages = new ConfigShowMessages();
 		ConfigurationSection section = Core.getInstance().getConfig().getConfigurationSection("Config");
+		only_survival_fragments = section.getBoolean("only_survival_fragments");
+		blocks_fragments = new ArrayList<>(section.getStringList("blocks_fragments"));
+		fragments = new ArrayList<>(section.getStringList("fragments"));
+		message_fragments = section.getString("message_fragments").replace("{tag}", Core.getInstance().getTag()).replace("&", "§");
+		active_fragments = section.getBoolean("active_fragments");
 		warn_title = ChatColor.stripColor(section.getString("warn_title").replace("{tag}", Core.getInstance().getTag()));
 		warn_text = new ArrayList<>(section.getStringList("warn_text"));
 		warn_text.replaceAll(l -> ChatColor.stripColor(l.replace("{tag}", Core.getInstance().getTag()))+"\n");

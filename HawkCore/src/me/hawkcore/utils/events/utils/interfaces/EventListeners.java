@@ -12,6 +12,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 
 import br.com.devpaulo.legendchat.api.events.ChatMessageEvent;
 import me.hawkcore.utils.events.utils.listeners.ChangeTopEvent;
@@ -32,5 +33,6 @@ public interface EventListeners {
 	void onDeath(PlayerDeathEvent e);
 	void onHunger(FoodLevelChangeEvent e);
 	void onRankingUpdate(ChangeTopEvent e);
+	void onTeleport(PlayerTeleportEvent e);
 	
 }

@@ -12,11 +12,6 @@ import java.io.File;
 
 
 import org.bukkit.Bukkit;
-
-
-
-
-
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
@@ -42,8 +37,10 @@ import me.hawkcore.utils.configs.ConfigCommands;
 import me.hawkcore.utils.events.CommandEvents;
 import me.hawkcore.utils.events.EventManager;
 import me.hawkcore.utils.events.events.bolao.utils.BolaoAPI;
+import me.hawkcore.utils.events.events.parkour.utils.ParkourAPI;
 import me.hawkcore.utils.events.utils.Event;
 import me.hawkcore.utils.events.utils.MenuEvents;
+import me.hawkcore.utils.fragments.Fragment;
 import me.hawkcore.utils.itemcreator.ItemCreator;
 import me.hawkcore.utils.itemcreator.ManagerItemCreator;
 import me.hawkcore.utils.missions.ManagerMissions;
@@ -112,6 +109,7 @@ public class Core extends JavaPlugin {
 		new PlayerDataListener();
 		new Listeners();
 		new EventsShow();
+		new Fragment();
 		new me.hawkcore.utils.events.utils.listeners.PlayerListener();
 		new PlaceHolders().register();
 		if (configmission.isActiveMissions()) new MissionCommand();
@@ -129,6 +127,7 @@ public class Core extends JavaPlugin {
 			EntityCreator.deleteAll();
 			sendConsole(tag + " &3HawkCore carregou todos os dados em &b" + (System.currentTimeMillis()-time) + "ms&3!");
 		});
+		
 		sendConsole(" ");
 		sendConsole("&aHawkCore iniciado com sucesso! &6[Author lHawk_] " + version);
 		sendConsole(" ");
@@ -154,6 +153,7 @@ public class Core extends JavaPlugin {
 				all.removeMetadata("playerdata", instance);
 			}
 		}
+		
 		Event.clearDatas();
 		HandlerList.unregisterAll(this);
 		sendConsole(" ");
@@ -164,6 +164,7 @@ public class Core extends JavaPlugin {
 	public void setupEvents() {
 		eventmanager.getEvents().clear();
 		BolaoAPI.checkFiles();
+		ParkourAPI.checkFiles();
 	}
 	
 	private void initFiles() {
