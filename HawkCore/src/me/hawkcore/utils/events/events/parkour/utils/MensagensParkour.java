@@ -31,10 +31,12 @@ public class MensagensParkour extends MessagesEvent {
 	startSet,
 	exitSet,
 	lobbySet,
-	locationNotFound;
+	locationNotFound,
+	checkPointSet;
 	
 	public MensagensParkour(Event event) {
 		super(event);
+		checkPointSet = replace("checkPointSet");
 		locationNotFound = replace("locationNotFound");
 		lobbySet = replace("lobbySet");
 		exitSet = replace("exitSet");

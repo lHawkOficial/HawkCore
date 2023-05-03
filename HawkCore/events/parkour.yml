@@ -34,6 +34,32 @@ Config:
   - '/g'
   - '/.'
   
+# icone para sair do evento
+IconLeave:
+  ID: 355>0
+  name: "&csair do evento"
+  lore:
+  - '&7clique para sair'
+  slot: 1
+  
+# icone para setar checkpoint
+IconSetCheckpoint:
+  ID: 70>0
+  name: "&eSetar Checkpoint"
+  lore:
+  - '&7clique para setar'
+  glow: true
+  slot: 4
+  
+# icone para teleportar checkpoint
+IconTeleportCheckpoint:
+  ID: 368>0
+  name: "&eTeleportar Checkpoint"
+  lore:
+  - '&7clique para teleportar'
+  glow: true
+  slot: 6
+  
 # configure aqui o icone deste evento
 Icon:
   ID: 352>0
@@ -121,6 +147,7 @@ MenuTop:
 
 # configure as mensagens do evento aqui
 Mensagens:
+  checkPointSet: "{tag} &aVoce setou um novo checkpoint para sua localização."
   locationNotFound: "{tag} &cEsta localização nao foi setada!."
   startSet: "{tag} &aVoce setou o inicio para sua localização com sucesso!"
   exitSet: "{tag} &aVoce setou a saída para sua localização com sucesso!"

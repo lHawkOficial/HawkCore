@@ -14,6 +14,7 @@ import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -51,6 +52,7 @@ import me.hawkcore.utils.events.utils.enums.PlayerType;
 import me.hawkcore.utils.events.utils.interfaces.EventExecutor;
 import me.hawkcore.utils.events.utils.interfaces.EventListeners;
 import me.hawkcore.utils.events.utils.listeners.ChangeTopEvent;
+import me.hawkcore.utils.items.Item;
 import me.hawkcore.utils.menus.MenuAPI;
 
 @Getter
@@ -60,6 +62,9 @@ public class Parkour extends Event implements EventExecutor, EventListeners {
 	private ConfigParkour configparkour;
 	private String timeRestante = "N.A";
 	private MenuParkour menu;
+	private Item iconLeave,
+	IconSetCheckpoint,
+	IconTeleportCheckpoint;
 	
 	public Parkour(String name, File folder, FileConfiguration config, EventType type, boolean enabled) {
 		super(name, folder, config, type, enabled);
@@ -88,6 +93,9 @@ public class Parkour extends Event implements EventExecutor, EventListeners {
 				e.printStackTrace();
 			}
 		}
+		this.iconLeave = MenuAPI.getItemFromSection(getConfig().getConfigurationSection("IconLeave"));
+		this.IconSetCheckpoint = MenuAPI.getItemFromSection(getConfig().getConfigurationSection("IconSetCheckpoint"));
+		this.IconTeleportCheckpoint = MenuAPI.getItemFromSection(getConfig().getConfigurationSection("IconTeleportCheckpoint"));
 		setFileSaves(fileSaves);
 		load();
 	}
@@ -137,10 +145,12 @@ public class Parkour extends Event implements EventExecutor, EventListeners {
 	@Override
 	public void removePlayerFromEvent(Player p) {
 		EventExecutor.super.removePlayerFromEvent(p);
+		removeScoreBoard(p);
 		teleportPlayer(p, getLocationExit());
 		p.getInventory().setContents(getContent(p));
 		p.getInventory().setArmorContents(getArmor(p));;
 		p.removeMetadata("parkour", Core.getInstance());
+		p.sendMessage(MensagensParkour.get().getExit());
 	}
 
 	@Override
@@ -269,6 +279,26 @@ public class Parkour extends Event implements EventExecutor, EventListeners {
 
 	@Override public void onInteract(PlayerInteractEvent e) {
 		e.setCancelled(true);
+		Player p = e.getPlayer();		if (e.getAction() == Action.RIGHT_CLICK_BLOCK || e.getAction() == Action.RIGHT_CLICK_AIR) {
+			p.updateInventory();
+			ItemStack item = p.getItemInHand();
+			if (item == null) return;
+			if (item.isSimilar(iconLeave.build())) {
+				removePlayerFromEvent(p);
+				return;
+			}
+			if (item.isSimilar(IconSetCheckpoint.build())) {
+				Object[] objects = (Object[]) p.getMetadata("parkour").get(0).value();
+				objects[2] = p.getLocation().clone();
+				p.sendMessage(MensagensParkour.get().getCheckPointSet());
+				p.playSound(p.getLocation(), Sound.LEVEL_UP, 0.5f, 10);
+				return;
+			}
+			if (item.isSimilar(IconTeleportCheckpoint.build())) {
+				teleportPlayer(p, getCheckpoint(p));;
+				return;
+			}
+		}
 	}
 
 	@Override public void onBreakBlock(BlockBreakEvent e) {}
