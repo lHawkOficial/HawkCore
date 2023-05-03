@@ -3,6 +3,7 @@ package me.hawkcore.utils.events.utils.interfaces;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -38,5 +39,6 @@ public interface EventListeners {
 	void onTeleport(PlayerTeleportEvent e);
 	void playerDropItem(PlayerDropItemEvent e);
 	void tagUpdate(PlayerUpdateTagEvent e);
+	void damage(EntityDamageEvent e);
 	
 }

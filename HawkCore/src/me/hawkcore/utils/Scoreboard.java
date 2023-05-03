@@ -14,7 +14,7 @@ import java.util.List;
 public class Scoreboard {
 	private boolean created = false;
 	private final VirtualTeam[] lines = new VirtualTeam[15];
-	private final Player player;
+	public final Player player;
 	private String objectiveName;
 
 	/**

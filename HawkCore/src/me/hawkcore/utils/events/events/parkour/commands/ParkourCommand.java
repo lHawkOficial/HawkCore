@@ -40,7 +40,7 @@ public class ParkourCommand implements CommandExecutor {
 			}
 			if (args[0].equalsIgnoreCase("entrar")) {
 				if (p != null) {
-					if (parkour.getEventStatus() == EventStatus.INGAME) {
+					if (parkour.getEventStatus() == EventStatus.WARNING) {
 						if (!parkour.containsPlayerOnEvent(p)) {
 							if (Eco.get().has(p, parkour.getConfigparkour().getValueJoin())) {
 								parkour.addPlayerToEvent(p, parkour);
@@ -63,9 +63,14 @@ public class ParkourCommand implements CommandExecutor {
 			if (args[0].equalsIgnoreCase("iniciar")) {
 				if (s.hasPermission("hawkcore.commands.parkour")) {
 					if (parkour.getEventStatus() == EventStatus.STOPPED) {
-						parkour.start();
-						s.sendMessage(MensagensParkour.get().getStarted());
-						return false;
+						if (parkour.isConfigured()) {
+							parkour.start();
+							s.sendMessage(MensagensParkour.get().getStarted());
+							return false;
+						}else {
+							s.sendMessage(MensagensParkour.get().getNoConfigured());
+							return false;
+						}
 					}else {
 						s.sendMessage(MensagensParkour.get().getAlreadyStart());
 						return false;
@@ -83,6 +88,14 @@ public class ParkourCommand implements CommandExecutor {
 			if (args[0].equalsIgnoreCase("setStart") && p != null) {
 				if (s.hasPermission("hawkcore.commands.parkour")) {
 					parkour.setLocationStart(p.getLocation().clone());
+					parkour.save();
+					p.sendMessage(MensagensParkour.get().getStartSet());
+					return false;
+				}
+			}
+			if (args[0].equalsIgnoreCase("setFinish") && p != null) {
+				if (s.hasPermission("hawkcore.commands.parkour")) {
+					parkour.setLocationFinish(p.getLocation().clone());
 					parkour.save();
 					p.sendMessage(MensagensParkour.get().getStartSet());
 					return false;
@@ -129,9 +142,20 @@ public class ParkourCommand implements CommandExecutor {
 					return false;
 				}
 			}
+			if (args[0].equalsIgnoreCase("tpFinish") && p != null) {
+				if (s.hasPermission("hawkcore.commands.parkour")) {
+					if (parkour.getLocationStart()!=null) {
+						p.teleport(parkour.getLocationFinish());
+						p.playSound(p.getLocation(), Sound.ENDERMAN_TELEPORT, 0.5f, 10);
+					}else {
+						p.sendMessage(MensagensParkour.get().getLocationNotFound());
+					}
+					return false;
+				}
+			}
 			if (args[0].equalsIgnoreCase("parar")) {
 				if (s.hasPermission("hawkcore.commands.parkour")) {
-					if (parkour.getEventStatus() == EventStatus.INGAME) {
+					if (parkour.getEventStatus() != EventStatus.STOPPED) {
 						parkour.finish();
 						s.sendMessage(MensagensParkour.get().getStopped());
 						return false;

@@ -17,6 +17,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -162,9 +163,8 @@ public class Bolao extends Event implements EventExecutor, EventListeners {
 								.replace("{valor}", Eco.get().format(configbolao.getValueJoin()))));
 						p.playSound(p.getLocation(), Sound.NOTE_BASS, 0.5f, 0.5f);
 					});
-					
 				}
-				if (configbolao.isScore_active() && System.currentTimeMillis()-updateScores >= 800) {
+				if (configbolao.isScore_active() && System.currentTimeMillis()-updateScores >= 1000) {
 					updateScore();
 				}
 				if (TimeUnit.MILLISECONDS.toMinutes(System.currentTimeMillis()-time) >= configbolao.getTime()) {
@@ -344,6 +344,12 @@ public class Bolao extends Event implements EventExecutor, EventListeners {
 
 	@Override
 	public void tagUpdate(PlayerUpdateTagEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void damage(EntityDamageEvent e) {
 		// TODO Auto-generated method stub
 		
 	}

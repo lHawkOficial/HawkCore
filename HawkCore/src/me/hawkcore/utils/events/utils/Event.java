@@ -19,6 +19,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -35,9 +36,11 @@ import br.com.devpaulo.legendchat.api.events.ChatMessageEvent;
 import lombok.Getter;
 import lombok.Setter;
 import me.HTags.ListenersPlugin.PlayerUpdateTagEvent;
+import me.clip.placeholderapi.PlaceholderAPI;
 import me.hawkcore.Core;
 import me.hawkcore.tasks.Task;
 import me.hawkcore.utils.API;
+import me.hawkcore.utils.Eco;
 import me.hawkcore.utils.Scoreboard;
 import me.hawkcore.utils.events.EventManager;
 import me.hawkcore.utils.events.utils.enums.EventStatus;
@@ -87,6 +90,14 @@ public class Event {
 	
 	public void setupListeners() {
 		listeners.add(new Listener() {
+			@EventHandler(priority = EventPriority.LOWEST)
+			public void damage(EntityDamageEvent e) {
+				if (!(e.getEntity() instanceof Player)) return;
+				Player p = (Player) e.getEntity();
+				Event event = Event.getEvent(p);
+				if (event != null && event.equals(getEvent()))
+				((EventListeners)event).damage(e);
+			}
 			@EventHandler(priority = EventPriority.LOWEST)
 			public void updateTag(PlayerUpdateTagEvent e) {
 				Player p = e.getJogador().getPlayer();
@@ -227,6 +238,21 @@ public class Event {
 		for(Player p : Bukkit.getOnlinePlayers()) {
 			p.removeMetadata("event", Core.getInstance());
 			p.removeMetadata("scoreevent", Core.getInstance());
+		}
+	}
+	
+	public void runRewardToPlayer(Player p, List<String> rewards) {
+		for(String line : rewards) {
+			if (line.startsWith("money:")) {
+				Double valor = Double.valueOf(line.replaceFirst("money:", new String()));
+				Eco.get().depositPlayer(p, valor);
+				continue;
+			}
+			if (line.startsWith("command:")) {
+				String command = line.replaceFirst("command:", new String()).replaceFirst("/", new String());
+				Task.run(()->Bukkit.dispatchCommand(Bukkit.getConsoleSender(), PlaceholderAPI.setPlaceholders(p, command)));
+				continue;
+			}
 		}
 	}
 	

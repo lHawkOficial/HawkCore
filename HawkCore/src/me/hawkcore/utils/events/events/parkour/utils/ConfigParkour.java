@@ -17,13 +17,15 @@ public class ConfigParkour extends ConfigEvent {
 	
 	private Parkour parkour;
 	private int timeWarn,
-	time;
+	time,
+	amountWarn;
 	private boolean score_active;
 	private String score_title,
 	mito,
 	tag_mito;
 	private List<String> score_lines,
-	commands;
+	commands,
+	rewards;
 	private double valueJoin;
 	
 	public ConfigParkour(Event event) {
@@ -31,6 +33,8 @@ public class ConfigParkour extends ConfigEvent {
 		this.parkour = (Parkour) event;
 		FileConfiguration config = event.getConfig();
 		ConfigurationSection section = config.getConfigurationSection("Config");
+		amountWarn = section.getInt("amountWarn");
+		rewards = new ArrayList<>(section.getStringList("rewards"));
 		commands = new ArrayList<>(section.getStringList("commands"));
 		commands.replaceAll(l -> l.replaceFirst("/", new String()));
 		event.setTag(section.getString("tag").replace("&", "§"));

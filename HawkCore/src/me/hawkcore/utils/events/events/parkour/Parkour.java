@@ -5,19 +5,24 @@ import java.io.File;
 
 
 
+
+
 import java.util.ArrayList;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -34,7 +39,9 @@ import org.bukkit.metadata.FixedMetadataValue;
 
 import br.com.devpaulo.legendchat.api.events.ChatMessageEvent;
 import lombok.Getter;
+import lombok.Setter;
 import me.HTags.ListenersPlugin.PlayerUpdateTagEvent;
+import me.HTags.Objects.Tag;
 import me.hawkcore.Core;
 import me.hawkcore.tasks.Task;
 import me.hawkcore.utils.API;
@@ -53,7 +60,10 @@ import me.hawkcore.utils.events.utils.interfaces.EventExecutor;
 import me.hawkcore.utils.events.utils.interfaces.EventListeners;
 import me.hawkcore.utils.events.utils.listeners.ChangeTopEvent;
 import me.hawkcore.utils.items.Item;
+import me.hawkcore.utils.locations.Distance;
 import me.hawkcore.utils.menus.MenuAPI;
+import net.minecraft.server.v1_8_R3.EnumParticle;
+import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
 
 @Getter
 public class Parkour extends Event implements EventExecutor, EventListeners {
@@ -65,6 +75,9 @@ public class Parkour extends Event implements EventExecutor, EventListeners {
 	private Item iconLeave,
 	IconSetCheckpoint,
 	IconTeleportCheckpoint;
+	private Player win;
+	@Setter
+	private Location locationFinish;
 	
 	public Parkour(String name, File folder, FileConfiguration config, EventType type, boolean enabled) {
 		super(name, folder, config, type, enabled);
@@ -105,9 +118,11 @@ public class Parkour extends Event implements EventExecutor, EventListeners {
 		List<Scoreboard> scores = getScoreBoardPlayers();
 		for(Scoreboard score : scores) {
 			score.setObjectiveName(configparkour.getScore_title());
+			Location checkpoint = getCheckpoint(score.player);
 			for (int i = 0; i < configparkour.getScore_lines().size(); i++) {
 				score.setLine(i, configparkour.getScore_lines().get(i).replace("{total}", String.valueOf(getPlayers().size()))
 						.replace("{tempo}", timeRestante)
+						.replace("{checkpoint}", "X:" + checkpoint.getBlockX() + " Y:" + checkpoint.getBlockY() + " Z:"+checkpoint.getBlockZ())
 						.replace("{valor}", Eco.get().format(configparkour.getValueJoin())));
 			}
 			score.create();
@@ -135,11 +150,17 @@ public class Parkour extends Event implements EventExecutor, EventListeners {
 		getPlayers().put(p, PlayerType.PLAYING);
 		if (!getRanking().getTops().containsKey(p.getName())) getRanking().getTops().put(p.getName().toLowerCase(), 0);
 		Eco.get().withdrawPlayer(p, configparkour.getValueJoin());
-		Object[] objects = new Object[2];
+		Object[] objects = new Object[3];
 		objects[0] = p.getInventory().getArmorContents().clone();
 		objects[1] = p.getInventory().getContents().clone();
 		objects[2] = getLocationStart().clone();
 		p.setMetadata("parkour", new FixedMetadataValue(Core.getInstance(), objects));
+		p.getInventory().setArmorContents(new ItemStack[4]);
+		p.getInventory().setContents(new ItemStack[9*4]);
+		p.getInventory().setItem(iconLeave.getSlot(), iconLeave.build());
+		p.updateInventory();
+		p.setFoodLevel(20);
+		Tag.updateAllTag();
 	}
 	
 	@Override
@@ -150,38 +171,140 @@ public class Parkour extends Event implements EventExecutor, EventListeners {
 		p.getInventory().setContents(getContent(p));
 		p.getInventory().setArmorContents(getArmor(p));;
 		p.removeMetadata("parkour", Core.getInstance());
-		p.sendMessage(MensagensParkour.get().getExit());
+		if (getEventStatus() != EventStatus.CLOSED) p.sendMessage(MensagensParkour.get().getExit());
+		Tag.updateAllTag();
+		getPlayers().remove(p);
+		p.updateInventory();
 	}
 
 	@Override
 	public void removePlayerFromEspectator(Player p) {
 	}
 
+	@Override public void closed() {}
+
+	@Override public void forceStart() {}
+
+	@Override public void warning() {}
+
 	@Override
 	public void start() {
-		
+		if (getEventStatus() != EventStatus.STOPPED || !isConfigured()) return;
+		if (task != null) task.cancel();
+		setEventStatus(EventStatus.WARNING);
+		List<Location> circle = API.get().getLocsAround(getLocationFinish().clone().add(0,0.25f,0), 0.5f);
+		task = new Task(new Runnable() {
+			long timeWarn,updateScores, time;
+			int warns = configparkour.getAmountWarn();
+			int i = 0;
+			@Override
+			public void run() {
+				switch (getEventStatus()) {
+				case WARNING:
+					if ((configparkour.getTimeWarn() - (int)TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()-timeWarn) <= 0)) {
+						timeWarn = System.currentTimeMillis();
+						if (warns > 0) {
+							Bukkit.getOnlinePlayers().forEach(p -> {
+								MensagensParkour.get().getOpen().forEach(msg -> p.sendMessage(msg
+										.replace("{total}", String.valueOf(getPlayers().size()))
+										.replace("{tempo}", String.valueOf(warns))
+										.replace("{valor}", Eco.get().format(configparkour.getValueJoin()))));
+								p.playSound(p.getLocation(), Sound.NOTE_BASS, 0.5f, 0.5f);
+							});
+							warns--;
+						} else {
+							setEventStatus(EventStatus.INGAME);
+							time = System.currentTimeMillis();
+							timeRestante = API.get().formatTime((configparkour.getTime()*60 - (int)TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()-time)));
+							Bukkit.getOnlinePlayers().forEach(p -> {
+								MensagensParkour.get().getClosed().forEach(msg -> p.sendMessage(msg
+										.replace("{tempo}", timeRestante)));
+								p.playSound(p.getLocation(), Sound.NOTE_BASS, 0.5f, 0.5f);
+							});
+							for(Player p : getPlayers().keySet()) {
+								p.getInventory().setItem(IconSetCheckpoint.getSlot(), IconSetCheckpoint.build());
+								p.getInventory().setItem(IconTeleportCheckpoint.getSlot(), IconTeleportCheckpoint.build());
+								p.updateInventory();
+								teleportPlayer(p, getLocationStart());
+							}
+						}
+					}
+					break;
+				case INGAME:
+					timeRestante = API.get().formatTime((configparkour.getTime()*60 - (int)TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()-time)));
+					for(Player p : getPlayers().keySet()) {
+						Distance distance = new Distance(p.getLocation(), locationFinish);
+						if (distance.value() <= 0.5) {
+							win = p;
+							break;
+						}
+					}
+					if (TimeUnit.MILLISECONDS.toMinutes(System.currentTimeMillis()-time) >= configparkour.getTime() || getPlayers().size() == 0 || win != null) {
+						time = -1;
+						task.cancel();
+						finish();
+					}
+					break;
+				default:
+					finish();
+				}
+				
+				if (configparkour.isScore_active() && System.currentTimeMillis()-updateScores >= 1000) {
+					updateScore();
+				}
+				
+				if (i < circle.size()) {
+					Location loc = circle.get(i);
+					for(Player p : getPlayers().keySet()) {
+						if (!p.getWorld().equals(loc.getWorld())) continue;
+						CraftPlayer cp = (CraftPlayer) p;
+						PacketPlayOutWorldParticles particle = new PacketPlayOutWorldParticles(EnumParticle.FIREWORKS_SPARK, false, (float)loc.getX(), (float)loc.getY(), (float)loc.getZ(), 0, 0, 0, 0, 1);
+						cp.getHandle().playerConnection.sendPacket(particle);
+					}
+					i++;
+				}else i=0;
+				
+			}
+		});
 	}
-
-	@Override
-	public void closed() {
-	}
-
-	@Override
-	public void forceStart() {
-	}
-
-	@Override
-	public void warning() {
-	}
-
+	
 	@Override
 	public void stop() {
-		
+		if (getEventStatus() == EventStatus.STOPPED) return;
+		if (task != null) task.cancel();
+		setEventStatus(EventStatus.STOPPED);
+		Task.run(()->Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "asb reload"));
 	}
 	
 	@Override
 	public void finish() {
-		
+		stop();
+		setEventStatus(EventStatus.CLOSED);
+		if (win != null) {
+			Bukkit.getOnlinePlayers().forEach(p -> {
+				MensagensParkour.get().getFinish().forEach(msg -> p.sendMessage(msg
+						.replace("{player}", win.getName()).replace("{total}", String.valueOf(getPlayers().size()))));
+				p.playSound(p.getLocation(), Sound.NOTE_BASS, 0.5f, 0.5f);
+			});
+			runRewardToPlayer(win, configparkour.getRewards());
+		}else {
+			Bukkit.getOnlinePlayers().forEach(p -> {
+				MensagensParkour.get().getStop().forEach(msg -> p.sendMessage(msg));
+				p.playSound(p.getLocation(), Sound.NOTE_BASS, 0.5f, 0.5f);
+			});
+		}
+		while(!getPlayers().isEmpty()) {
+			removePlayerFromEvent((Player) getPlayers().keySet().toArray()[0]);
+		}
+		setEventStatus(EventStatus.STOPPED);
+		setLastStart(System.currentTimeMillis());
+		getRanking().update();
+		getPlayers().clear();
+		Event.clearDatas();
+		Tag.updateAllTag();
+		win = null;
+		timeRestante = "N.A";
+		save();
 	}
 
 	public Location getCheckpoint(Player p) {
@@ -218,6 +341,7 @@ public class Parkour extends Event implements EventExecutor, EventListeners {
 		lista.add(getLocationExit() == null ? "N.A" : API.get().serialize(getLocationExit()));
 		lista.add(getLocationLobby() == null ? "N.A" : API.get().serialize(getLocationLobby()));
 		lista.add(getLocationStart() == null ? "N.A" : API.get().serialize(getLocationStart()));
+		lista.add(getLocationFinish() == null ? "N.A" : API.get().serialize(getLocationFinish()));
 		List<String> nomes = new ArrayList<>();
 		for(String name : getRanking().getTops().keySet()) {
 			nomes.add(name+":"+getRanking().getTops().get(name));
@@ -234,7 +358,8 @@ public class Parkour extends Event implements EventExecutor, EventListeners {
 		setLocationExit(((String)lista.get(0)).equalsIgnoreCase("N.A")?null:API.get().unserialize(((String)lista.get(0))));
 		setLocationLobby(((String)lista.get(1)).equalsIgnoreCase("N.A")?null:API.get().unserialize(((String)lista.get(1))));
 		setLocationStart(((String)lista.get(2)).equalsIgnoreCase("N.A")?null:API.get().unserialize(((String)lista.get(2))));
-		List<Object> objects = (List<Object>) lista.get(3);
+		setLocationFinish(((String)lista.get(3)).equalsIgnoreCase("N.A")?null:API.get().unserialize(((String)lista.get(3))));
+		List<Object> objects = (List<Object>) lista.get(4);
 		for(Object object : objects) {
 			String[] args = ((String)object).split(":");
 			String name = args[0];
@@ -263,6 +388,10 @@ public class Parkour extends Event implements EventExecutor, EventListeners {
 		e.setCancelled(true);
 		Player p = e.getPlayer();
 		String[] args = e.getMessage().replaceFirst("/", new String()).split(" ");
+		if (args[0].equalsIgnoreCase("sair")) {
+			removePlayerFromEvent(p);
+			return;
+		}
 		for(String cmd : configparkour.getCommands()) {
 			if (cmd.equalsIgnoreCase(args[0])) {
 				e.setCancelled(false);
@@ -274,6 +403,11 @@ public class Parkour extends Event implements EventExecutor, EventListeners {
 	}
 
 	@Override public void onDamageEntity(EntityDamageByEntityEvent e) {
+		e.setCancelled(true);
+	}
+	
+	@Override
+	public void damage(EntityDamageEvent e) {
 		e.setCancelled(true);
 	}
 
@@ -326,6 +460,10 @@ public class Parkour extends Event implements EventExecutor, EventListeners {
 		e.setCancelled(true);
 	}
 
+	public boolean isConfigured() {
+		return getLocationExit() != null && getLocationLobby() != null && getLocationStart() != null && getLocationFinish() != null;
+	}
+	
 	@Override
 	public void playerDropItem(PlayerDropItemEvent e) {
 		e.setCancelled(true);
@@ -336,7 +474,7 @@ public class Parkour extends Event implements EventExecutor, EventListeners {
 	public void tagUpdate(PlayerUpdateTagEvent e) {
 		if (getEventStatus() == EventStatus.WARNING)
 			e.setPrefix("§f§k");
-		else {
+		else if (getEventStatus() == EventStatus.INGAME) {
 			e.setPrefix(getTag()+" §f");		
 		}
 	}

@@ -16,7 +16,8 @@ public class MensagensParkour extends MessagesEvent {
 	finish,
 	commands_adm,
 	commands_player,
-	noPermission;
+	noPermission,
+	closed;
 	private String alreadyStart,
 	alreadyStopped,
 	started,
@@ -32,10 +33,15 @@ public class MensagensParkour extends MessagesEvent {
 	exitSet,
 	lobbySet,
 	locationNotFound,
-	checkPointSet;
+	checkPointSet,
+	noConfigured,
+	finishSet;
 	
 	public MensagensParkour(Event event) {
 		super(event);
+		finishSet = replace("finishSet");
+		noConfigured = replace("noConfigured");
+		closed = replaceList("closed");
 		checkPointSet = replace("checkPointSet");
 		locationNotFound = replace("locationNotFound");
 		lobbySet = replace("lobbySet");

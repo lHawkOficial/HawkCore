@@ -14,6 +14,8 @@ Config:
   
   # tempo entre os avisos (segundos)
   timeWarn: 10
+  # quantos warns para trancar o evento e iniciar totalmente?.
+  amountWarn: 6
   # tempo total que vai durar o evento (minutos)
   time: 5
   
@@ -147,8 +149,10 @@ MenuTop:
 
 # configure as mensagens do evento aqui
 Mensagens:
+  noConfigured: "{tag} &cEste evento não foi configurado!."
   checkPointSet: "{tag} &aVoce setou um novo checkpoint para sua localização."
   locationNotFound: "{tag} &cEsta localização nao foi setada!."
+  finishSet: "{tag} &aVoce setou a localização de fim com sucesso!."
   startSet: "{tag} &aVoce setou o inicio para sua localização com sucesso!"
   exitSet: "{tag} &aVoce setou a saída para sua localização com sucesso!"
   lobbySet: "{tag} &aVoce setou o lobby para sua localização com sucesso!"
@@ -173,6 +177,12 @@ Mensagens:
   - '&7Valor para participar: &b{valor}'
   - '&c[&f!&c] participe deste evento'
   - '&cusando /Parkour [Entrar].'
+  - '&6Iniciando em &f{tempo} &7avisos!'
+  - ' '
+  closed:
+  - ' '
+  - '{tag} &3O Evento foi trancado!'
+  - '&7finalizando o evento em'
   - '&8● {tempo}'
   - ' '
   stop:
@@ -180,9 +190,7 @@ Mensagens:
   - '{tag} &3Foi Fechado!'
   - '&c[&f!&c] o evento foi fechado'
   - '&cpor algum admin ou por falta'
-  - '&cde jogadores!,'
-  - '&ce foram devolvidos toda a quantia'
-  - '&ccobrada para jogar.'
+  - '&cde jogadores!'
   - ' '
   finish:
   - ' '
@@ -199,9 +207,11 @@ Mensagens:
   - '&e/Parkour [SetLobby] &7- Setar o lobby do evento.'
   - '&e/Parkour [SetExit] &7- Setar a saída do evento.'
   - '&e/Parkour [SetStart] &7- Setar para onde os jogadores irão iniciar.'
+  - '&e/Parkour [SetFinish] &7- Setar a localização aonde o parkour vai ser finalizado.'
   - '&e/Parkour [TpLobby] &7- Teleportar para o lobby do evento.'
   - '&e/Parkour [TpExit] &7- Teleportar para a saída do evento.'
   - '&e/Parkour [TpStart] &7- Teleportar para o start do evento.'
+  - '&e/Parkour [TpFinish] &7- Teleportar para o fim do parkour.'
   - '&e/Parkour [Entrar] &7- Entrar no evento!'
   - '&e/Parkour [Menu] &7- Abrir o menu principal deste evento.'
   - '&e/Parkour [Top] &7- Abrir o menu dos top jogadores.'
