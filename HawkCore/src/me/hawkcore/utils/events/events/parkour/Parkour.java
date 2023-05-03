@@ -22,6 +22,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -32,8 +33,10 @@ import org.bukkit.metadata.FixedMetadataValue;
 
 import br.com.devpaulo.legendchat.api.events.ChatMessageEvent;
 import lombok.Getter;
+import me.HTags.ListenersPlugin.PlayerUpdateTagEvent;
 import me.hawkcore.Core;
 import me.hawkcore.tasks.Task;
+import me.hawkcore.utils.API;
 import me.hawkcore.utils.Eco;
 import me.hawkcore.utils.Save;
 import me.hawkcore.utils.Scoreboard;
@@ -42,6 +45,7 @@ import me.hawkcore.utils.events.events.parkour.menus.MenuParkour;
 import me.hawkcore.utils.events.events.parkour.utils.ConfigParkour;
 import me.hawkcore.utils.events.events.parkour.utils.MensagensParkour;
 import me.hawkcore.utils.events.utils.Event;
+import me.hawkcore.utils.events.utils.enums.EventStatus;
 import me.hawkcore.utils.events.utils.enums.EventType;
 import me.hawkcore.utils.events.utils.enums.PlayerType;
 import me.hawkcore.utils.events.utils.interfaces.EventExecutor;
@@ -201,17 +205,27 @@ public class Parkour extends Event implements EventExecutor, EventListeners {
 	@Override
 	public void save() {
 		List<Object> lista = new ArrayList<>();
+		lista.add(getLocationExit() == null ? "N.A" : API.get().serialize(getLocationExit()));
+		lista.add(getLocationLobby() == null ? "N.A" : API.get().serialize(getLocationLobby()));
+		lista.add(getLocationStart() == null ? "N.A" : API.get().serialize(getLocationStart()));
+		List<String> nomes = new ArrayList<>();
 		for(String name : getRanking().getTops().keySet()) {
-			lista.add(name+":"+getRanking().getTops().get(name));
+			nomes.add(name+":"+getRanking().getTops().get(name));
 		}
+		lista.add(nomes);
 		new Save(getFileSaves(), lista);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void load() {
 		List<Object> lista = Save.load(getFileSaves());
 		if (lista == null || lista.isEmpty()) return;
-		for(Object object : lista) {
+		setLocationExit(((String)lista.get(0)).equalsIgnoreCase("N.A")?null:API.get().unserialize(((String)lista.get(0))));
+		setLocationLobby(((String)lista.get(1)).equalsIgnoreCase("N.A")?null:API.get().unserialize(((String)lista.get(1))));
+		setLocationStart(((String)lista.get(2)).equalsIgnoreCase("N.A")?null:API.get().unserialize(((String)lista.get(2))));
+		List<Object> objects = (List<Object>) lista.get(3);
+		for(Object object : objects) {
 			String[] args = ((String)object).split(":");
 			String name = args[0];
 			int value = Integer.valueOf(args[1]);
@@ -280,6 +294,21 @@ public class Parkour extends Event implements EventExecutor, EventListeners {
 
 	@Override public void onClickInventory(InventoryClickEvent e) {
 		e.setCancelled(true);
+	}
+
+	@Override
+	public void playerDropItem(PlayerDropItemEvent e) {
+		e.setCancelled(true);
+		e.getPlayer().updateInventory();
+	}
+
+	@Override
+	public void tagUpdate(PlayerUpdateTagEvent e) {
+		if (getEventStatus() == EventStatus.WARNING)
+			e.setPrefix("§f§k");
+		else {
+			e.setPrefix(getTag()+" §f");		
+		}
 	}
 
 }

@@ -121,6 +121,10 @@ MenuTop:
 
 # configure as mensagens do evento aqui
 Mensagens:
+  locationNotFound: "{tag} &cEsta localização nao foi setada!."
+  startSet: "{tag} &aVoce setou o inicio para sua localização com sucesso!"
+  exitSet: "{tag} &aVoce setou a saída para sua localização com sucesso!"
+  lobbySet: "{tag} &aVoce setou o lobby para sua localização com sucesso!"
   actionbar: "&cpara sair do evento parkour use /sair."
   commandBloqued: "{tag} &cComandos bloqueados dentro deste evento!, use /sair."
   exit: "{tag} &cVocê saiu do evento parkour."
@@ -165,6 +169,12 @@ Mensagens:
   - '{tag} &aComandos disponiveis:'
   - '&e/Parkour [Iniciar] &7- Iniciar o evento.'
   - '&e/Parkour [Parar] &7- Parar o evento.'
+  - '&e/Parkour [SetLobby] &7- Setar o lobby do evento.'
+  - '&e/Parkour [SetExit] &7- Setar a saída do evento.'
+  - '&e/Parkour [SetStart] &7- Setar para onde os jogadores irão iniciar.'
+  - '&e/Parkour [TpLobby] &7- Teleportar para o lobby do evento.'
+  - '&e/Parkour [TpExit] &7- Teleportar para a saída do evento.'
+  - '&e/Parkour [TpStart] &7- Teleportar para o start do evento.'
   - '&e/Parkour [Entrar] &7- Entrar no evento!'
   - '&e/Parkour [Menu] &7- Abrir o menu principal deste evento.'
   - '&e/Parkour [Top] &7- Abrir o menu dos top jogadores.'

@@ -2,8 +2,9 @@ package me.hawkcore.utils.events.events.parkour.utils;
 
 import java.util.List;
 
+
 import lombok.Getter;
-import me.hawkcore.utils.events.events.bolao.Bolao;
+import me.hawkcore.utils.events.events.parkour.Parkour;
 import me.hawkcore.utils.events.utils.Event;
 import me.hawkcore.utils.events.utils.MessagesEvent;
 
@@ -26,10 +27,18 @@ public class MensagensParkour extends MessagesEvent {
 	eventJoin,
 	exit,
 	commandBloqued,
-	actionbar;
+	actionbar,
+	startSet,
+	exitSet,
+	lobbySet,
+	locationNotFound;
 	
 	public MensagensParkour(Event event) {
 		super(event);
+		locationNotFound = replace("locationNotFound");
+		lobbySet = replace("lobbySet");
+		exitSet = replace("exitSet");
+		startSet = replace("startSet");
 		actionbar = replace("actionbar");
 		commandBloqued = replace("commandBloqued");
 		exit = replace("exit");
@@ -50,7 +59,7 @@ public class MensagensParkour extends MessagesEvent {
 	}
 	
 	public static MensagensParkour get() {
-		return (MensagensParkour) Bolao.get().getMessages();
+		return (MensagensParkour) Parkour.get().getMessages();
 	}
 	
 }

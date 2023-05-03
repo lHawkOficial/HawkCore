@@ -2,6 +2,7 @@ package me.hawkcore.utils.events.events.parkour.commands;
 
 import org.bukkit.Sound;
 
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -9,9 +10,8 @@ import org.bukkit.entity.Player;
 
 import me.hawkcore.Core;
 import me.hawkcore.utils.Eco;
-import me.hawkcore.utils.events.EventManager;
-import me.hawkcore.utils.events.events.bolao.utils.MensagensBolao;
 import me.hawkcore.utils.events.events.parkour.Parkour;
+import me.hawkcore.utils.events.events.parkour.utils.MensagensParkour;
 import me.hawkcore.utils.events.utils.enums.EventStatus;
 
 public class ParkourCommand implements CommandExecutor {
@@ -22,7 +22,6 @@ public class ParkourCommand implements CommandExecutor {
 	
 	@Override
 	public boolean onCommand(CommandSender s, Command c, String lb, String[] args) {
-		s.sendMessage(""+EventManager.get().getEvent("parkour"));
 		Parkour parkour = Parkour.get();
 		Player p = !(s instanceof Player) ? null : (Player)s;
 		if (p != null) p.playSound(p.getLocation(), Sound.NOTE_BASS, 0.5f, 10);
@@ -45,18 +44,18 @@ public class ParkourCommand implements CommandExecutor {
 						if (!parkour.containsPlayerOnEvent(p)) {
 							if (Eco.get().has(p, parkour.getConfigparkour().getValueJoin())) {
 								parkour.addPlayerToEvent(p, parkour);
-								s.sendMessage(MensagensBolao.get().getEventJoin());
+								s.sendMessage(MensagensParkour.get().getEventJoin());
 								return false;
 							}else {
-								s.sendMessage(MensagensBolao.get().getNoMoney());
+								s.sendMessage(MensagensParkour.get().getNoMoney());
 								return false;
 							}
 						}else {
-							s.sendMessage(MensagensBolao.get().getIsOnEvent());
+							s.sendMessage(MensagensParkour.get().getIsOnEvent());
 							return false;
 						}
 					} else {
-						s.sendMessage(MensagensBolao.get().getEventStopped());
+						s.sendMessage(MensagensParkour.get().getEventStopped());
 						return false;
 					}
 				}
@@ -65,31 +64,88 @@ public class ParkourCommand implements CommandExecutor {
 				if (s.hasPermission("hawkcore.commands.parkour")) {
 					if (parkour.getEventStatus() == EventStatus.STOPPED) {
 						parkour.start();
-						s.sendMessage(MensagensBolao.get().getStarted());
+						s.sendMessage(MensagensParkour.get().getStarted());
 						return false;
 					}else {
-						s.sendMessage(MensagensBolao.get().getAlreadyStart());
+						s.sendMessage(MensagensParkour.get().getAlreadyStart());
 						return false;
 					}
+				}
+			}
+			if (args[0].equalsIgnoreCase("setlobby") && p != null) {
+				if (s.hasPermission("hawkcore.commands.parkour")) {
+					parkour.setLocationLobby(p.getLocation().clone());
+					parkour.save();
+					p.sendMessage(MensagensParkour.get().getLobbySet());
+					return false;
+				}
+			}
+			if (args[0].equalsIgnoreCase("setStart") && p != null) {
+				if (s.hasPermission("hawkcore.commands.parkour")) {
+					parkour.setLocationStart(p.getLocation().clone());
+					parkour.save();
+					p.sendMessage(MensagensParkour.get().getStartSet());
+					return false;
+				}
+			}
+			if (args[0].equalsIgnoreCase("setExit") && p != null) {
+				if (s.hasPermission("hawkcore.commands.parkour")) {
+					parkour.setLocationExit(p.getLocation().clone());
+					parkour.save();
+					p.sendMessage(MensagensParkour.get().getExitSet());
+					return false;
+				}
+			}
+			if (args[0].equalsIgnoreCase("tpExit") && p != null) {
+				if (s.hasPermission("hawkcore.commands.parkour")) {
+					if (parkour.getLocationExit()!=null) {
+						p.teleport(parkour.getLocationExit());
+						p.playSound(p.getLocation(), Sound.ENDERMAN_TELEPORT, 0.5f, 10);
+					}else {
+						p.sendMessage(MensagensParkour.get().getLocationNotFound());
+					}
+					return false;
+				}
+			}
+			if (args[0].equalsIgnoreCase("tpLobby") && p != null) {
+				if (s.hasPermission("hawkcore.commands.parkour")) {
+					if (parkour.getLocationLobby()!=null) {
+						p.teleport(parkour.getLocationLobby());
+						p.playSound(p.getLocation(), Sound.ENDERMAN_TELEPORT, 0.5f, 10);
+					}else {
+						p.sendMessage(MensagensParkour.get().getLocationNotFound());
+					}
+					return false;
+				}
+			}
+			if (args[0].equalsIgnoreCase("tpStart") && p != null) {
+				if (s.hasPermission("hawkcore.commands.parkour")) {
+					if (parkour.getLocationStart()!=null) {
+						p.teleport(parkour.getLocationStart());
+						p.playSound(p.getLocation(), Sound.ENDERMAN_TELEPORT, 0.5f, 10);
+					}else {
+						p.sendMessage(MensagensParkour.get().getLocationNotFound());
+					}
+					return false;
 				}
 			}
 			if (args[0].equalsIgnoreCase("parar")) {
 				if (s.hasPermission("hawkcore.commands.parkour")) {
 					if (parkour.getEventStatus() == EventStatus.INGAME) {
 						parkour.finish();
-						s.sendMessage(MensagensBolao.get().getStopped());
+						s.sendMessage(MensagensParkour.get().getStopped());
 						return false;
 					}else {
-						s.sendMessage(MensagensBolao.get().getAlreadyStopped());
+						s.sendMessage(MensagensParkour.get().getAlreadyStopped());
 						return false;
 					}
 				}
 			}
 		}
 		if (s.hasPermission("hawkcore.commands.parkour")) {
-			MensagensBolao.get().getCommands_adm().forEach(msg -> s.sendMessage(msg));
+			MensagensParkour.get().getCommands_adm().forEach(msg -> s.sendMessage(msg));
 		}else {
-			MensagensBolao.get().getCommands_player().forEach(msg -> s.sendMessage(msg));
+			MensagensParkour.get().getCommands_player().forEach(msg -> s.sendMessage(msg));
 		}
 		return false;
 	}

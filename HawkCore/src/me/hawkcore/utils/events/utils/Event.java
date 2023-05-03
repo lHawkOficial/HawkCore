@@ -13,6 +13,7 @@ import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -23,6 +24,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -32,6 +34,7 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import br.com.devpaulo.legendchat.api.events.ChatMessageEvent;
 import lombok.Getter;
 import lombok.Setter;
+import me.HTags.ListenersPlugin.PlayerUpdateTagEvent;
 import me.hawkcore.Core;
 import me.hawkcore.tasks.Task;
 import me.hawkcore.utils.API;
@@ -84,53 +87,67 @@ public class Event {
 	
 	public void setupListeners() {
 		listeners.add(new Listener() {
-			@EventHandler
+			@EventHandler(priority = EventPriority.LOWEST)
+			public void updateTag(PlayerUpdateTagEvent e) {
+				Player p = e.getJogador().getPlayer();
+				Event event = Event.getEvent(p);
+				if (event != null && event.equals(getEvent()))
+				((EventListeners)event).tagUpdate(e);
+			}
+			@EventHandler(priority = EventPriority.LOWEST)
+			public void dropItem(PlayerDropItemEvent e) {
+				Player p = e.getPlayer();
+				Event event = Event.getEvent(p);
+				if (event != null && event.equals(getEvent()))
+				((EventListeners)event).playerDropItem(e);
+			}
+			@EventHandler(priority = EventPriority.LOWEST)
 			public void teleport(PlayerTeleportEvent e) {
 				Player p = e.getPlayer();
 				Event event = Event.getEvent(p);
 				if (event != null && event.equals(getEvent()))
 				((EventListeners)event).onTeleport(e);
 			}
-			@EventHandler
+			@EventHandler(priority = EventPriority.LOWEST)
 			public void chat(ChatMessageEvent e) {
 				((EventListeners)event).onChat(e);
 			}
-			@EventHandler
+			@EventHandler(priority = EventPriority.LOWEST)
 			public void chatVanilla(AsyncPlayerChatEvent e) {
 				Player p = e.getPlayer();
 				Event event = Event.getEvent(p);
 				if (event != null && event.equals(getEvent()))
 				((EventListeners)event).onChatVanilla(e);
 			}
-			@EventHandler
+			@EventHandler(priority = EventPriority.LOWEST)
 			public void move(PlayerMoveEvent e) {
 				Player p = e.getPlayer();
 				Event event = Event.getEvent(p);
 				if (event != null && event.equals(getEvent()))
 				((EventListeners)event).onMove(e);
 			}
-			@EventHandler
+			@EventHandler(priority = EventPriority.LOWEST)
 			public void click(InventoryClickEvent e) {
 				Player p = (Player) e.getWhoClicked();
 				Event event = Event.getEvent(p);
 				if (event != null && event.equals(getEvent()))
 				((EventListeners)event).onClickInventory(e);
 			}
-			@EventHandler
+			@EventHandler(priority = EventPriority.LOWEST)
 			public void quit(PlayerQuitEvent e) {
 				Player p = e.getPlayer();
 				Event event = Event.getEvent(p);
 				if (event != null && event.equals(getEvent()))
 				((EventListeners)event).onQuit(e);
 			}
-			@EventHandler
+			@EventHandler(priority = EventPriority.LOWEST)
 			public void onCommands(PlayerCommandPreprocessEvent e) {
 				Player p = e.getPlayer();
 				Event event = Event.getEvent(p);
 				if (event != null && event.equals(getEvent()))
 				((EventListeners)event).onCommands(e);
 			}
-			@EventHandler
+			@EventHandler(priority = EventPriority.LOWEST)
 			public void damageEntity(EntityDamageByEntityEvent e) {
 				if (!(e.getDamager() instanceof Player)) return;
 				Player p = (Player) e.getDamager();
@@ -138,42 +155,42 @@ public class Event {
 				if (event != null && event.equals(getEvent()))
 				((EventListeners)event).onDamageEntity(e);
 			}
-			@EventHandler
+			@EventHandler(priority = EventPriority.LOWEST)
 			public void interact(PlayerInteractEvent e) {
 				Player p = e.getPlayer();
 				Event event = Event.getEvent(p);
 				if (event != null && event.equals(getEvent()))
 				((EventListeners)event).onInteract(e);
 			}
-			@EventHandler
+			@EventHandler(priority = EventPriority.LOWEST)
 			public void breakBlock(BlockBreakEvent e) {
 				Player p = e.getPlayer();
 				Event event = Event.getEvent(p);
 				if (event != null && event.equals(getEvent()))
 				((EventListeners)event).onBreakBlock(e);
 			}
-			@EventHandler
+			@EventHandler(priority = EventPriority.LOWEST)
 			public void placeBlock(BlockPlaceEvent e) {
 				Player p = e.getPlayer();
 				Event event = Event.getEvent(p);
 				if (event != null && event.equals(getEvent()))
 				((EventListeners)event).onPlaceBlock(e);
 			}
-			@EventHandler
+			@EventHandler(priority = EventPriority.LOWEST)
 			public void death(PlayerDeathEvent e) {
 				Player p = e.getEntity();
 				Event event = Event.getEvent(p);
 				if (event != null && event.equals(getEvent()))
 				((EventListeners)event).onDeath(e);
 			}
-			@EventHandler
+			@EventHandler(priority = EventPriority.LOWEST)
 			public void hunger(FoodLevelChangeEvent e) {
 				Player p = (Player) e.getEntity();
 				Event event = Event.getEvent(p);
 				if (event != null && event.equals(getEvent()))
 				((EventListeners)event).onHunger(e);
 			}
-			@EventHandler
+			@EventHandler(priority = EventPriority.LOWEST)
 			public void join(PlayerJoinEvent e) {
 				Player p = (Player) e.getPlayer();
 				Event event = Event.getEvent(p);

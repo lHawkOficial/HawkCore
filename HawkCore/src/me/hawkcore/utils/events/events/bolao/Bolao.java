@@ -22,6 +22,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -31,6 +32,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 
 import br.com.devpaulo.legendchat.api.events.ChatMessageEvent;
 import lombok.Getter;
+import me.HTags.ListenersPlugin.PlayerUpdateTagEvent;
 import me.hawkcore.Core;
 import me.hawkcore.tasks.Task;
 import me.hawkcore.utils.API;
@@ -332,6 +334,18 @@ public class Bolao extends Event implements EventExecutor, EventListeners {
 		Player p = e.getPlayer();
 		if (!containsPlayerOnEvent(p)) return;
 		p.setMetadata("scoreevent", new FixedMetadataValue(Core.getInstance(), new Scoreboard(p, event.getTag())));
+	}
+
+	@Override
+	public void playerDropItem(PlayerDropItemEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void tagUpdate(PlayerUpdateTagEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

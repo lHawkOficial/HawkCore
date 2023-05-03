@@ -8,6 +8,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -15,6 +16,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
 import br.com.devpaulo.legendchat.api.events.ChatMessageEvent;
+import me.HTags.ListenersPlugin.PlayerUpdateTagEvent;
 import me.hawkcore.utils.events.utils.listeners.ChangeTopEvent;
 
 public interface EventListeners {
@@ -34,5 +36,7 @@ public interface EventListeners {
 	void onHunger(FoodLevelChangeEvent e);
 	void onRankingUpdate(ChangeTopEvent e);
 	void onTeleport(PlayerTeleportEvent e);
+	void playerDropItem(PlayerDropItemEvent e);
+	void tagUpdate(PlayerUpdateTagEvent e);
 	
 }
