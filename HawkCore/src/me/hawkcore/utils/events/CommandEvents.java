@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import me.hawkcore.Core;
 import me.hawkcore.utils.ConfigGeral;
 import me.hawkcore.utils.events.events.bolao.commands.BolaoCommand;
+import me.hawkcore.utils.events.events.fight.commands.FightCommand;
 import me.hawkcore.utils.events.events.parkour.commands.ParkourCommand;
 import me.hawkcore.utils.events.utils.Event;
 import me.hawkcore.utils.events.utils.MenuEvents;
@@ -20,6 +21,7 @@ public class CommandEvents implements CommandExecutor {
 		Core.getInstance().getCommand("events").setExecutor(this);
 		new BolaoCommand();
 		new ParkourCommand();
+		new FightCommand();
 	}
 	
 	@Override

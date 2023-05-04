@@ -1,0 +1,213 @@
+# comandos recompensas
+# money:valor - givar money para o jogadores
+# command:comando - fazer o console executar um comando para o jogador
+# permissao: hawkcore.commands.fight
+# Configure aqui o evento fight
+Config:
+
+  # configure aqui o prefixo do evento
+  tag: "&7[Fight]"
+
+  # o evento vai se auto iniciar a cada quanto tempo? coloque em minutos
+  autoStartTime: 120
+  autoStart: false
+  
+  # tempo entre os avisos (segundos)
+  timeWarn: 10
+  # quantos warns para trancar o evento e iniciar totalmente?.
+  amountWarn: 6
+  
+  # valor para participar do evento
+  valueJoin: 100
+  
+  # coloque aqui as recompensas do evento (os comandos de recompensa fica no cabeçalho desta config)
+  rewards:
+  - 'money:1000'
+  - 'command:give %player_name% diamond 1'
+  
+  # mensagem de novo mito
+  mito: "&b{player} &3é o novo<nl>&3mito do fight!"
+  tag_mito: "&7[MitoFight]"
+  
+  # comandos que serão permitidos dentro do evento
+  commands:
+  - '/g'
+  - '/.'
+  
+# icone para sair do evento
+IconLeave:
+  ID: 355>0
+  name: "&csair do evento"
+  lore:
+  - '&7clique para sair'
+  slot: 1
+  
+# configure aqui o icone deste evento
+Icon:
+  ID: 267>0
+  name: "&eFight"
+  lore:
+  - '&7neste evento voce precisa'
+  - '&7matar o inimigo que cair'
+  - '&7contra você!'
+  - '&c[&f!&c] clique para ver sobre.'
+  
+# configure aqui a scoreboard do evento
+ScoreBoard:
+  active: true
+  title: "{tag}"
+  text:
+  - '&1'
+  - '&7Participando &3{total}'
+  - '&2'
+  - '&7Partida'
+  - '&6{players}'
+  - '&3'
+  - '&8● {tempo}'
+
+# configure aqui o menu do evento
+MenuMain:
+  title: "&8Evento Fight"
+  row: 3
+  Icons:
+    iconBack:
+      ID: 262>0
+      name: "&cVoltar"
+      lore: []
+      glow: true
+      slot: 10
+    iconInfoPlayer:
+      ID: player
+      name: "&eInformações pessoais"
+      lore:
+      - ' '
+      - '&5# &7Ranking &f{rank}º'
+      - '&5# &f{total} &7Win(s)'
+      - ' '
+      slot: 13
+    iconInfoEvent:
+      ID: 339>0
+      glow: true
+      name: "&eInformação Evento"
+      lore:
+      - ' '
+      - '&5# &7Este evento será'
+      - '&7iniciado em &3{tempo}&7!'
+      - ' '
+      slot: 16
+    iconTop:
+      ID: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTRiZjg5M2ZjNmRlZmFkMjE4Zjc4MzZlZmVmYmU2MzZmMWMyY2MxYmI2NTBjODJmY2NkOTlmMmMxZWU2In19fQ==
+      name: "&eTop Jogadores"
+      lore:
+      - '&7clique para ver'
+      slot: 17
+  Glass: []
+  
+# configure aqui o menu do top jogadores
+MenuTop:
+  title: "&8Mito(s) Fight"
+  row: 4
+  slots: [12,13,14,15,16,21,22,23,24,25]
+  Icons:
+    iconBack:
+      ID: 262>0
+      name: "&cVoltar"
+      lore: []
+      glow: true
+      slot: 28
+    iconPlayers:
+      name: "&f{player}"
+      lore:
+      - ' '
+      - '&5# &7Rank &f{rank}º'
+      - '&5# &f{total} &7Win(s)'
+      - ' '
+    iconNonPlayer:
+      ID: 166>0
+      name: "&c&m-/-"
+  Glass:
+  - '160>10:1,2,3,4,10,27,33,34,35,36'
+
+# configure as mensagens do evento aqui
+Mensagens:
+  noConfigured: "{tag} &cEste evento não foi configurado!."
+  checkPointSet: "{tag} &aVoce setou um novo checkpoint para sua localização."
+  locationNotFound: "{tag} &cEsta localização nao foi setada!."
+  espectatorSet: "{tag} &aVoce setou a localização dos espectadores com sucesso!."
+  startSet: "{tag} &aVoce setou o inicio para sua localização com sucesso!"
+  exitSet: "{tag} &aVoce setou a saída para sua localização com sucesso!"
+  lobbySet: "{tag} &aVoce setou o lobby para sua localização com sucesso!"
+  actionbar: "&cpara sair do evento fight use /sair."
+  commandBloqued: "{tag} &cComandos bloqueados dentro deste evento!, use /sair."
+  exit: "{tag} &cVocê saiu do evento fight."
+  noPermission: "{tag} &cVoce nao possui permissao para fazer isso!"
+  noCheckpoint: "{tag} &cVoce nao possui um checkpoint salvo!, salve-o primeiro"
+  eventJoin: "{tag} &aVoce agora esta participando do evento, aguarde finalizar!"
+  noMoney: "{tag} &cDinheiro insuficiente para participar deste evento!"
+  isOnEvent: "{tag} &cVoce ja esta participando do evento!"
+  eventStopped: "{tag} &cPara voce participar deste evento ele precisa estar aberto!"
+  alreadyStart: "{tag} &cO fight ja foi iniciado!"
+  alreadyStopped: "{tag} &cO fight ja esta parado!"
+  started: "{tag} &aVoce iniciou o evento com sucesso!"
+  stopped: "{tag} &cVoce parou o evento com sucesso!"
+  versus:
+  - ' '
+  - '{tag} &3Fight Players'
+  - '&6{player} &evs &6{player2}'
+  - '&7LUTEM!'
+  - ' '
+  open:
+  - ' '
+  - '{tag} &3Esta Aberto!'
+  - '&7Premio: &3R$ 1,000.00'
+  - '&7Jogadores: &3{total}'
+  - '&7Valor para participar: &b{valor}'
+  - '&c[&f!&c] participe deste evento'
+  - '&cusando /fight [Entrar].'
+  - '&6Iniciando em &f{tempo} &7avisos!'
+  - ' '
+  closed:
+  - ' '
+  - '{tag} &3O Evento foi trancado!'
+  - '&7aguardando vencedor.'
+  - ' '
+  stop:
+  - ' '
+  - '{tag} &3Foi Fechado!'
+  - '&c[&f!&c] o evento foi fechado'
+  - '&cpor algum admin ou por falta'
+  - '&cde jogadores!'
+  - ' '
+  finish:
+  - ' '
+  - '{tag} &3Foi Finalizado!'
+  - '&7Premio: &3R$ 1,000.00'
+  - '&7Total Jogadores: &3{total}'
+  - '&7Ganhador: &f{player}'
+  - ' '
+  commands_adm:
+  - ' '
+  - '{tag} &aComandos disponiveis:'
+  - '&e/Fight [Iniciar] &7- Iniciar o evento.'
+  - '&e/Fight [Parar] &7- Parar o evento.'
+  - '&e/Fight [SetKit] &7- Setar o kit do evento para seu inventário.'
+  - '&e/Fight [VerKit] &7- Visualizar o kit que esta setado.'
+  - '&e/Fight [SetLobby] &7- Setar o lobby do evento.'
+  - '&e/Fight [SetExit] &7- Setar a saída do evento.'
+  - '&e/Fight [SetStart] &7- Setar para onde os jogadores irão iniciar.'
+  - '&e/Fight [SetEspectator] &7- Setar a localização aonde os espectadores vão ficar.'
+  - '&e/Fight [TpLobby] &7- Teleportar para o lobby do evento.'
+  - '&e/Fight [TpExit] &7- Teleportar para a saída do evento.'
+  - '&e/Fight [TpStart] &7- Teleportar para o start do evento.'
+  - '&e/Fight [TpEspectator] &7- Teleportar para o fim do fight.'
+  - '&e/Fight [Entrar] &7- Entrar no evento!'
+  - '&e/Fight [Menu] &7- Abrir o menu principal deste evento.'
+  - '&e/Fight [Top] &7- Abrir o menu dos top jogadores.'
+  - ' '
+  commands_player:
+  - ' '
+  - '{tag} &aComandos disponiveis:'
+  - '&e/Fight [Entrar] &7- Entrar no evento!'
+  - '&e/Fight [Menu] &7- Abrir o menu principal deste evento.'
+  - '&e/Fight [Top] &7- Abrir o menu dos top jogadores.'
+  - ' '
