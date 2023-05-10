@@ -20,7 +20,7 @@ import me.hawkcore.utils.events.utils.enums.EventStatus;
 public class SumoCommand implements CommandExecutor {
 
 	public SumoCommand() {
-		Core.getInstance().getCommand("fight").setExecutor(this);
+		Core.getInstance().getCommand("sumo").setExecutor(this);
 	}
 	
 	@Override

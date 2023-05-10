@@ -5,6 +5,7 @@ package me.hawkcore.utils.events.events.sumo;
 import java.io.File;
 
 
+
 import java.util.ArrayList;
 
 import java.util.List;
@@ -209,20 +210,22 @@ public class Sumo extends Event implements EventExecutor, EventListeners {
 		if (player[0] != null && player[1] != null) {
 			Player win = null;
 			if (player[0] == p) {
-				player[0] = null;
 				player[1].getInventory().setContents(new ItemStack[9*4]);
 				player[1].getInventory().setArmorContents(new ItemStack[4]);
 				player[1].updateInventory();
 				win = player[1];
-				Task.run(()->player[1].teleport(getLocationStart()));
+				Task.run(()->{
+					if (player[1] != null) player[1].teleport(getLocationStart());
+				});
 			}
 			else if (player[1] == p) {
-				player[1] = null;
 				player[0].getInventory().setContents(new ItemStack[9*4]);
 				player[0].getInventory().setArmorContents(new ItemStack[4]);
 				player[0].updateInventory();
 				win = player[0];
-				Task.run(()->player[0].teleport(getLocationStart()));
+				Task.run(()->{
+					if (player[0] != null) player[1].teleport(getLocationStart());
+				});
 			}
 			for(Player all : getPlayers().keySet()) {
 				all.sendMessage(MensagensSumo.get().getPlayerLoss().replace("{player}", win.getName()));
@@ -297,7 +300,11 @@ public class Sumo extends Event implements EventExecutor, EventListeners {
 							warns--;
 						} else {
 							for(Player p : getPlayers().keySet()) {
-								teleportPlayer(p, getLocationStart());
+								if (getPlayers().get(p) == PlayerType.ESPECTATING) {
+									teleportPlayer(p, getLocationEspectator());
+								}else {
+									teleportPlayer(p, getLocationStart());
+								}
 							}
 							setEventStatus(EventStatus.INGAME);
 							Bukkit.getOnlinePlayers().forEach(p -> {
@@ -316,6 +323,7 @@ public class Sumo extends Event implements EventExecutor, EventListeners {
 						player[1] = null;
 						return;
 					}
+					checkPlayers();
 					List<Player> players = getPlayers(PlayerType.PLAYING);
 					if (players.size() > 1 && (player[0] == null || player[1] == null)) {
 						while((player[0] == null || player[1] == null)) {
@@ -388,6 +396,19 @@ public class Sumo extends Event implements EventExecutor, EventListeners {
 				}
 			}
 		});
+	}
+	
+	public void checkPlayers() {
+		if (player[0] == null || player[1] == null) return;
+		String name = configsumo.getBlockName().toLowerCase();
+		if (player[0].getLocation().getBlock().getType().toString().toLowerCase().contains(name)) {
+			removePlayerFromEvent(player[0]);
+			return;
+		}
+		if (player[1].getLocation().getBlock().getType().toString().toLowerCase().contains(name)) {
+			removePlayerFromEvent(player[1]);
+			return;
+		}
 	}
 	
 	@Override
@@ -506,8 +527,11 @@ public class Sumo extends Event implements EventExecutor, EventListeners {
 	@Override
 	public void damage(EntityDamageEvent e) {
 		Player p = (Player) e.getEntity();
-		if (player[0] == p || player[1] == p) return;
-		e.setCancelled(true);	
+		if (player[0] == p || player[1] == p) {
+			p.setHealth(p.getMaxHealth());
+			return;
+		}
+		e.setCancelled(true);
 	}
 
 	@Override public void onInteract(PlayerInteractEvent e) {
@@ -524,16 +548,7 @@ public class Sumo extends Event implements EventExecutor, EventListeners {
 		e.setCancelled(true);
 	}
 
-	@Override public void onDeath(PlayerDeathEvent e) {
-		Player p = e.getEntity();
-		e.getDrops().clear();
-		e.setDroppedExp(0);
-		p.getWorld().strikeLightningEffect(p.getLocation());
-		Task.run(()->{
-			p.spigot().respawn();
-			removePlayerFromEvent(p);
-		});
-	}
+	@Override public void onDeath(PlayerDeathEvent e) {}
 
 	@Override public void onHunger(FoodLevelChangeEvent e) {
 		e.setCancelled(true);

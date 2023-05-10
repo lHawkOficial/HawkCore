@@ -40,6 +40,7 @@ import me.hawkcore.utils.events.EventManager;
 import me.hawkcore.utils.events.events.bolao.utils.BolaoAPI;
 import me.hawkcore.utils.events.events.fight.utils.FightAPI;
 import me.hawkcore.utils.events.events.parkour.utils.ParkourAPI;
+import me.hawkcore.utils.events.events.sumo.utils.SumoAPI;
 import me.hawkcore.utils.events.utils.Event;
 import me.hawkcore.utils.events.utils.MenuEvents;
 import me.hawkcore.utils.fragments.Fragment;
@@ -176,6 +177,7 @@ public class Core extends JavaPlugin {
 		BolaoAPI.checkFiles();
 		ParkourAPI.checkFiles();
 		FightAPI.checkFiles();
+		SumoAPI.checkFiles();
 	}
 	
 	private void initFiles() {

@@ -216,20 +216,22 @@ public class Fight extends Event implements EventExecutor, EventListeners {
 		if (player[0] != null && player[1] != null) {
 			Player win = null;
 			if (player[0] == p) {
-				player[0] = null;
 				player[1].getInventory().setContents(new ItemStack[9*4]);
 				player[1].getInventory().setArmorContents(new ItemStack[4]);
 				player[1].updateInventory();
 				win = player[1];
-				Task.run(()->player[1].teleport(getLocationStart()));
+				Task.run(()->{
+					if (player[1] != null) player[1].teleport(getLocationStart());
+				});
 			}
 			else if (player[1] == p) {
-				player[1] = null;
 				player[0].getInventory().setContents(new ItemStack[9*4]);
 				player[0].getInventory().setArmorContents(new ItemStack[4]);
 				player[0].updateInventory();
 				win = player[0];
-				Task.run(()->player[0].teleport(getLocationStart()));
+				Task.run(()->{
+					if (player[0] != null) player[1].teleport(getLocationStart());
+				});
 			}
 			for(Player all : getPlayers().keySet()) {
 				all.sendMessage(MensagensFight.get().getPlayerLoss().replace("{player}", win.getName()));
@@ -304,7 +306,11 @@ public class Fight extends Event implements EventExecutor, EventListeners {
 							warns--;
 						} else {
 							for(Player p : getPlayers().keySet()) {
-								teleportPlayer(p, getLocationStart());
+								if (getPlayers().get(p) == PlayerType.ESPECTATING) {
+									teleportPlayer(p, getLocationEspectator());
+								}else {
+									teleportPlayer(p, getLocationStart());
+								}
 							}
 							setEventStatus(EventStatus.INGAME);
 							Bukkit.getOnlinePlayers().forEach(p -> {

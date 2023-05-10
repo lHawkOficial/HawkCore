@@ -144,7 +144,7 @@ Mensagens:
   playerLoss: "{tag} &f{player} &aganhou a batalha!"
   espectatorLeft: "{tag} &cVoce saiu do modo espectador."
   espectatorJoin: "{tag} &aVoce entrou no modo espectador."
-  sumo: "{tag} &c&lLUTEM!!!"
+  fight: "{tag} &c&lLUTEM!!!"
   preparingTime: "&cPreparando para lutar em {time}!"
   preparing: "{tag} &aVocê esta em luta, boa sorte!!"
   kitSet: "{tag} &aKit setado com sucesso!."
