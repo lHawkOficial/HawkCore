@@ -13,6 +13,7 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
@@ -40,5 +41,6 @@ public interface EventListeners {
 	void playerDropItem(PlayerDropItemEvent e);
 	void tagUpdate(PlayerUpdateTagEvent e);
 	void damage(EntityDamageEvent e);
+	void pickItemEvent(PlayerPickupItemEvent e);
 	
 }

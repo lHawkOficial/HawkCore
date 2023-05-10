@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -32,6 +33,7 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.ItemStack;
@@ -53,6 +55,7 @@ import me.hawkcore.utils.events.events.parkour.menus.MenuParkour;
 import me.hawkcore.utils.events.events.parkour.utils.ConfigParkour;
 import me.hawkcore.utils.events.events.parkour.utils.MensagensParkour;
 import me.hawkcore.utils.events.utils.Event;
+import me.hawkcore.utils.events.utils.RankingEvent;
 import me.hawkcore.utils.events.utils.enums.EventStatus;
 import me.hawkcore.utils.events.utils.enums.EventType;
 import me.hawkcore.utils.events.utils.enums.PlayerType;
@@ -148,7 +151,6 @@ public class Parkour extends Event implements EventExecutor, EventListeners {
 		EventExecutor.super.addPlayerToEvent(p, event);
 		teleportPlayer(p, getLocationLobby());
 		getPlayers().put(p, PlayerType.PLAYING);
-		if (!getRanking().getTops().containsKey(p.getName())) getRanking().getTops().put(p.getName().toLowerCase(), 0);
 		Eco.get().withdrawPlayer(p, configparkour.getValueJoin());
 		Object[] objects = new Object[3];
 		objects[0] = p.getInventory().getArmorContents().clone();
@@ -160,6 +162,8 @@ public class Parkour extends Event implements EventExecutor, EventListeners {
 		p.getInventory().setItem(iconLeave.getSlot(), iconLeave.build());
 		p.updateInventory();
 		p.setFoodLevel(20);
+		p.setGameMode(GameMode.SURVIVAL);
+		p.setAllowFlight(false);
 		Tag.updateAllTag();
 	}
 	
@@ -189,6 +193,7 @@ public class Parkour extends Event implements EventExecutor, EventListeners {
 
 	@Override
 	public void start() {
+		if (EventManager.get().hasEventPlaying()) return;
 		if (getEventStatus() != EventStatus.STOPPED || !isConfigured()) return;
 		if (task != null) task.cancel();
 		setEventStatus(EventStatus.WARNING);
@@ -248,22 +253,22 @@ public class Parkour extends Event implements EventExecutor, EventListeners {
 				default:
 					finish();
 				}
-				
-				if (configparkour.isScore_active() && System.currentTimeMillis()-updateScores >= 1000) {
-					updateScore();
-				}
-				
-				if (i < circle.size()) {
-					Location loc = circle.get(i);
-					for(Player p : getPlayers().keySet()) {
-						if (!p.getWorld().equals(loc.getWorld())) continue;
-						CraftPlayer cp = (CraftPlayer) p;
-						PacketPlayOutWorldParticles particle = new PacketPlayOutWorldParticles(EnumParticle.FIREWORKS_SPARK, false, (float)loc.getX(), (float)loc.getY(), (float)loc.getZ(), 0, 0, 0, 0, 1);
-						cp.getHandle().playerConnection.sendPacket(particle);
+				if (getEventStatus() != EventStatus.STOPPED) {
+					if (configparkour.isScore_active() && System.currentTimeMillis()-updateScores >= 1000) {
+						updateScores = System.currentTimeMillis();
+						updateScore();
 					}
-					i++;
-				}else i=0;
-				
+					if (i < circle.size()) {
+						Location loc = circle.get(i);
+						for(Player p : getPlayers().keySet()) {
+							if (!p.getWorld().equals(loc.getWorld())) continue;
+							CraftPlayer cp = (CraftPlayer) p;
+							PacketPlayOutWorldParticles particle = new PacketPlayOutWorldParticles(EnumParticle.FIREWORKS_SPARK, false, (float)loc.getX(), (float)loc.getY(), (float)loc.getZ(), 0, 0, 0, 0, 1);
+							cp.getHandle().playerConnection.sendPacket(particle);
+						}
+						i++;
+					}else i=0;
+				}
 			}
 		});
 	}
@@ -278,6 +283,7 @@ public class Parkour extends Event implements EventExecutor, EventListeners {
 	
 	@Override
 	public void finish() {
+		if (getEventStatus() == EventStatus.STOPPED) return;
 		stop();
 		setEventStatus(EventStatus.CLOSED);
 		if (win != null) {
@@ -287,6 +293,9 @@ public class Parkour extends Event implements EventExecutor, EventListeners {
 				p.playSound(p.getLocation(), Sound.NOTE_BASS, 0.5f, 0.5f);
 			});
 			runRewardToPlayer(win, configparkour.getRewards());
+			String name = win.getName();
+			RankingEvent ranking = getRanking();
+			ranking.getTops().put(name.toLowerCase(), ranking.getTops().containsKey(name.toLowerCase()) ? ranking.getTops().get(name.toLowerCase())+1 : 1);
 		}else {
 			Bukkit.getOnlinePlayers().forEach(p -> {
 				MensagensParkour.get().getStop().forEach(msg -> p.sendMessage(msg));
@@ -472,11 +481,26 @@ public class Parkour extends Event implements EventExecutor, EventListeners {
 
 	@Override
 	public void tagUpdate(PlayerUpdateTagEvent e) {
+		Player p = e.getJogador().getPlayer();
+		Player target = e.getReflection();
+		if (!containsPlayerOnEvent(p)) return;
+		if (!containsPlayerOnEvent(target)) return;
+		e.setSuffix(new String());
 		if (getEventStatus() == EventStatus.WARNING)
-			e.setPrefix("§f§k");
+			e.setPrefix("§7[Parkour] ");
 		else if (getEventStatus() == EventStatus.INGAME) {
-			e.setPrefix(getTag()+" §f");		
+			e.setPrefix("§e");		
 		}
+	}
+
+	@Override
+	public void updatePlayersEveryTime() {
+		
+	}
+
+	@Override
+	public void pickItemEvent(PlayerPickupItemEvent e) {
+		e.setCancelled(true);
 	}
 
 }

@@ -20,6 +20,7 @@ public class TeleportQueue implements Runnable {
 	private Event event;
 	private Task task;
 	private HashMap<Player, Location> players;
+	private boolean teleporting = false;
 
 	public TeleportQueue(Task task, Event event, HashMap<Player, Location> players) {
 		this.task = task;
@@ -31,7 +32,10 @@ public class TeleportQueue implements Runnable {
 	@Override
 	public void run() {
 		this.task.setTickRate(this.event.getConfigEvent().getTickQueue());
-		if (players.keySet().isEmpty()) return;
+		if (players.keySet().isEmpty()) {
+			teleporting = false;
+			return;
+		}
 		if (slot < players.keySet().size()) {
 			Player p = (Player) players.keySet().toArray()[slot];
 			Location loc = players.get(p).clone();
@@ -45,6 +49,7 @@ public class TeleportQueue implements Runnable {
 			}
 			players.remove(p);
 			slot++;
+			teleporting = true;
 		}else slot = 0;
 	}
 	

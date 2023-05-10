@@ -17,6 +17,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -117,9 +118,15 @@ public class Core extends JavaPlugin {
 		new PlaceHolders().register();
 		if (configmission.isActiveMissions()) new MissionCommand();
 		if (configgeral.getEnable_events()) {
-			new CommandEvents();
-			setupEvents();
-			menuevents = new MenuEvents(getConfig().getString("Config.MenuEvents.title").replace("&", "§"), getConfig().getInt("Config.MenuEvents.row"), getConfig().getStringList("Config.MenuEvents.Glass"));
+			new BukkitRunnable() {
+				@Override
+				public void run() {
+					cancel();
+					new CommandEvents();
+					setupEvents();
+					menuevents = new MenuEvents(getConfig().getString("Config.MenuEvents.title").replace("&", "§"), getConfig().getInt("Config.MenuEvents.row"), getConfig().getStringList("Config.MenuEvents.Glass"));
+				}
+			}.runTaskLater(this, 15);
 		}
 		if (ConfigCommands.get().getActiveCommandDesenchant()) new DesenchantCommand();
 		ManagerMissions.checkPlayers();

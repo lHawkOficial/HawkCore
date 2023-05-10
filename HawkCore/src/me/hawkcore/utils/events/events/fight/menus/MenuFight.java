@@ -28,6 +28,7 @@ import me.hawkcore.utils.menus.listeners.MenuCloseEvent;
 public class MenuFight extends Menu implements MenuExecutor, MenuInterface {
 	
 	private MenuTop menutop;
+	private MenuKit menukit;
 	private Item iconBack,
 	iconInfoPlayer,
 	iconInfoEvent,
@@ -36,6 +37,7 @@ public class MenuFight extends Menu implements MenuExecutor, MenuInterface {
 	public MenuFight(String title, int row, List<String> glass) {
 		super(title, row, glass);
 		this.menutop = new MenuTop(Fight.get().getConfig().getString("MenuTop.title").replace("&", "§"), Fight.get().getConfig().getInt("MenuTop.row"), Fight.get().getConfig().getStringList("MenuTop.Glass"));
+		this.menukit = new MenuKit("§8Visualizar Kit", 9*5, new ArrayList<>());
 		this.iconBack = MenuAPI.getItemFromSection(Fight.get().getConfig().getConfigurationSection("MenuMain.Icons.iconBack"));
 		this.iconInfoPlayer = MenuAPI.getItemFromSection(Fight.get().getConfig().getConfigurationSection("MenuMain.Icons.iconInfoPlayer"));
 		this.iconInfoEvent = MenuAPI.getItemFromSection(Fight.get().getConfig().getConfigurationSection("MenuMain.Icons.iconInfoEvent"));

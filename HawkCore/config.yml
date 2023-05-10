@@ -2,7 +2,7 @@
 Config:
   
   # configure aqui os fragmentos e suas chances (todos criados no itemcreator)
-  active_fragments: true
+  active_fragments: false
   # o jogador devera estar apenas no survival para quebrar os blocos e receber os fragmentos ?
   only_survival_fragments: false
   message_fragments: "&aVoce recebeu<nl>&a{fragmento}"
@@ -45,7 +45,7 @@ Config:
   - ' '
   
   # habilitar os eventos e seus comandos?
-  enable_events: true
+  enable_events: false
   
   # comando para quem tem a permissao: hawkcore.commands.events
   events_command:
@@ -84,7 +84,7 @@ Config:
   
   # Configure aqui os comandos
   commandDesenchant:
-    active: true
+    active: false
     # valor para poder desencantar o item.
     value: 50
   

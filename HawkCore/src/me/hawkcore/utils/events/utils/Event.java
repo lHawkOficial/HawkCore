@@ -11,7 +11,9 @@ import java.util.concurrent.TimeUnit;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.HandlerList;
@@ -29,6 +31,7 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
@@ -68,7 +71,8 @@ public class Event {
 	private HashMap<Player, Location> queueList = new HashMap<>();
 	private List<Listener> listeners = new ArrayList<>();
 	private Task taskQueue;
-	protected Event event;
+	public Event event;
+	private TeleportQueue teleportQueue;
 	private File folder, fileSaves;
 	private long lastStart = System.currentTimeMillis();
 	
@@ -85,11 +89,19 @@ public class Event {
 		this.configEvent = new ConfigEvent(this);
 		this.messages = new MessagesEvent(this);
 		this.taskQueue = new Task();
-		this.taskQueue.setRunnable(new TeleportQueue(taskQueue, this, queueList));
+		this.teleportQueue = new TeleportQueue(taskQueue, this, queueList);
+		this.taskQueue.setRunnable(teleportQueue);
 	}
 	
 	public void setupListeners() {
 		listeners.add(new Listener() {
+			@EventHandler(priority = EventPriority.LOWEST)
+			public void pick(PlayerPickupItemEvent e) {
+				Player p = e.getPlayer();
+				Event event = Event.getEvent(p);
+				if (event != null && event.equals(getEvent()))
+				((EventListeners)event).pickItemEvent(e);
+			}
 			@EventHandler(priority = EventPriority.LOWEST)
 			public void damage(EntityDamageEvent e) {
 				if (!(e.getEntity() instanceof Player)) return;
@@ -160,8 +172,13 @@ public class Event {
 			}
 			@EventHandler(priority = EventPriority.LOWEST)
 			public void damageEntity(EntityDamageByEntityEvent e) {
-				if (!(e.getDamager() instanceof Player)) return;
-				Player p = (Player) e.getDamager();
+				Player p = null;
+				Entity entity = e.getDamager();
+				if (entity instanceof Player) p = (Player) entity;
+				else {
+					if (entity instanceof Projectile && ((Projectile) entity).getShooter() instanceof Player) p = (Player)((Projectile)entity).getShooter();
+				}
+				if (p == null) return;
 				Event event = Event.getEvent(p);
 				if (event != null && event.equals(getEvent()))
 				((EventListeners)event).onDamageEntity(e);

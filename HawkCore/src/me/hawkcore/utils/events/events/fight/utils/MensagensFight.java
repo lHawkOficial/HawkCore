@@ -37,10 +37,30 @@ public class MensagensFight extends MessagesEvent {
 	locationNotFound,
 	checkPointSet,
 	noConfigured,
-	espectatorSet;
+	espectatorSet,
+	kitSet,
+	pos1Set,
+	pos2Set,
+	preparingTime,
+	preparing,
+	fight,
+	espectatorLeft,
+	espectatorJoin,
+	playerLoss,
+	title;
 	
 	public MensagensFight(Event event) {
 		super(event);
+		title = replace("title");
+		playerLoss = replace("playerLoss");
+		espectatorJoin = replace("espectatorJoin");
+		espectatorLeft = replace("espectatorLeft");
+		fight = replace("fight");
+		preparing = replace("preparing");
+		preparingTime = replace("preparingTime");
+		pos2Set = replace("pos2Set");
+		pos1Set = replace("pos1Set");
+		kitSet = replace("kitSet");
 		versus = replaceList("versus");
 		espectatorSet = replace("espectatorSet");
 		noConfigured = replace("noConfigured");

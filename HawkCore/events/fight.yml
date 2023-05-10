@@ -17,8 +17,14 @@ Config:
   # quantos warns para trancar o evento e iniciar totalmente?.
   amountWarn: 6
   
+  # tempo em segundos que os jogadores vão ter para se preparar.
+  timePreparing: 10
+  
   # valor para participar do evento
   valueJoin: 100
+  
+  # time em millis entre as partidas (1000 = 1s)
+  timeOfPartyUpdate: 2500
   
   # coloque aqui as recompensas do evento (os comandos de recompensa fica no cabeçalho desta config)
   rewards:
@@ -58,12 +64,13 @@ ScoreBoard:
   title: "{tag}"
   text:
   - '&1'
-  - '&7Participando &3{total}'
+  - '&7Restantes &3{total}'
   - '&2'
-  - '&7Partida'
-  - '&6{players}'
+  - '&7Partida:'
+  - '&6{player}'
+  - '&6vs'
+  - '&6{player2}'
   - '&3'
-  - '&8● {tempo}'
 
 # configure aqui o menu do evento
 MenuMain:
@@ -130,6 +137,16 @@ MenuTop:
 
 # configure as mensagens do evento aqui
 Mensagens:
+  title: "&6{player}<nl>&6vs {player2}"
+  playerLoss: "{tag} &f{player} &aganhou a batalha!"
+  espectatorLeft: "{tag} &cVoce saiu do modo espectador."
+  espectatorJoin: "{tag} &aVoce entrou no modo espectador."
+  fight: "{tag} &c&lLUTEM!!!"
+  preparingTime: "&cPreparando para lutar em {time}!"
+  preparing: "{tag} &aVocê esta em luta, boa sorte!!"
+  kitSet: "{tag} &aKit setado com sucesso!."
+  pos1Set: "{tag} &aVocê setou a pos1 com sucesso!."
+  pos2Set: "{tag} &aVocê setou a pos2 com sucesso!."
   noConfigured: "{tag} &cEste evento não foi configurado!."
   checkPointSet: "{tag} &aVoce setou um novo checkpoint para sua localização."
   locationNotFound: "{tag} &cEsta localização nao foi setada!."
@@ -153,6 +170,7 @@ Mensagens:
   versus:
   - ' '
   - '{tag} &3Fight Players'
+  - '&3assista usando /Fight [Camarote]'
   - '&6{player} &evs &6{player2}'
   - '&7LUTEM!'
   - ' '
@@ -196,10 +214,14 @@ Mensagens:
   - '&e/Fight [SetExit] &7- Setar a saída do evento.'
   - '&e/Fight [SetStart] &7- Setar para onde os jogadores irão iniciar.'
   - '&e/Fight [SetEspectator] &7- Setar a localização aonde os espectadores vão ficar.'
+  - '&e/Fight [SetPos1] &7- Setar a pos 1 do jogador.'
+  - '&e/Fight [SetPos2] &7- Setar a pos 2 do jogador.'
   - '&e/Fight [TpLobby] &7- Teleportar para o lobby do evento.'
   - '&e/Fight [TpExit] &7- Teleportar para a saída do evento.'
   - '&e/Fight [TpStart] &7- Teleportar para o start do evento.'
   - '&e/Fight [TpEspectator] &7- Teleportar para o fim do fight.'
+  - '&e/Fight [TpPos1] &7- Teleportar para posição 1.'
+  - '&e/Fight [TpPos2] &7- Teleportar para posição 2.'
   - '&e/Fight [Entrar] &7- Entrar no evento!'
   - '&e/Fight [Menu] &7- Abrir o menu principal deste evento.'
   - '&e/Fight [Top] &7- Abrir o menu dos top jogadores.'
@@ -208,6 +230,7 @@ Mensagens:
   - ' '
   - '{tag} &aComandos disponiveis:'
   - '&e/Fight [Entrar] &7- Entrar no evento!'
+  - '&e/Fight [Camarote] &7- Entrar no modo camarote do evento.'
   - '&e/Fight [Menu] &7- Abrir o menu principal deste evento.'
   - '&e/Fight [Top] &7- Abrir o menu dos top jogadores.'
   - ' '

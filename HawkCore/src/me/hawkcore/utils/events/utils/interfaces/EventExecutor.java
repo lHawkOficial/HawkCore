@@ -28,6 +28,7 @@ public interface EventExecutor {
 	boolean containsPlayerOnEvent(Player p);
 	void addPlayerToEspectator(Player p);
 	void removePlayerFromEspectator(Player p);
+	void updatePlayersEveryTime();
 	void start();
 	void closed();
 	void forceStart();

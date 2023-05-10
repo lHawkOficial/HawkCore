@@ -4,6 +4,7 @@ import org.bukkit.Sound;
 
 
 
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -39,6 +40,15 @@ public class FightCommand implements CommandExecutor {
 					return false;
 				}
 			}
+			if (args[0].equalsIgnoreCase("camarote") && p != null) {
+				if (!fight.containsPlayerOnEvent(p)) {
+					fight.addPlayerToEspectator(p);
+					return false;
+				}else {
+					s.sendMessage(MensagensFight.get().getIsOnEvent());
+					return false;
+				}
+			}
 			if (args[0].equalsIgnoreCase("entrar")) {
 				if (p != null) {
 					if (fight.getEventStatus() == EventStatus.WARNING) {
@@ -59,6 +69,21 @@ public class FightCommand implements CommandExecutor {
 						s.sendMessage(MensagensFight.get().getEventStopped());
 						return false;
 					}
+				}
+			}
+			if (args[0].equalsIgnoreCase("setKit") && p != null) {
+				if (s.hasPermission("hawkcore.commands.fight")) {
+					fight.setArmor_kit(p.getInventory().getArmorContents().clone());
+					fight.setContent_kit(p.getInventory().getContents().clone());
+					fight.save();
+					p.sendMessage(MensagensFight.get().getKitSet());
+					return false;
+				}
+			}
+			if (args[0].equalsIgnoreCase("verKit") && p != null) {
+				if (s.hasPermission("hawkcore.commands.fight")) {
+					fight.getMenu().getMenukit().open(p);
+					return false;
 				}
 			}
 			if (args[0].equalsIgnoreCase("iniciar")) {
@@ -86,6 +111,22 @@ public class FightCommand implements CommandExecutor {
 					return false;
 				}
 			}
+			if (args[0].equalsIgnoreCase("setPos1") && p != null) {
+				if (s.hasPermission("hawkcore.commands.fight")) {
+					fight.setLocationPlayer1(p.getLocation().clone());
+					fight.save();
+					p.sendMessage(MensagensFight.get().getPos1Set());
+					return false;
+				}
+			}
+			if (args[0].equalsIgnoreCase("setPos2") && p != null) {
+				if (s.hasPermission("hawkcore.commands.fight")) {
+					fight.setLocationPlayer2(p.getLocation().clone());
+					fight.save();
+					p.sendMessage(MensagensFight.get().getPos2Set());
+					return false;
+				}
+			}
 			if (args[0].equalsIgnoreCase("setStart") && p != null) {
 				if (s.hasPermission("hawkcore.commands.fight")) {
 					fight.setLocationStart(p.getLocation().clone());
@@ -98,7 +139,7 @@ public class FightCommand implements CommandExecutor {
 				if (s.hasPermission("hawkcore.commands.fight")) {
 					fight.setLocationEspectator(p.getLocation().clone());
 					fight.save();
-					p.sendMessage(MensagensFight.get().getStartSet());
+					p.sendMessage(MensagensFight.get().getEspectatorSet());
 					return false;
 				}
 			}
@@ -132,6 +173,28 @@ public class FightCommand implements CommandExecutor {
 					return false;
 				}
 			}
+			if (args[0].equalsIgnoreCase("tpPos1") && p != null) {
+				if (s.hasPermission("hawkcore.commands.fight")) {
+					if (fight.getLocationPlayer1()!=null) {
+						p.teleport(fight.getLocationPlayer1());
+						p.playSound(p.getLocation(), Sound.ENDERMAN_TELEPORT, 0.5f, 10);
+					}else {
+						p.sendMessage(MensagensFight.get().getLocationNotFound());
+					}
+					return false;
+				}
+			}
+			if (args[0].equalsIgnoreCase("tpPos2") && p != null) {
+				if (s.hasPermission("hawkcore.commands.fight")) {
+					if (fight.getLocationPlayer2()!=null) {
+						p.teleport(fight.getLocationPlayer2());
+						p.playSound(p.getLocation(), Sound.ENDERMAN_TELEPORT, 0.5f, 10);
+					}else {
+						p.sendMessage(MensagensFight.get().getLocationNotFound());
+					}
+					return false;
+				}
+			}
 			if (args[0].equalsIgnoreCase("tpStart") && p != null) {
 				if (s.hasPermission("hawkcore.commands.fight")) {
 					if (fight.getLocationStart()!=null) {
@@ -145,7 +208,7 @@ public class FightCommand implements CommandExecutor {
 			}
 			if (args[0].equalsIgnoreCase("tpEspectator") && p != null) {
 				if (s.hasPermission("hawkcore.commands.fight")) {
-					if (fight.getLocationStart()!=null) {
+					if (fight.getLocationEspectator() != null) {
 						p.teleport(fight.getLocationEspectator());
 						p.playSound(p.getLocation(), Sound.ENDERMAN_TELEPORT, 0.5f, 10);
 					}else {

@@ -97,7 +97,7 @@ public class ParkourCommand implements CommandExecutor {
 				if (s.hasPermission("hawkcore.commands.parkour")) {
 					parkour.setLocationFinish(p.getLocation().clone());
 					parkour.save();
-					p.sendMessage(MensagensParkour.get().getStartSet());
+					p.sendMessage(MensagensParkour.get().getFinishSet());
 					return false;
 				}
 			}
@@ -144,7 +144,7 @@ public class ParkourCommand implements CommandExecutor {
 			}
 			if (args[0].equalsIgnoreCase("tpFinish") && p != null) {
 				if (s.hasPermission("hawkcore.commands.parkour")) {
-					if (parkour.getLocationStart()!=null) {
+					if (parkour.getLocationFinish()!=null) {
 						p.teleport(parkour.getLocationFinish());
 						p.playSound(p.getLocation(), Sound.ENDERMAN_TELEPORT, 0.5f, 10);
 					}else {

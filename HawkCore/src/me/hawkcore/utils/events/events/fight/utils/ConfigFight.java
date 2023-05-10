@@ -18,7 +18,8 @@ public class ConfigFight extends ConfigEvent {
 	
 	private Fight fight;
 	private int timeWarn,
-	amountWarn;
+	amountWarn,
+	timePreparing;
 	private boolean score_active;
 	private String score_title,
 	mito,
@@ -27,12 +28,15 @@ public class ConfigFight extends ConfigEvent {
 	commands,
 	rewards;
 	private double valueJoin;
+	private long timeOfPartyUpdate;
 	
 	public ConfigFight(Event event) {
 		super(event);
 		this.fight = (Fight) event;
 		FileConfiguration config = event.getConfig();
 		ConfigurationSection section = config.getConfigurationSection("Config");
+		timeOfPartyUpdate = section.getLong("timeOfPartyUpdate");
+		timePreparing = section.getInt("timePreparing");
 		amountWarn = section.getInt("amountWarn");
 		rewards = new ArrayList<>(section.getStringList("rewards"));
 		commands = new ArrayList<>(section.getStringList("commands"));

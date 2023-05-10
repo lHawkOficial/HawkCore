@@ -27,6 +27,7 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.metadata.FixedMetadataValue;
@@ -134,7 +135,6 @@ public class Bolao extends Event implements EventExecutor, EventListeners {
 	public void addPlayerToEvent(Player p, Event event) {
 		EventExecutor.super.addPlayerToEvent(p, event);
 		participantes.add(p.getName().toLowerCase());
-		if (!getRanking().getTops().containsKey(p.getName())) getRanking().getTops().put(p.getName().toLowerCase(), 0);
 		Eco.get().withdrawPlayer(p, configbolao.getValueJoin());
 	}
 
@@ -144,6 +144,7 @@ public class Bolao extends Event implements EventExecutor, EventListeners {
 
 	@Override
 	public void start() {
+		if (EventManager.get().hasEventPlaying()) return;
 		if (getEventStatus() == EventStatus.INGAME) return;
 		setEventStatus(EventStatus.INGAME);
 		if (task != null) task.cancel();
@@ -218,7 +219,7 @@ public class Bolao extends Event implements EventExecutor, EventListeners {
 				p.playSound(p.getLocation(), Sound.NOTE_BASS, 0.5f, 0.5f);
 			});
 			Eco.get().depositPlayer(name, getTotal());
-			ranking.getTops().put(name, ranking.getTops().containsKey(name) ? ranking.getTops().get(name)+1 : 1);
+			ranking.getTops().put(name.toLowerCase(), ranking.getTops().containsKey(name.toLowerCase()) ? ranking.getTops().get(name.toLowerCase())+1 : 1);
 		}else {
 			Bukkit.getOnlinePlayers().forEach(p -> {
 				MensagensBolao.get().getStop().forEach(msg -> p.sendMessage(msg
@@ -350,6 +351,18 @@ public class Bolao extends Event implements EventExecutor, EventListeners {
 
 	@Override
 	public void damage(EntityDamageEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updatePlayersEveryTime() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void pickItemEvent(PlayerPickupItemEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
