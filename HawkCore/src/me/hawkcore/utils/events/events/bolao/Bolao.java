@@ -34,10 +34,13 @@ import org.bukkit.metadata.FixedMetadataValue;
 
 import br.com.devpaulo.legendchat.api.events.ChatMessageEvent;
 import lombok.Getter;
+import me.HClan.ListenersPlugin.PlayerDamageClanAlly;
+import me.HClan.ListenersPlugin.PlayerDamageClanMember;
 import me.HTags.ListenersPlugin.PlayerUpdateTagEvent;
 import me.hawkcore.Core;
 import me.hawkcore.tasks.Task;
 import me.hawkcore.utils.API;
+import me.hawkcore.utils.ConfigGeral;
 import me.hawkcore.utils.Eco;
 import me.hawkcore.utils.Save;
 import me.hawkcore.utils.Scoreboard;
@@ -194,7 +197,7 @@ public class Bolao extends Event implements EventExecutor, EventListeners {
 		setEventStatus(EventStatus.STOPPED);
 		if (task != null) task.cancel();
 		getScoreBoardPlayers().forEach(score -> score.destroy());
-		Task.run(()->Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "asb reload"));
+		Task.run(()->Bukkit.dispatchCommand(Bukkit.getConsoleSender(), ConfigGeral.get().getCommand_reloadScore()));
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -338,33 +341,30 @@ public class Bolao extends Event implements EventExecutor, EventListeners {
 	}
 
 	@Override
-	public void playerDropItem(PlayerDropItemEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void playerDropItem(PlayerDropItemEvent e) {}
 
 	@Override
 	public void tagUpdate(PlayerUpdateTagEvent e) {
-		// TODO Auto-generated method stub
-		
+		Player p = e.getReflection();
+		if (containsPlayerOnEvent(p)) {
+			e.setSuffix(new String());
+			e.setPrefix("§7[Bolão] ");
+		}
 	}
 
 	@Override
-	public void damage(EntityDamageEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void damage(EntityDamageEvent e) {}
 
 	@Override
-	public void updatePlayersEveryTime() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void updatePlayersEveryTime() {}
 
 	@Override
-	public void pickItemEvent(PlayerPickupItemEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void pickItemEvent(PlayerPickupItemEvent e) {}
+
+	@Override
+	public void damageClanAlly(PlayerDamageClanAlly e) {}
+
+	@Override
+	public void damageClanMember(PlayerDamageClanMember e) {}
 
 }

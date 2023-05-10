@@ -26,4 +26,6 @@ commands:
   bolao:
   parkour:
   fight:
+  sumo:
+    aliases: [summo]
   killer:

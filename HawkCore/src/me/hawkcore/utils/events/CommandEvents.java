@@ -11,6 +11,7 @@ import me.hawkcore.utils.ConfigGeral;
 import me.hawkcore.utils.events.events.bolao.commands.BolaoCommand;
 import me.hawkcore.utils.events.events.fight.commands.FightCommand;
 import me.hawkcore.utils.events.events.parkour.commands.ParkourCommand;
+import me.hawkcore.utils.events.events.sumo.commands.SumoCommand;
 import me.hawkcore.utils.events.utils.Event;
 import me.hawkcore.utils.events.utils.MenuEvents;
 import me.hawkcore.utils.events.utils.interfaces.EventExecutor;
@@ -22,6 +23,7 @@ public class CommandEvents implements CommandExecutor {
 		new BolaoCommand();
 		new ParkourCommand();
 		new FightCommand();
+		new SumoCommand();
 	}
 	
 	@Override

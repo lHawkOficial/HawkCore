@@ -20,24 +20,22 @@ public class TaskManager extends BukkitRunnable {
 	
 	@Override
 	public void run() {
-		
 		if (tasks.isEmpty()) return;
 		long time = System.currentTimeMillis();
-		for (int i = 0; i < tasks.size(); i++) {
-			try {
+		try {
+			for (int i = 0; i < tasks.size(); i++) {
 				Task task = tasks.get(i);
 				if (!(task.tickRelative < task.getTickRate())) {
 					task.tickRelative = 1;
 					if (task.getRunnable() == null) continue;
 					task.getRunnable().run();
 				} else task.tickRelative++;
-			} catch (Exception e) {
-				e.printStackTrace();
-				errors+=1;
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			errors++;
 		}
 		lastTick = (int) (System.currentTimeMillis()-time);
-		
 	}
 
 }

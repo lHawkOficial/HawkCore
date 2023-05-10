@@ -17,6 +17,7 @@ import me.hawkcore.utils.events.EventManager;
 import me.hawkcore.utils.events.events.bolao.Bolao;
 import me.hawkcore.utils.events.events.fight.Fight;
 import me.hawkcore.utils.events.events.parkour.Parkour;
+import me.hawkcore.utils.events.events.sumo.Sumo;
 import me.hawkcore.utils.items.Item;
 import me.hawkcore.utils.menus.Menu;
 import me.hawkcore.utils.menus.MenuAPI;
@@ -91,6 +92,7 @@ public class MenuEvents extends Menu implements MenuExecutor, MenuInterface {
 				if (event instanceof Bolao) ((Bolao)event).getMenu().open(p);
 				if (event instanceof Parkour) ((Parkour)event).getMenu().open(p);
 				if (event instanceof Fight) ((Fight)event).getMenu().open(p);
+				if (event instanceof Sumo) ((Sumo)event).getMenu().open(p);
 				return;
 			}
 		}

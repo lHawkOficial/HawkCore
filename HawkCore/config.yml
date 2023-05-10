@@ -44,6 +44,9 @@ Config:
   - '{tag} O Evento {evento} foi iniciado!.'
   - ' '
   
+  # coloque aqui o comando do seu plugin de scoreboard para recarregar o plugin e aparecer novamente para os players. (executa em todos os finais dos eventos.)
+  command_reloadScore: "asb reload"
+  
   # habilitar os eventos e seus comandos?
   enable_events: false
   

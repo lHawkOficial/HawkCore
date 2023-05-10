@@ -33,7 +33,6 @@ public class CoreCommand implements CommandExecutor {
 		s.sendMessage("§7Latência per/Tick: §e" + TaskManager.get().getLastTick() + "ms");
 		s.sendMessage("§7Tasks ignoradas: §e" + TaskManager.get().getErrors());
 		s.sendMessage(" ");
-		
 		return false;
 	}
 	

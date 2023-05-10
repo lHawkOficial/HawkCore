@@ -38,6 +38,8 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import br.com.devpaulo.legendchat.api.events.ChatMessageEvent;
 import lombok.Getter;
 import lombok.Setter;
+import me.HClan.ListenersPlugin.PlayerDamageClanAlly;
+import me.HClan.ListenersPlugin.PlayerDamageClanMember;
 import me.HTags.ListenersPlugin.PlayerUpdateTagEvent;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.hawkcore.Core;
@@ -95,6 +97,20 @@ public class Event {
 	
 	public void setupListeners() {
 		listeners.add(new Listener() {
+			@EventHandler(priority = EventPriority.LOWEST)
+			public void damageMember(PlayerDamageClanMember e) {
+				Player p = e.getAttacker().getPlayer();
+				Event event = Event.getEvent(p);
+				if (event != null && event.equals(getEvent()))
+				((EventListeners)event).damageClanMember(e);
+			}
+			@EventHandler(priority = EventPriority.LOWEST)
+			public void damageAlly(PlayerDamageClanAlly e) {
+				Player p = e.getAttacker().getPlayer();
+				Event event = Event.getEvent(p);
+				if (event != null && event.equals(getEvent()))
+				((EventListeners)event).damageClanAlly(e);
+			}
 			@EventHandler(priority = EventPriority.LOWEST)
 			public void pick(PlayerPickupItemEvent e) {
 				Player p = e.getPlayer();

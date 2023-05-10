@@ -18,6 +18,8 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
 import br.com.devpaulo.legendchat.api.events.ChatMessageEvent;
+import me.HClan.ListenersPlugin.PlayerDamageClanAlly;
+import me.HClan.ListenersPlugin.PlayerDamageClanMember;
 import me.HTags.ListenersPlugin.PlayerUpdateTagEvent;
 import me.hawkcore.utils.events.utils.listeners.ChangeTopEvent;
 
@@ -42,5 +44,7 @@ public interface EventListeners {
 	void tagUpdate(PlayerUpdateTagEvent e);
 	void damage(EntityDamageEvent e);
 	void pickItemEvent(PlayerPickupItemEvent e);
+	void damageClanAlly(PlayerDamageClanAlly e);
+	void damageClanMember(PlayerDamageClanMember e);
 	
 }

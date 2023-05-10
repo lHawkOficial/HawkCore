@@ -31,13 +31,15 @@ public class ConfigGeral {
 	private String actionBar,
 	channel_events,
 	warn_title,
-	message_fragments;
+	message_fragments,
+	command_reloadScore;
 	private int time_warn_events;
 	
 	public ConfigGeral() {
 		configcommands = new ConfigCommands();
 		configshowmessages = new ConfigShowMessages();
 		ConfigurationSection section = Core.getInstance().getConfig().getConfigurationSection("Config");
+		command_reloadScore = section.getString("command_reloadScore");
 		only_survival_fragments = section.getBoolean("only_survival_fragments");
 		blocks_fragments = new ArrayList<>(section.getStringList("blocks_fragments"));
 		fragments = new ArrayList<>(section.getStringList("fragments"));

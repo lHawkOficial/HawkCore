@@ -42,11 +42,14 @@ import org.bukkit.metadata.FixedMetadataValue;
 import br.com.devpaulo.legendchat.api.events.ChatMessageEvent;
 import lombok.Getter;
 import lombok.Setter;
+import me.HClan.ListenersPlugin.PlayerDamageClanAlly;
+import me.HClan.ListenersPlugin.PlayerDamageClanMember;
 import me.HTags.ListenersPlugin.PlayerUpdateTagEvent;
 import me.HTags.Objects.Tag;
 import me.hawkcore.Core;
 import me.hawkcore.tasks.Task;
 import me.hawkcore.utils.API;
+import me.hawkcore.utils.ConfigGeral;
 import me.hawkcore.utils.Eco;
 import me.hawkcore.utils.Save;
 import me.hawkcore.utils.Scoreboard;
@@ -278,7 +281,7 @@ public class Parkour extends Event implements EventExecutor, EventListeners {
 		if (getEventStatus() == EventStatus.STOPPED) return;
 		if (task != null) task.cancel();
 		setEventStatus(EventStatus.STOPPED);
-		Task.run(()->Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "asb reload"));
+		Task.run(()->Bukkit.dispatchCommand(Bukkit.getConsoleSender(), ConfigGeral.get().getCommand_reloadScore()));
 	}
 	
 	@Override
@@ -444,9 +447,13 @@ public class Parkour extends Event implements EventExecutor, EventListeners {
 		}
 	}
 
-	@Override public void onBreakBlock(BlockBreakEvent e) {}
+	@Override public void onBreakBlock(BlockBreakEvent e) {
+		e.setCancelled(true);
+	}
 
-	@Override public void onPlaceBlock(BlockPlaceEvent e) {}
+	@Override public void onPlaceBlock(BlockPlaceEvent e) {
+		e.setCancelled(true);
+	}
 
 	@Override public void onDeath(PlayerDeathEvent e) {
 		e.getDrops().clear();
@@ -494,13 +501,17 @@ public class Parkour extends Event implements EventExecutor, EventListeners {
 	}
 
 	@Override
-	public void updatePlayersEveryTime() {
-		
-	}
+	public void updatePlayersEveryTime() {}
 
 	@Override
 	public void pickItemEvent(PlayerPickupItemEvent e) {
 		e.setCancelled(true);
 	}
+
+	@Override
+	public void damageClanAlly(PlayerDamageClanAlly e) {}
+
+	@Override
+	public void damageClanMember(PlayerDamageClanMember e) {}
 
 }

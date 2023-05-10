@@ -1,0 +1,239 @@
+# comandos recompensas
+# money:valor - givar money para o jogadores
+# command:comando - fazer o console executar um comando para o jogador
+# permissao: hawkcore.commands.sumo
+# Configure aqui o evento sumo
+Config:
+
+  # configure aqui o prefixo do evento
+  tag: "&7[Sumo]"
+
+  # o evento vai se auto iniciar a cada quanto tempo? coloque em minutos
+  autoStartTime: 240
+  autoStart: false
+  
+  # tempo entre os avisos (segundos)
+  timeWarn: 10
+  # quantos warns para trancar o evento e iniciar totalmente?.
+  amountWarn: 6
+  
+  # tempo em segundos que os jogadores vão ter para se preparar.
+  timePreparing: 10
+  
+  # valor para participar do evento
+  valueJoin: 100
+  
+  # time em millis entre as partidas (1000 = 1s)
+  timeOfPartyUpdate: 2500
+  
+  # escreva aqui o tipo do bloco que o jogador vai cair e ser eliminado
+  blockName: water
+  
+  # coloque aqui as recompensas do evento (os comandos de recompensa fica no cabeçalho desta config)
+  rewards:
+  - 'money:1000'
+  - 'command:give %player_name% diamond 1'
+  
+  # mensagem de novo mito
+  mito: "&b{player} &3é o novo<nl>&3mito do Sumo!"
+  tag_mito: "&7[MitoSumo]"
+  
+  # comandos que serão permitidos dentro do evento
+  commands:
+  - '/g'
+  - '/.'
+  
+# icone para sair do evento
+IconLeave:
+  ID: 355>0
+  name: "&csair do evento"
+  lore:
+  - '&7clique para sair'
+  slot: 1
+  
+# configure aqui o icone deste evento
+Icon:
+  ID: 298>0
+  name: "&eSumo"
+  lore:
+  - '&7neste evento voce precisa'
+  - '&7empurrar o inimigo que cair'
+  - '&7contra você fora da arena!'
+  - '&c[&f!&c] clique para ver sobre.'
+  
+# configure aqui a scoreboard do evento
+ScoreBoard:
+  active: true
+  title: "{tag}"
+  text:
+  - '&1'
+  - '&7Restantes &3{total}'
+  - '&2'
+  - '&7Partida:'
+  - '&6{player}'
+  - '&6vs'
+  - '&6{player2}'
+  - '&3'
+
+# configure aqui o menu do evento
+MenuMain:
+  title: "&8Evento Sumo"
+  row: 3
+  Icons:
+    iconBack:
+      ID: 262>0
+      name: "&cVoltar"
+      lore: []
+      glow: true
+      slot: 10
+    iconInfoPlayer:
+      ID: player
+      name: "&eInformações pessoais"
+      lore:
+      - ' '
+      - '&5# &7Ranking &f{rank}º'
+      - '&5# &f{total} &7Win(s)'
+      - ' '
+      slot: 13
+    iconInfoEvent:
+      ID: 339>0
+      glow: true
+      name: "&eInformação Evento"
+      lore:
+      - ' '
+      - '&5# &7Este evento será'
+      - '&7iniciado em &3{tempo}&7!'
+      - ' '
+      slot: 16
+    iconTop:
+      ID: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTRiZjg5M2ZjNmRlZmFkMjE4Zjc4MzZlZmVmYmU2MzZmMWMyY2MxYmI2NTBjODJmY2NkOTlmMmMxZWU2In19fQ==
+      name: "&eTop Jogadores"
+      lore:
+      - '&7clique para ver'
+      slot: 17
+  Glass: []
+  
+# configure aqui o menu do top jogadores
+MenuTop:
+  title: "&8Mito(s) Sumo"
+  row: 4
+  slots: [12,13,14,15,16,21,22,23,24,25]
+  Icons:
+    iconBack:
+      ID: 262>0
+      name: "&cVoltar"
+      lore: []
+      glow: true
+      slot: 28
+    iconPlayers:
+      name: "&f{player}"
+      lore:
+      - ' '
+      - '&5# &7Rank &f{rank}º'
+      - '&5# &f{total} &7Win(s)'
+      - ' '
+    iconNonPlayer:
+      ID: 166>0
+      name: "&c&m-/-"
+  Glass:
+  - '160>10:1,2,3,4,10,27,33,34,35,36'
+
+# configure as mensagens do evento aqui
+Mensagens:
+  title: "&6{player}<nl>&6vs {player2}"
+  playerLoss: "{tag} &f{player} &aganhou a batalha!"
+  espectatorLeft: "{tag} &cVoce saiu do modo espectador."
+  espectatorJoin: "{tag} &aVoce entrou no modo espectador."
+  sumo: "{tag} &c&lLUTEM!!!"
+  preparingTime: "&cPreparando para lutar em {time}!"
+  preparing: "{tag} &aVocê esta em luta, boa sorte!!"
+  kitSet: "{tag} &aKit setado com sucesso!."
+  pos1Set: "{tag} &aVocê setou a pos1 com sucesso!."
+  pos2Set: "{tag} &aVocê setou a pos2 com sucesso!."
+  noConfigured: "{tag} &cEste evento não foi configurado!."
+  checkPointSet: "{tag} &aVoce setou um novo checkpoint para sua localização."
+  locationNotFound: "{tag} &cEsta localização nao foi setada!."
+  espectatorSet: "{tag} &aVoce setou a localização dos espectadores com sucesso!."
+  startSet: "{tag} &aVoce setou o inicio para sua localização com sucesso!"
+  exitSet: "{tag} &aVoce setou a saída para sua localização com sucesso!"
+  lobbySet: "{tag} &aVoce setou o lobby para sua localização com sucesso!"
+  actionbar: "&cpara sair do evento sumo use /sair."
+  commandBloqued: "{tag} &cComandos bloqueados dentro deste evento!, use /sair."
+  exit: "{tag} &cVocê saiu do evento sumo."
+  noPermission: "{tag} &cVoce nao possui permissao para fazer isso!"
+  noCheckpoint: "{tag} &cVoce nao possui um checkpoint salvo!, salve-o primeiro"
+  eventJoin: "{tag} &aVoce agora esta participando do evento, aguarde finalizar!"
+  noMoney: "{tag} &cDinheiro insuficiente para participar deste evento!"
+  isOnEvent: "{tag} &cVoce ja esta participando do evento!"
+  eventStopped: "{tag} &cPara voce participar deste evento ele precisa estar aberto!"
+  alreadyStart: "{tag} &cO sumo ja foi iniciado!"
+  alreadyStopped: "{tag} &cO sumo ja esta parado!"
+  started: "{tag} &aVoce iniciou o evento com sucesso!"
+  stopped: "{tag} &cVoce parou o evento com sucesso!"
+  versus:
+  - ' '
+  - '{tag} &3sumo Players'
+  - '&3assista usando /Sumo [Camarote]'
+  - '&6{player} &evs &6{player2}'
+  - '&7LUTEM!'
+  - ' '
+  open:
+  - ' '
+  - '{tag} &3Esta Aberto!'
+  - '&7Premio: &3R$ 1,000.00'
+  - '&7Jogadores: &3{total}'
+  - '&7Valor para participar: &b{valor}'
+  - '&c[&f!&c] participe deste evento'
+  - '&cusando /Sumo [Entrar].'
+  - '&6Iniciando em &f{tempo} &7avisos!'
+  - ' '
+  closed:
+  - ' '
+  - '{tag} &3O Evento foi trancado!'
+  - '&7aguardando vencedor.'
+  - ' '
+  stop:
+  - ' '
+  - '{tag} &3Foi Fechado!'
+  - '&c[&f!&c] o evento foi fechado'
+  - '&cpor algum admin ou por falta'
+  - '&cde jogadores!'
+  - ' '
+  finish:
+  - ' '
+  - '{tag} &3Foi Finalizado!'
+  - '&7Premio: &3R$ 1,000.00'
+  - '&7Total Jogadores: &3{total}'
+  - '&7Ganhador: &f{player}'
+  - ' '
+  commands_adm:
+  - ' '
+  - '{tag} &aComandos disponiveis:'
+  - '&e/Sumo [Iniciar] &7- Iniciar o evento.'
+  - '&e/Sumo [Parar] &7- Parar o evento.'
+  - '&e/Sumo [SetKit] &7- Setar o kit do evento para seu inventário.'
+  - '&e/Sumo [VerKit] &7- Visualizar o kit que esta setado.'
+  - '&e/Sumo [SetLobby] &7- Setar o lobby do evento.'
+  - '&e/Sumo [SetExit] &7- Setar a saída do evento.'
+  - '&e/Sumo [SetStart] &7- Setar para onde os jogadores irão iniciar.'
+  - '&e/Sumo [SetEspectator] &7- Setar a localização aonde os espectadores vão ficar.'
+  - '&e/Sumo [SetPos1] &7- Setar a pos 1 do jogador.'
+  - '&e/Sumo [SetPos2] &7- Setar a pos 2 do jogador.'
+  - '&e/Sumo [TpLobby] &7- Teleportar para o lobby do evento.'
+  - '&e/Sumo [TpExit] &7- Teleportar para a saída do evento.'
+  - '&e/Sumo [TpStart] &7- Teleportar para o start do evento.'
+  - '&e/Sumo [TpEspectator] &7- Teleportar para o fim do sumo.'
+  - '&e/Sumo [TpPos1] &7- Teleportar para posição 1.'
+  - '&e/Sumo [TpPos2] &7- Teleportar para posição 2.'
+  - '&e/Sumo [Entrar] &7- Entrar no evento!'
+  - '&e/Sumo [Menu] &7- Abrir o menu principal deste evento.'
+  - '&e/Sumo [Top] &7- Abrir o menu dos top jogadores.'
+  - ' '
+  commands_player:
+  - ' '
+  - '{tag} &aComandos disponiveis:'
+  - '&e/Sumo [Entrar] &7- Entrar no evento!'
+  - '&e/Sumo [Camarote] &7- Entrar no modo camarote do evento.'
+  - '&e/Sumo [Menu] &7- Abrir o menu principal deste evento.'
+  - '&e/Sumo [Top] &7- Abrir o menu dos top jogadores.'
+  - ' '
