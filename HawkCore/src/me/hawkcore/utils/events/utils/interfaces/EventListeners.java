@@ -1,6 +1,7 @@
 package me.hawkcore.utils.events.utils.interfaces;
 
 import org.bukkit.event.block.BlockBreakEvent;
+
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -18,10 +19,10 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
 import br.com.devpaulo.legendchat.api.events.ChatMessageEvent;
-import me.HClan.ListenersPlugin.PlayerDamageClanAlly;
-import me.HClan.ListenersPlugin.PlayerDamageClanMember;
 import me.HTags.ListenersPlugin.PlayerUpdateTagEvent;
 import me.hawkcore.utils.events.utils.listeners.ChangeTopEvent;
+import me.hclan.listeners.plugin.ClanDamageAllyEvent;
+import me.hclan.listeners.plugin.ClanDamageMemberEvent;
 
 public interface EventListeners {
 
@@ -44,7 +45,7 @@ public interface EventListeners {
 	void tagUpdate(PlayerUpdateTagEvent e);
 	void damage(EntityDamageEvent e);
 	void pickItemEvent(PlayerPickupItemEvent e);
-	void damageClanAlly(PlayerDamageClanAlly e);
-	void damageClanMember(PlayerDamageClanMember e);
+	void damageClanAlly(ClanDamageAllyEvent e);
+	void damageClanMember(ClanDamageMemberEvent e);
 	
 }

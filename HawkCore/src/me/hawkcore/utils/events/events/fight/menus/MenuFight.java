@@ -70,6 +70,7 @@ public class MenuFight extends Menu implements MenuExecutor, MenuInterface {
 				replaces.add("{tempo}:"+Fight.get().getTimeLastFormatted());
 				inv.setItem(iconInfoEvent.getSlot(), MenuAPI.getItemWithReplaces(new Item(iconInfoEvent.build().clone()), replaces).build());
 				if (!Fight.get().getConfigEvent().isAutoStart()) task.cancel();
+				p.updateInventory();
 			}).setTickRate(1);
 			inv.setItem(iconTop.getSlot(), iconTop.build().clone());
 			

@@ -4,6 +4,7 @@ package me.hawkcore.utils.events.events.bolao;
 import java.io.File;
 
 
+
 import java.util.ArrayList;
 
 import java.util.List;
@@ -34,8 +35,6 @@ import org.bukkit.metadata.FixedMetadataValue;
 
 import br.com.devpaulo.legendchat.api.events.ChatMessageEvent;
 import lombok.Getter;
-import me.HClan.ListenersPlugin.PlayerDamageClanAlly;
-import me.HClan.ListenersPlugin.PlayerDamageClanMember;
 import me.HTags.ListenersPlugin.PlayerUpdateTagEvent;
 import me.hawkcore.Core;
 import me.hawkcore.tasks.Task;
@@ -56,6 +55,8 @@ import me.hawkcore.utils.events.utils.interfaces.EventExecutor;
 import me.hawkcore.utils.events.utils.interfaces.EventListeners;
 import me.hawkcore.utils.events.utils.listeners.ChangeTopEvent;
 import me.hawkcore.utils.menus.MenuAPI;
+import me.hclan.listeners.plugin.ClanDamageAllyEvent;
+import me.hclan.listeners.plugin.ClanDamageMemberEvent;
 
 @Getter
 public class Bolao extends Event implements EventExecutor, EventListeners {
@@ -362,9 +363,9 @@ public class Bolao extends Event implements EventExecutor, EventListeners {
 	public void pickItemEvent(PlayerPickupItemEvent e) {}
 
 	@Override
-	public void damageClanAlly(PlayerDamageClanAlly e) {}
+	public void damageClanAlly(ClanDamageAllyEvent e) {}
 
 	@Override
-	public void damageClanMember(PlayerDamageClanMember e) {}
+	public void damageClanMember(ClanDamageMemberEvent e) {}
 
 }

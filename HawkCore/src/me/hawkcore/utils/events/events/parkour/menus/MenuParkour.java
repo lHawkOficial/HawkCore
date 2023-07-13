@@ -68,6 +68,7 @@ public class MenuParkour extends Menu implements MenuExecutor, MenuInterface {
 				replaces.add("{tempo}:"+Parkour.get().getTimeLastFormatted());
 				inv.setItem(iconInfoEvent.getSlot(), MenuAPI.getItemWithReplaces(new Item(iconInfoEvent.build().clone()), replaces).build());
 				if (!Parkour.get().getConfigEvent().isAutoStart()) task.cancel();
+				p.updateInventory();
 			}).setTickRate(1);
 			inv.setItem(iconTop.getSlot(), iconTop.build().clone());
 			

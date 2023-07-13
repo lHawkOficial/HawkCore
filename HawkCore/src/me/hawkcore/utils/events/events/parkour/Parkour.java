@@ -7,6 +7,7 @@ import java.io.File;
 
 
 
+
 import java.util.ArrayList;
 
 import java.util.List;
@@ -42,8 +43,6 @@ import org.bukkit.metadata.FixedMetadataValue;
 import br.com.devpaulo.legendchat.api.events.ChatMessageEvent;
 import lombok.Getter;
 import lombok.Setter;
-import me.HClan.ListenersPlugin.PlayerDamageClanAlly;
-import me.HClan.ListenersPlugin.PlayerDamageClanMember;
 import me.HTags.ListenersPlugin.PlayerUpdateTagEvent;
 import me.HTags.Objects.Tag;
 import me.hawkcore.Core;
@@ -68,6 +67,8 @@ import me.hawkcore.utils.events.utils.listeners.ChangeTopEvent;
 import me.hawkcore.utils.items.Item;
 import me.hawkcore.utils.locations.Distance;
 import me.hawkcore.utils.menus.MenuAPI;
+import me.hclan.listeners.plugin.ClanDamageAllyEvent;
+import me.hclan.listeners.plugin.ClanDamageMemberEvent;
 import net.minecraft.server.v1_8_R3.EnumParticle;
 import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
 
@@ -509,9 +510,9 @@ public class Parkour extends Event implements EventExecutor, EventListeners {
 	}
 
 	@Override
-	public void damageClanAlly(PlayerDamageClanAlly e) {}
+	public void damageClanAlly(ClanDamageAllyEvent e) {}
 
 	@Override
-	public void damageClanMember(PlayerDamageClanMember e) {}
+	public void damageClanMember(ClanDamageMemberEvent e) {}
 
 }

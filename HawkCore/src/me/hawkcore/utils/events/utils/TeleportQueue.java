@@ -40,8 +40,9 @@ public class TeleportQueue implements Runnable {
 			Player p = (Player) players.keySet().toArray()[slot];
 			Location loc = players.get(p).clone();
 			Task.run(()->{
+				loc.getChunk().load();
 				p.teleport(loc);
-				p.playSound(p.getLocation(), Sound.ENDERMAN_TELEPORT, 0.5f, 10);
+				p.playSound(p.getLocation(), Sound.ENDERMAN_TELEPORT, 0.5f, 0.5f);
 			});
 			for(Player all : players.keySet()) {
 				API.get().sendActionBarMessage(p, event.getMessages().getQueueMessage().replace("{numero}", String.valueOf(slot+1)));

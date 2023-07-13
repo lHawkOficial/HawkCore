@@ -737,7 +737,7 @@ public class Cuboid implements Iterable<Block>, Cloneable, ConfigurationSerializ
 		public boolean hasNext() {
 			return this.x < this.sizeX && this.y < this.sizeY && this.z < this.sizeZ;
 		}
-
+		
 		public Block next() {
 			Block b = this.w.getBlockAt(this.baseX + this.x, this.baseY + this.y, this.baseZ + this.z);
 			if (++x >= this.sizeX) {

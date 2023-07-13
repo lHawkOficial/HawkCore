@@ -10,10 +10,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import me.hawkcore.Core;
 import me.hawkcore.tasks.Task;
+import me.hawkcore.utils.ConfigGeral;
 import me.hawkcore.utils.boosbar.BossBar;
 import me.hawkcore.utils.items.Item;
 import me.hawkcore.utils.locations.Distance;
@@ -24,6 +26,8 @@ import me.hawkcore.utils.playersdata.utils.MensagensThirstHeat;
 
 public class PlayerDataListener implements Listener {
 
+	private ConfigGeral config = ConfigGeral.get();
+	
 	public PlayerDataListener() {
 		Bukkit.getPluginManager().registerEvents(this, Core.getInstance());
 	}
@@ -31,6 +35,15 @@ public class PlayerDataListener implements Listener {
 	@EventHandler
 	public void join(PlayerJoinEvent e) {
 		PlayerData.check(e.getPlayer());
+	}
+	
+	@EventHandler
+	public void move(PlayerMoveEvent e) {
+		if (!config.getAntiVoid()) return;
+		Player p = e.getPlayer();
+		if (p.getLocation().getBlockY()>=0) return;
+		p.teleport(p.getWorld().getSpawnLocation().getBlock().getLocation().clone().add(0.5,0.05,0.5));
+		p.playSound(p.getLocation(), Sound.ENDERMAN_TELEPORT, 0.5f, 0.5f);
 	}
 	
 	@EventHandler

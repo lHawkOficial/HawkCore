@@ -17,6 +17,7 @@ public class ConfigGeral {
 	private ConfigCommands configcommands;
 	private ConfigShowMessages configshowmessages;
 	private Boolean thirst,
+	antiVoid,
 	heat,
 	actionBarActive,
 	enable_events,
@@ -39,6 +40,7 @@ public class ConfigGeral {
 		configcommands = new ConfigCommands();
 		configshowmessages = new ConfigShowMessages();
 		ConfigurationSection section = Core.getInstance().getConfig().getConfigurationSection("Config");
+		antiVoid = section.getBoolean("antiVoid");
 		command_reloadScore = section.getString("command_reloadScore");
 		only_survival_fragments = section.getBoolean("only_survival_fragments");
 		blocks_fragments = new ArrayList<>(section.getStringList("blocks_fragments"));

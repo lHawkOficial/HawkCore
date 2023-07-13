@@ -12,6 +12,7 @@ import java.io.File;
 
 
 
+
 import java.util.ArrayList;
 
 import java.util.List;
@@ -46,8 +47,6 @@ import org.bukkit.metadata.FixedMetadataValue;
 import br.com.devpaulo.legendchat.api.events.ChatMessageEvent;
 import lombok.Getter;
 import lombok.Setter;
-import me.HClan.ListenersPlugin.PlayerDamageClanAlly;
-import me.HClan.ListenersPlugin.PlayerDamageClanMember;
 import me.HTags.ListenersPlugin.PlayerUpdateTagEvent;
 import me.HTags.Objects.Tag;
 import me.hawkcore.Core;
@@ -71,6 +70,8 @@ import me.hawkcore.utils.events.utils.interfaces.EventListeners;
 import me.hawkcore.utils.events.utils.listeners.ChangeTopEvent;
 import me.hawkcore.utils.items.Item;
 import me.hawkcore.utils.menus.MenuAPI;
+import me.hclan.listeners.plugin.ClanDamageAllyEvent;
+import me.hclan.listeners.plugin.ClanDamageMemberEvent;
 
 @Getter
 @Setter
@@ -230,7 +231,7 @@ public class Fight extends Event implements EventExecutor, EventListeners {
 				player[0].updateInventory();
 				win = player[0];
 				Task.run(()->{
-					if (player[0] != null) player[1].teleport(getLocationStart());
+					if (player[0] != null) player[0].teleport(getLocationStart());
 				});
 			}
 			for(Player all : getPlayers().keySet()) {
@@ -542,6 +543,7 @@ public class Fight extends Event implements EventExecutor, EventListeners {
 		e.getDrops().clear();
 		e.setDroppedExp(0);
 		p.getWorld().strikeLightningEffect(p.getLocation());
+		e.getEntity().getKiller().setHealth(e.getEntity().getKiller().getMaxHealth());
 		Task.run(()->{
 			p.spigot().respawn();
 			removePlayerFromEvent(p);
@@ -556,7 +558,14 @@ public class Fight extends Event implements EventExecutor, EventListeners {
 	
 	@Override public void onChatVanilla(AsyncPlayerChatEvent e) {}
 
-	@Override public void onMove(PlayerMoveEvent e) {}
+	@Override public void onMove(PlayerMoveEvent e) {
+		Player p = e.getPlayer();
+		if (player[0] == p || player[1] == p) {
+			if (preparing != -1) {
+				e.setTo(e.getFrom());
+			}
+		}
+	}
 
 	@Override public void onClickInventory(InventoryClickEvent e) {
 		Player p = (Player) e.getWhoClicked();
@@ -661,13 +670,13 @@ public class Fight extends Event implements EventExecutor, EventListeners {
 	}
 
 	@Override
-	public void damageClanAlly(PlayerDamageClanAlly e) {
-		e.setCancelled(true);
+	public void damageClanAlly(ClanDamageAllyEvent e) {
+		e.setCancelled(false);
 	}
 
 	@Override
-	public void damageClanMember(PlayerDamageClanMember e) {
-		e.setCancelled(true);
+	public void damageClanMember(ClanDamageMemberEvent e) {
+		e.setCancelled(false);
 	}
 
 }

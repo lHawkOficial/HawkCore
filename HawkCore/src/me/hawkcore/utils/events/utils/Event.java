@@ -1,6 +1,7 @@
 package me.hawkcore.utils.events.utils;
 
 import java.io.File;
+
 import java.util.ArrayList;
 
 
@@ -38,8 +39,6 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import br.com.devpaulo.legendchat.api.events.ChatMessageEvent;
 import lombok.Getter;
 import lombok.Setter;
-import me.HClan.ListenersPlugin.PlayerDamageClanAlly;
-import me.HClan.ListenersPlugin.PlayerDamageClanMember;
 import me.HTags.ListenersPlugin.PlayerUpdateTagEvent;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.hawkcore.Core;
@@ -53,6 +52,8 @@ import me.hawkcore.utils.events.utils.enums.EventType;
 import me.hawkcore.utils.events.utils.enums.PlayerType;
 import me.hawkcore.utils.events.utils.interfaces.EventListeners;
 import me.hawkcore.utils.items.Item;
+import me.hclan.listeners.plugin.ClanDamageAllyEvent;
+import me.hclan.listeners.plugin.ClanDamageMemberEvent;
 
 @Getter
 @Setter
@@ -98,15 +99,15 @@ public class Event {
 	public void setupListeners() {
 		listeners.add(new Listener() {
 			@EventHandler(priority = EventPriority.LOWEST)
-			public void damageMember(PlayerDamageClanMember e) {
-				Player p = e.getAttacker().getPlayer();
+			public void damageMember(ClanDamageMemberEvent e) {
+				Player p = e.getDamager().getPlayer();
 				Event event = Event.getEvent(p);
 				if (event != null && event.equals(getEvent()))
 				((EventListeners)event).damageClanMember(e);
 			}
 			@EventHandler(priority = EventPriority.LOWEST)
-			public void damageAlly(PlayerDamageClanAlly e) {
-				Player p = e.getAttacker().getPlayer();
+			public void damageAlly(ClanDamageAllyEvent e) {
+				Player p = e.getDamager().getPlayer();
 				Event event = Event.getEvent(p);
 				if (event != null && event.equals(getEvent()))
 				((EventListeners)event).damageClanAlly(e);

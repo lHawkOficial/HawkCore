@@ -1,6 +1,9 @@
 # Configuração geral do Core
 Config:
   
+  # ativar o antivoid do plugin?
+  antiVoid: true
+  
   # configure aqui os fragmentos e suas chances (todos criados no itemcreator)
   active_fragments: false
   # o jogador devera estar apenas no survival para quebrar os blocos e receber os fragmentos ?

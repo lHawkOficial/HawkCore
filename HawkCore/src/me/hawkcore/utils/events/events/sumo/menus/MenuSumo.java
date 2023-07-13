@@ -73,6 +73,7 @@ public class MenuSumo extends Menu implements MenuExecutor, MenuInterface {
 				replaces.add("{tempo}:"+Sumo.get().getTimeLastFormatted());
 				inv.setItem(iconInfoEvent.getSlot(), MenuAPI.getItemWithReplaces(new Item(iconInfoEvent.build().clone()), replaces).build());
 				if (!Sumo.get().getConfigEvent().isAutoStart()) task.cancel();
+				p.updateInventory();
 			}).setTickRate(1);
 			inv.setItem(iconTop.getSlot(), iconTop.build().clone());
 			
