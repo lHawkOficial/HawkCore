@@ -8,6 +8,7 @@ import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 
 import org.bukkit.command.CommandExecutor;
@@ -16,6 +17,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import me.hawkcore.Core;
+import me.hawkcore.commands.creator.listeners.onCommandEvent;
 import me.hawkcore.tasks.TaskManager;
 
 public class CoreCommand implements CommandExecutor {
@@ -26,6 +28,14 @@ public class CoreCommand implements CommandExecutor {
 	
 	@Override
 	public boolean onCommand(CommandSender s, Command c, String lb, String[] args) {
+		for(me.hawkcore.commands.creator.Command command : Core.getInstance().getCommandmanager().getCommands()) {
+			if (!command.getName().equalsIgnoreCase(c.getName())) continue;
+			onCommandEvent event = new onCommandEvent(s, command);
+			Bukkit.getPluginManager().callEvent(event);
+			if (event.isCancelled()) return false;
+			command.onCommand(s, args);
+			return false;
+		}
 		if (!s.hasPermission("*")) return false;
 		s.sendMessage(" ");
 		s.sendMessage(Core.getInstance().getTag() + " §7Atualização do Plugin " + Core.getInstance().getVersion());

@@ -11,6 +11,7 @@ import java.io.File;
 
 
 
+
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -19,12 +20,15 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+
 import lombok.Getter;
 import lombok.Setter;
 import me.hawkcore.commands.CoreCommand;
 import me.hawkcore.commands.DesenchantCommand;
 import me.hawkcore.commands.ItemCreatorCommand;
 import me.hawkcore.commands.MissionCommand;
+import me.hawkcore.commands.PvPCommand;
+import me.hawkcore.commands.creator.CommandManager;
 import me.hawkcore.entities.EntityCreator;
 import me.hawkcore.entities.listeners.Listeners;
 import me.hawkcore.tasks.Task;
@@ -77,6 +81,8 @@ public class Core extends JavaPlugin {
 	private MensagensThirstHeat mensagensthirstheat;
 	private Mensagens mensagens;
 	private MenuEvents menuevents;
+	private CoreCommand commandMain;
+	private CommandManager commandmanager;
 	
 	@Getter
 	private static Core instance;
@@ -106,8 +112,10 @@ public class Core extends JavaPlugin {
 		mensagensthirstheat = new MensagensThirstHeat();
 		mensagens = new Mensagens();
 		ItemCreator.setup();
-		new CoreCommand();
-		new ItemCreatorCommand();
+		commandmanager = new CommandManager();
+		commandMain = new CoreCommand();
+		new PvPCommand("pvpmanager");
+		new ItemCreatorCommand("itemcreator");
 		new ListenerBar();
 		new PlayerListener();
 		new MenuListeners();
@@ -117,7 +125,7 @@ public class Core extends JavaPlugin {
 		new Fragment();
 		new me.hawkcore.utils.events.utils.listeners.PlayerListener();
 		new PlaceHolders().register();
-		if (configmission.isActiveMissions()) new MissionCommand();
+		if (configmission.isActiveMissions()) new MissionCommand("mission");
 		if (configgeral.getEnable_events()) {
 			new BukkitRunnable() {
 				@Override

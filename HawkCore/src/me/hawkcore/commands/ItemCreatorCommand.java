@@ -2,27 +2,26 @@ package me.hawkcore.commands;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import me.hawkcore.Core;
+import me.hawkcore.commands.creator.Command;
 import me.hawkcore.utils.API;
 import me.hawkcore.utils.inventories.InventoryAPI;
 import me.hawkcore.utils.itemcreator.ItemCreator;
 import me.hawkcore.utils.itemcreator.ManagerItemCreator;
 
-public class ItemCreatorCommand implements CommandExecutor {
-
-	public ItemCreatorCommand() {
-		Core.getInstance().getCommand("itemcreator").setExecutor(this);
-	}
+public class ItemCreatorCommand extends Command {
 	
+	public ItemCreatorCommand(String name) {
+		super(name);
+	}
+
 	@Override
-	public boolean onCommand(CommandSender s, Command c, String lb, String[] args) {
-		if (!s.hasPermission("hawkcore.itemcreator")) return false;
+	public void onCommand(CommandSender s, String[] args) {
+		if (!s.hasPermission("hawkcore.itemcreator")) return;
 		
 		String tag = Core.getInstance().getTag();
 		if (args.length == 1) {
@@ -33,12 +32,12 @@ public class ItemCreatorCommand implements CommandExecutor {
 					linha += "§7, §f" + ic.getNome();
 				}
 				s.sendMessage(linha.replaceFirst("§7, ", new String()));
-				return false;
+				return;
 			}
 		}
 		if (args.length == 2) {
 			if (args[0].equalsIgnoreCase("criar")) {
-				if (!(s instanceof Player)) return false;
+				if (!(s instanceof Player)) return;
 				Player p = (Player) s;
 				ItemCreator ic = ManagerItemCreator.get().getItem(args[1]);
 				if (ic == null) {
@@ -46,14 +45,14 @@ public class ItemCreatorCommand implements CommandExecutor {
 						ItemStack item = p.getItemInHand().clone();
 						new ItemCreator(args[1], item);
 						s.sendMessage(tag + " §aItem §f" + args[1] + " §acriado com sucesso!");
-						return false;
+						return;
 					}else {
 						s.sendMessage(tag + " §cSegure um item válido para poder criar!.");
-						return false;
+						return;
 					}
 				}else {
 					s.sendMessage(tag + " §cEste item ja existe!.");
-					return false;
+					return;
 				}
 			}
 			if (args[0].equalsIgnoreCase("deletar")) {
@@ -61,10 +60,10 @@ public class ItemCreatorCommand implements CommandExecutor {
 				if (ic != null) {
 					ic.delete();
 					s.sendMessage(tag + " §aItem §f" + ic.getNome() + " §adeletado com sucesso!");
-					return false;
+					return;
 				}else {
 					s.sendMessage(tag + " §cEste item não existe!.");
-					return false;
+					return;
 				}
 			}
 		}
@@ -87,7 +86,7 @@ public class ItemCreatorCommand implements CommandExecutor {
 								total++;
 							}
 							s.sendMessage(tag + " §aGivado o item §f" + ic.getNome() + " §apara §f" + total + " jogadores§a!");
-							return false;
+							return;
 						}else {
 							Player p = Bukkit.getPlayerExact(args[1]);
 							if (p != null) {
@@ -99,16 +98,16 @@ public class ItemCreatorCommand implements CommandExecutor {
 									}
 								}
 								s.sendMessage(tag + " §aGivado o item §f" + ic.getNome() + " §apara §f" + p.getName() + "§a!");
-								return false;
+								return;
 							}else {
 								s.sendMessage(tag + " §cEste jogador não foi encontrado.");
-								return false;
+								return;
 							}
 						}
 					}
 				}else {
 					s.sendMessage(tag + " §cItem não encontrado.");
-					return false;
+					return;
 				}
 			}
 		}
@@ -119,7 +118,9 @@ public class ItemCreatorCommand implements CommandExecutor {
 		s.sendMessage(tag + " §e/Ic [List] §7- Listar todos os item(s) criados.");
 		s.sendMessage(tag + " §e/Ic [Give] [Player/all] [NomeItem] [Amount] §7- Givar item aos jogadores");
 		s.sendMessage(" ");
-		return false;
 	}
+	
+	
+	
 	
 }

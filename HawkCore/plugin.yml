@@ -1,5 +1,5 @@
 name: HawkCore
-version: 5.9
+version: 6.1
 author: lHawk_
 description: Plugin para gerenciamento geral dos plugins Hawk.
 depend: [PlaceholderAPI,nChat,WorldEdit,Vault,WorldGuard]
@@ -9,6 +9,9 @@ awareness:
 - !@UTF-8
 main: me.hawkcore.Core
 commands:
+  pvpmanager:
+    aliases: [pvp]
+    description: manusear o pvp do servidor de forma eficiente.
   desencantar:
     aliases: [desenchant]
     description: desencantar item(s)

@@ -1,27 +1,25 @@
 package me.hawkcore.commands;
 
 import org.bukkit.Sound;
-import org.bukkit.command.Command;
-
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import me.hawkcore.Core;
+import me.hawkcore.commands.creator.Command;
 import me.hawkcore.utils.missions.ManagerMissions;
 import me.hawkcore.utils.missions.menus.menuCategorys;
 import me.hawkcore.utils.missions.menus.menuMissions;
 import me.hawkcore.utils.missions.objects.MissionCategory;
 import me.hawkcore.utils.missions.objects.MissionPlayer;
 
-public class MissionCommand implements CommandExecutor {
+public class MissionCommand extends Command {
 
-	public MissionCommand() {
-		Core.getInstance().getCommand("mission").setExecutor(this);
+	public MissionCommand(String name) {
+		super(name);
 	}
 	
 	@Override
-	public boolean onCommand(CommandSender s, Command c, String lb, String[] args) {
+	public void onCommand(CommandSender s, String[] args) {
 		Player p = null;
 		if (s instanceof Player) p = (Player) s;
 		String tag = Core.getInstance().getTag();
@@ -34,7 +32,7 @@ public class MissionCommand implements CommandExecutor {
 				s.sendMessage("§e/Missao [CompleteAll] [Player] §7- Completar todas as missões de todas as categorias do jogador.");
 				s.sendMessage("§e/Missao [Complete] [Category] [Player] §7- Completar uma categoria de missões de um jogador.");
 				s.sendMessage(" ");
-				return false;
+				return;
 			}
 		}
 		if (args.length == 2 && s.hasPermission("HawkCore.Missions.Adm")) {
@@ -49,10 +47,10 @@ public class MissionCommand implements CommandExecutor {
 					}
 					mp.save();
 					s.sendMessage(tag + " §aVocê resetou todas as missões do jogador §f" + mp.getName() + "§a!");
-					return false;
+					return;
 				}else {
 					s.sendMessage(tag + " §cEste jogador não foi encontrado!");
-					return false;
+					return;
 				}
 			}
 			if (args[0].equalsIgnoreCase("completeAll")) {
@@ -66,10 +64,10 @@ public class MissionCommand implements CommandExecutor {
 					}
 					mp.save();
 					s.sendMessage(tag + " §aVocê completou todas as missões do jogador §f" + mp.getName() + "§a!");
-					return false;
+					return;
 				}else {
 					s.sendMessage(tag + " §cEste jogador não foi encontrado!");
-					return false;
+					return;
 				}
 			}
 		}
@@ -85,14 +83,14 @@ public class MissionCommand implements CommandExecutor {
 						});
 						mp.save();
 						s.sendMessage(tag + " §aVocê resetou todas as missões do jogador §f" + mp.getName() + "§a da categoria "+category.getName()+"!");
-						return false;
+						return;
 					}else {
 						s.sendMessage(tag + " §cEsta categoria não existe!");
-						return false;
+						return;
 					}
 				}else {
 					s.sendMessage(tag + " §cEste jogador não foi encontrado!");
-					return false;
+					return;
 				}
 			}
 			if (args[0].equalsIgnoreCase("complete")) {
@@ -106,14 +104,14 @@ public class MissionCommand implements CommandExecutor {
 						});
 						mp.save();
 						s.sendMessage(tag + " §aVocê completou todas as missões do jogador §f" + mp.getName() + "§a na categoria "+category.getName()+"!");
-						return false;
+						return;
 					}else {
 						s.sendMessage(tag + " §cEsta categoria não existe!");
-						return false;
+						return;
 					}
 				}else {
 					s.sendMessage(tag + " §cEste jogador não foi encontrado!");
-					return false;
+					return;
 				}
 			}
 		}
@@ -126,12 +124,11 @@ public class MissionCommand implements CommandExecutor {
 				if (category != null) {
 					mp.setCategorySelected(category);
 					menuMissions.get().open(p);
-					return false;
+					return;
 				}
 			}
 			menuCategorys.get().open(p);
 		}
-		return false;
 	}
 	
 }

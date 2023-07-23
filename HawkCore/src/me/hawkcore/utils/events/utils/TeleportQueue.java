@@ -40,7 +40,7 @@ public class TeleportQueue implements Runnable {
 			Player p = (Player) players.keySet().toArray()[slot];
 			Location loc = players.get(p).clone();
 			Task.run(()->{
-				loc.getChunk().load();
+				if (!loc.getWorld().isChunkInUse(loc.getChunk().getX(), loc.getChunk().getZ())) loc.getChunk().load();
 				p.teleport(loc);
 				p.playSound(p.getLocation(), Sound.ENDERMAN_TELEPORT, 0.5f, 0.5f);
 			});

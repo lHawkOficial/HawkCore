@@ -7,10 +7,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import me.hawkcore.Core;
@@ -38,11 +39,11 @@ public class PlayerDataListener implements Listener {
 	}
 	
 	@EventHandler
-	public void move(PlayerMoveEvent e) {
-		if (!config.getAntiVoid()) return;
-		Player p = e.getPlayer();
-		if (p.getLocation().getBlockY()>=0) return;
-		p.teleport(p.getWorld().getSpawnLocation().getBlock().getLocation().clone().add(0.5,0.05,0.5));
+	public void damage(EntityDamageEvent e) {
+		if (!(e.getEntity() instanceof Player)) return;
+		if (e.getCause() != DamageCause.VOID || !config.getAntiVoid()) return;
+		Player p = (Player) e.getEntity();
+		p.teleport(p.getWorld().getSpawnLocation().getBlock().getLocation().clone().add(0.5,0,0.5));
 		p.playSound(p.getLocation(), Sound.ENDERMAN_TELEPORT, 0.5f, 0.5f);
 	}
 	
