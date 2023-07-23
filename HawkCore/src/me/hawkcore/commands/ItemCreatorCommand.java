@@ -55,7 +55,7 @@ public class ItemCreatorCommand extends Command {
 				File[] files = folder.listFiles();
 				Arrays.sort(files, (f1, f2) -> f1.getName().compareToIgnoreCase(f2.getName()));
 				for(File file : files) {
-					linha += "§7, " + (!file.isDirectory() ? "§f" + file.getName() : "§e" + file.getName() + " §8(" + ItemCreator.getItemCreatorFromFolder(file).size() + ")");
+					linha += "§7, " + (!file.isDirectory() ? "§f" + file.getName().replace(".json", new String()) : "§e" + file.getName().replace(".json", new String()) + " §8(" + ItemCreator.getItemCreatorFromFolder(file).size() + ")");
 				}
 				s.sendMessage(linha.replaceFirst("§7, ", new String()));
 				return;
