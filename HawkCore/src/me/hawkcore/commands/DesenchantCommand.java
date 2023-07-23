@@ -2,32 +2,30 @@ package me.hawkcore.commands;
 
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import me.hawkcore.Core;
+import me.hawkcore.commands.creator.Command;
 import me.hawkcore.utils.Eco;
 import me.hawkcore.utils.Mensagens;
 import me.hawkcore.utils.configs.ConfigCommands;
 
-public class DesenchantCommand implements CommandExecutor {
+public class DesenchantCommand extends Command {
 
-	public DesenchantCommand() {
-		Core.getInstance().getCommand("desencantar").setExecutor(this);
+	public DesenchantCommand(String name) {
+		super(name);
 	}
 	
 	@Override
-	public boolean onCommand(CommandSender s, Command c, String lb, String[] args) {
-		if (!(s instanceof Player)) return false;
+	public void onCommand(CommandSender s, String[] args) {
+		if (!(s instanceof Player)) return;
 		Player p = (Player) s;		
 		p.playSound(p.getLocation(), Sound.NOTE_BASS, 0, 0);
 		if (!p.hasPermission("hawkcore.command.desenchant")) {
 			p.sendMessage(Mensagens.get().getPermission());
-			return false;
+			return;
 		}
 		if (Eco.get().has(p, ConfigCommands.get().getValueCommandDesenchant())) {
 			if (p.getItemInHand() != null && p.getItemInHand().getType() != Material.AIR && !p.getItemInHand().getEnchantments().isEmpty()) {
@@ -39,14 +37,14 @@ public class DesenchantCommand implements CommandExecutor {
 				p.sendMessage(Mensagens.get().getCommandDesenchant_sucess());
 				p.playSound(p.getLocation(), Sound.LEVEL_UP, 0.5f, 10);
 				p.updateInventory();
-				return false;
+				return;
 			}else {
 				p.sendMessage(Mensagens.get().getCommandDesenchant_itemErro());
 			}
 		}else {
 			p.sendMessage(Mensagens.get().getCommandDesenchant_noMoney().replace("{valor}", Eco.get().format(ConfigCommands.get().getValueCommandDesenchant())));
 		}
-		return false;
+		return;
 	}
 	
 }

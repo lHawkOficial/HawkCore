@@ -125,7 +125,11 @@ public class Core extends JavaPlugin {
 		new Fragment();
 		new me.hawkcore.utils.events.utils.listeners.PlayerListener();
 		new PlaceHolders().register();
-		if (configmission.isActiveMissions()) new MissionCommand("mission");
+		if (configmission.isActiveMissions()) {
+			new MissionCommand("mission");
+			ManagerMissions.checkPlayers();
+			PlayerData.checkAll();
+		}
 		if (configgeral.getEnable_events()) {
 			new BukkitRunnable() {
 				@Override
@@ -137,9 +141,7 @@ public class Core extends JavaPlugin {
 				}
 			}.runTaskLater(this, 15);
 		}
-		if (ConfigCommands.get().getActiveCommandDesenchant()) new DesenchantCommand();
-		ManagerMissions.checkPlayers();
-		PlayerData.checkAll();
+		if (ConfigCommands.get().getActiveCommandDesenchant()) new DesenchantCommand("desencantar");
 		Task.run(()-> {
 			RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
 			this.econ = (Economy) rsp.getProvider();

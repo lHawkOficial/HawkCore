@@ -1,8 +1,14 @@
 package me.hawkcore.commands;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -17,6 +23,22 @@ public class ItemCreatorCommand extends Command {
 	
 	public ItemCreatorCommand(String name) {
 		super(name);
+		Core.getInstance().getCommand(name).setTabCompleter(new TabCompleter() {
+			@Override
+			public List<String> onTabComplete(CommandSender s, org.bukkit.command.Command c, String lb, String[] args) {
+				if (args.length == 3) {
+					if (args[0].equalsIgnoreCase("give")) {
+						List<String> nomes = new ArrayList<>();
+						for(ItemCreator ic : ManagerItemCreator.get().getItems()) {
+							if (!ic.getNome().toLowerCase().contains(args[2].toLowerCase())) continue;
+							nomes.add(ic.getNome());
+						}
+						return nomes;
+					}
+				}
+				return null;
+			}
+		});
 	}
 
 	@Override
@@ -25,18 +47,37 @@ public class ItemCreatorCommand extends Command {
 		
 		String tag = Core.getInstance().getTag();
 		if (args.length == 1) {
-			if (args[0].equalsIgnoreCase("list")) {
+			if (args[0].equalsIgnoreCase("list") || args[0].equalsIgnoreCase("lista")) {
 				String linha = new String();
-				s.sendMessage(tag + " §7Total Item(s) §e" + ManagerItemCreator.get().getItems().size());
-				for(ItemCreator ic : ManagerItemCreator.get().getItems()) {
-					linha += "§7, §f" + ic.getNome();
+				File folder = new File(Core.getInstance().getDataFolder() + "/itemcreator");
+				if (!folder.exists()) folder.mkdir();
+				s.sendMessage(tag + " §7Total Item(s) §e" + folder.listFiles().length);
+				File[] files = folder.listFiles();
+				Arrays.sort(files, (f1, f2) -> f1.getName().compareToIgnoreCase(f2.getName()));
+				for(File file : files) {
+					linha += "§7, " + (!file.isDirectory() ? "§f" + file.getName() : "§e" + file.getName() + " §8(" + ItemCreator.getItemCreatorFromFolder(file).size() + ")");
 				}
 				s.sendMessage(linha.replaceFirst("§7, ", new String()));
 				return;
 			}
 		}
 		if (args.length == 2) {
-			if (args[0].equalsIgnoreCase("criar")) {
+			if (args[0].equalsIgnoreCase("listfolder") || args[0].equalsIgnoreCase("listarpasta")) {
+				File folder = new File(Core.getInstance().getDataFolder() + "/itemcreator/"+args[1]);
+				if (folder.exists()) {
+					String linha = new String();
+					s.sendMessage(tag + " §7Total Item(s) §e" + ItemCreator.getItemCreatorFromFolder(folder).size());
+					for(ItemCreator ic : ItemCreator.getItemCreatorFromFolder(folder)) {
+						linha += "§7, " + "§f" + ic.getNome();
+					}
+					s.sendMessage(linha.replaceFirst("§7, ", new String()));
+					return;
+				} else {
+					s.sendMessage(tag + " §cEsta pasta não foi encontrada!");
+					return;
+				}
+			}
+			if (args[0].equalsIgnoreCase("criar") || args[0].equalsIgnoreCase("create")) {
 				if (!(s instanceof Player)) return;
 				Player p = (Player) s;
 				ItemCreator ic = ManagerItemCreator.get().getItem(args[1]);
@@ -55,7 +96,7 @@ public class ItemCreatorCommand extends Command {
 					return;
 				}
 			}
-			if (args[0].equalsIgnoreCase("deletar")) {
+			if (args[0].equalsIgnoreCase("deletar") || args[0].equalsIgnoreCase("delete")) {
 				ItemCreator ic = ManagerItemCreator.get().getItem(args[1]);
 				if (ic != null) {
 					ic.delete();
@@ -68,7 +109,7 @@ public class ItemCreatorCommand extends Command {
 			}
 		}
 		if (args.length == 4) {
-			if (args[0].equalsIgnoreCase("give")) {
+			if (args[0].equalsIgnoreCase("give") || args[0].equalsIgnoreCase("dar")) {
 				ItemCreator ic = ManagerItemCreator.get().getItem(args[2]);
 				if (ic != null) {
 					if (API.get().isInteger(args[3])) {
@@ -116,6 +157,7 @@ public class ItemCreatorCommand extends Command {
 		s.sendMessage(tag + " §e/Ic [Criar] [Nome] §7- Criar um novo item.");
 		s.sendMessage(tag + " §e/Ic [Deletar] [Nome] §7- Deletar um item.");
 		s.sendMessage(tag + " §e/Ic [List] §7- Listar todos os item(s) criados.");
+		s.sendMessage(tag + " §e/Ic [ListFolder] §7- Listar todos os item(s) criados de uma pasta.");
 		s.sendMessage(tag + " §e/Ic [Give] [Player/all] [NomeItem] [Amount] §7- Givar item aos jogadores");
 		s.sendMessage(" ");
 	}
